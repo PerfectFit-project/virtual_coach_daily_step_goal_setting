@@ -152,7 +152,7 @@ class ActionLoadSessionNotFirst(Action):
             # check if user has done previous session before '
             # (i.e., if session data is saved from previous session)
             query = ("SELECT * FROM sessiondata WHERE prolific_id = %s and session_num = %s and response_type = %s")
-            cur.execute(query, [prolific_id, str(int(session_num) - 1), "state_5"])
+            cur.execute(query, [prolific_id, str(int(session_num) - 1), "state_1"])
             done_previous_result = cur.fetchone()
             
             if done_previous_result is None:
