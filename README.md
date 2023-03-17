@@ -122,6 +122,12 @@ The files in frontend/static/img are used to display the chatbot and the user in
 You can use "\n" in your utterances in domain.yml to split an utterance into two separate messages.
 
 
+## Other Notes
+- The frontend is not fully cleaned up yet (i.e., still contains quite some components that are not used by this project).
+- `"--debug"` in backend/Dockerfile prints a lot of debugging statements (e.g., for the action prediction). This is handy while you are still developing your agent, but can be removed.
+
+
+
 ## License
 
 Copyright (C) 2023 Delft University of Technology.
