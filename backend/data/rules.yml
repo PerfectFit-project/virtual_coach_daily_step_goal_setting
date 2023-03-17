@@ -194,7 +194,6 @@ rules:
 - rule: end state answering
   steps:
   - intent: confirm_state_1
-  - action: utter_thank_state_question_answering
   - action: utter_transition_new_activity
   - action: utter_propose_new_activity_intro
   - action: utter_activity

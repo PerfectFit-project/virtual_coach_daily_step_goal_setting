@@ -658,38 +658,6 @@ responses:
     - payload: /confirm_state_1{"state_1":"5"}
       title: "5 (make it a lot easier)"
     text: "How do you think do self-confidence and motivation affect quitting smoking?"
-  utter_thank_state_question_answering:
-    - condition:
-        - type: slot
-          name: session_num
-          value: "1"
-      text: "This was the last question. Thank you so much for answering these questions!"
-    - condition:
-        - type: slot
-          name: session_num
-          value: "2"
-      text: "We've reached the end of the questions. Thanks for answering all of them."
-    - condition:
-        - type: slot
-          name: session_num
-          value: "3"
-      text: "And that concludes our set of 11 questions. Thank you for your answers!"
-    - condition:
-        - type: slot
-          name: session_num
-          value: "4"
-      text: "Thanks, you're the best for answering all these questions!"
-    - condition:
-        - type: slot
-          name: session_num
-          value: "5"
-      text: "And with that, we have finished the 11 questions. Thanks for answering all of them."
-      
-    - text: "Awesome, I really appreciate you answering these questions!"
-    - text: "Thank you, you rock for helping me with these questions!"
-    - text: "Fantastic, thank you for hanging in there! I know those were quite a few questions."
-    - text: "That brings us to the end of the 11 questions. Thank you for taking the time to answer them all"
-    - text: "We've reached the end of the 11 questions. Thanks for helping me by answering them all."
   
   ### Propose activity
   utter_transition_new_activity:
