@@ -119,7 +119,7 @@ Check the file frontend/static/css/style.css to adapt the styling of the fronten
    
     ```css
        <!--chatbot widget -->
-         <div class="widget">
+       <div class="widget">
             <div class="chat_header">
 
                <!--Add the name of the bot here -->
@@ -129,6 +129,18 @@ Check the file frontend/static/css/style.css to adapt the styling of the fronten
                   more_vert
                   </i>
                </span>
+			   
+			   <!--Chatbot contents goes here -->
+               <div class="chats" id="chats">
+			      <div class="clearfix"></div>
+			   </div>
+
+               <!--keypad for user to type the message -->
+               <div class="keypad">
+                  <textarea id="userInput" placeholder="Type a message..." class="usrInput"></textarea>
+                  <div id="sendButton"><i class="fa fa-paper-plane" aria-hidden="true"></i></div>
+               </div>
+        </div>
     ```
 	
 	- If you want to change the way that buttons are displayed, adapt `.menu` and `.menuChips` in the file style.css.
