@@ -219,6 +219,21 @@ Check the file frontend/static/css/style.css to adapt the styling of the fronten
 	    ```
 
       - Important is that `display: flex` and `flex-wrap: wrap` in `.menu`.
+	  - To further remove the background of the buttons and add a shadow to the individual buttons instead, set `box-shadow: 2px 5px 5px 1px #dbdade` for `.menuChips` and use this code for `.suggestions` in the file style.css:
+	  
+	    ```css
+		.suggestions {
+			padding: 5px;
+			width: 80%;
+			border-radius: 10px;
+			background: #f7f7f7;
+		}
+		```
+
+	  - Then buttons are displayed like this:
+	  
+	     <img src = "Readme_images/buttons_wrapped_noback.PNG" width = "500" title="Wrapped buttons no background.">
+		
 	  - See [this post](https://stackoverflow.com/questions/73533611/how-to-put-two-chips-divs-next-to-each-other) for some other ideas for displaying buttons next to each other.
 	  - Note that by default, buttons are displayed like this:
 		
@@ -247,7 +262,7 @@ Check the file frontend/static/css/style.css to adapt the styling of the fronten
 
 The files in frontend/static/img are used to display the chatbot and the user inside the chat, as well as to display the chatbot when the chat is still closed at the start.
 
-You can use "\n" in your utterances in domain.yml to display a single utterance as two (or more) separate messages.
+You can use "\n" in your utterances in domain.yml to display a single utterance as two (or more) separate messages. The resulting messages are not treated as separate messages when it comes to displaying the typing symbol though.
 
 
 ## Other Notes
