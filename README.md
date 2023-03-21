@@ -59,15 +59,66 @@ To run this project on a Google Compute Engine, I followed these steps:
    
    <img src = "Readme_images/open_chat.PNG" width = "250" title="Open chat.">
    
+      - The button can be very small on your phone.
+   
    - The chat should look something like this:
    
    <img src = "Readme_images/chat.PNG" width = "250" title="Chat.">
    
-   - And you can also make the chat fullscreen:
+   - Right now I have set the code in frontend/static/js/script.js such that the chat is always opened in fullscreen. See this code:
+     
+	 ```js
+	 if ($('.widget').width() == 350) {
+		$('.widget').css("width" , "98%");
+		$('.widget').css("height" , "100%");
+	 } else {
+		$('.widget').css("width" , "350px");
+		$('.widget').css("height" , "100%");
+	 }
+	 ```
+      - The code by Tom Jacobs (https://github.com/TomJ-EU/rasa/tree/dev) instead adds a "fullscreen"-option to the drop-down used in the code by Jitesh Gaikwad (https://github.com/AmirStudy/Rasa_Deployment). For example, like this in script.js:
    
-   <img src = "Readme_images/chat_fullscreen.PNG" width = "250" title="Fullscreen chat.">
-   
-   
+		```js
+		//fullscreen function to toggle fullscreen.
+		$("#fullscreen").click(function () {
+		   if ($('.widget').width() == 350) {
+		      $('.widget').css("width" , "98%");
+			  $('.widget').css("height" , "100%");
+		   } else {
+			  $('.widget').css("width" , "350px");
+			  $('.widget').css("height" , "500px");
+		   }
+		});
+		```
+      - But then you also need to make sure to add the drop-down to the file index.html:
+	  
+	    ```html
+		<div class="chat_header">
+
+           <!--Add the name of the bot here -->
+		   <span class="chat_header_title">Virtual Coach Mel</span>
+		   <span class="dropdown-trigger" href='#' data-target='dropdown1'>
+			  <i class="material-icons">
+				 more_vert
+			  </i>
+		   </span>
+        </div>
+		```
+		
+		```html
+		<!-- Dropdown menu-->
+        <ul id='dropdown1' class='dropdown-content'>
+           <li><a href="#" id="fullscreen">Fullscreen</a></li>
+        </ul>
+		```
+		
+	  - And further adapt script.js by adding code to `(document).ready(function ()`:
+	  
+	    ```js
+		//drop down menu
+	    $('.dropdown-trigger').dropdown();
+	    ```
+
 This project uses an SQLTrackerStore (https://rasa.com/docs/rasa/tracker-stores/) to store the conversation history in a database:
    - A nice way to see the contents of this database is using the program DBeaver.
       - First also open port 5432 on your Google Compute Engine instance for tcp. There is no need to restart the instance after opening the port.
