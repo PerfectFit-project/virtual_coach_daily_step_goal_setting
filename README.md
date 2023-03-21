@@ -117,31 +117,7 @@ Check the file frontend/static/css/style.css to adapt the styling of the fronten
    - .chats defines the chat area within the window in fullscreen mode. I tuned the height and width of this.
    - .chat_header_title defines the chat header title. I set the color to #f7f7f7 so that the title is not visible in fullscreen mode. Change the margin-left to align the title to the center. Right now I have fully removed the title though. If you want to add the title again, your frontend/index.html should contain this:
    
-    ```css
-       <!--chatbot widget -->
-       <div class="widget">
-            <div class="chat_header">
-
-               <!--Add the name of the bot here -->
-               <span class="chat_header_title">Your Bot Name</span>
-               <span class="dropdown-trigger" href='#' data-target='dropdown1'>
-                  <i class="material-icons">
-                  more_vert
-                  </i>
-               </span>
-			   
-			   <!--Chatbot contents goes here -->
-               <div class="chats" id="chats">
-			      <div class="clearfix"></div>
-			   </div>
-
-               <!--keypad for user to type the message -->
-               <div class="keypad">
-                  <textarea id="userInput" placeholder="Type a message..." class="usrInput"></textarea>
-                  <div id="sendButton"><i class="fa fa-paper-plane" aria-hidden="true"></i></div>
-               </div>
-        </div>
-    ```
+   
 	
 	- If you want to change the way that buttons are displayed, adapt `.menu` and `.menuChips` in the file style.css.
 	   - For example, you may want to display the buttons like this:
