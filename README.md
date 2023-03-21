@@ -51,6 +51,7 @@ To run this project on a Google Compute Engine, I followed these steps:
    - Make sure you turn off your instance whenever you do not need it, as you are charged for the time that it is up.
    - Create your own branch/fork from this project.
    - In your branch, set the IP address of your Google Compute Engine instance in the function `send(message)` in the file frontend/static/js/script.js: `url: "http://<your_instance_IP>:5005/webhooks/rest/webhook"`. This is why it helps to have a static IP address.
+      - When you run the project locally, use `url: "http://localhost:5005/webhooks/rest/webhook"`.
    - Clone your project from Github on the Google Compute Engine instance.
    - Navigate to your project folder on the Compute Engine instance and start your project with `docker-compose up`.
    - Check if all your containers are running on your Google Compute Engine instance via `docker container ls`.
@@ -161,6 +162,8 @@ Some errors I got during the setup:
 		 
 		 - Run `sudo docker-compose up –-build`. 
 		 
+   - When running the project locally on Windows, I got an error for the SQLTrackerStore when running `docker-compose up –-build`. Just removing the information on `volumes` in docker-compose.yml helped. This removes the persistence though.
+	
 		 
 ## Frontend Styling
 

@@ -148,7 +148,7 @@ function setBotResponse(response) {
 
 			//check if the response contains "buttons" 
 			if (response[0].hasOwnProperty("buttons")) {
-				addSuggestion(response[i].buttons);
+				addSuggestion(response[0].buttons);
 			}
 
 		scrollToBottomOfResults();
