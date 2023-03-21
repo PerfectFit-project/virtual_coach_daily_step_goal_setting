@@ -130,6 +130,7 @@ Check the file frontend/static/css/style.css to adapt the styling of the fronten
                   </i>
                </span>
     ```
+	
 	- If you want to change the way that buttons are displayed, adapt `.menu` and `.menuChips` in the file style.css.
 	   - For example, you may want to display the buttons like this:
 	   
@@ -155,6 +156,7 @@ Check the file frontend/static/css/style.css to adapt the styling of the fronten
 			font-size: 14px;
 		}
 	    ```
+		
 		- Important is that `display: flex` and `flex-wrap: wrap` in `.menu`.
 		- See [this post](https://stackoverflow.com/questions/73533611/how-to-put-two-chips-divs-next-to-each-other) for some other ideas for displaying buttons next to each other.
 		- Note that by default, buttons are displayed like this:
