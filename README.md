@@ -117,17 +117,41 @@ Check the file frontend/static/css/style.css to adapt the styling of the fronten
    - .chats defines the chat area within the window in fullscreen mode. I tuned the height and width of this.
    - .chat_header_title defines the chat header title. I set the color to #f7f7f7 so that the title is not visible in fullscreen mode. Change the margin-left to align the title to the center. Right now I have fully removed the title though. If you want to add the title again, your frontend/index.html should contain this:
    
-   
+    ```css
+	<!--chatbot widget -->
+	<div class="widget">
+		<div class="chat_header">
+
+		   <!--Add the name of the bot here -->
+		   <span class="chat_header_title">Your Bot Name</span>
+		   <span class="dropdown-trigger" href='#' data-target='dropdown1'>
+			  <i class="material-icons">
+			  more_vert
+			  </i>
+		   </span>
+		   
+		   <!--Chatbot contents goes here -->
+		   <div class="chats" id="chats">
+			  <div class="clearfix"></div>
+		   </div>
+
+		   <!--keypad for user to type the message -->
+		   <div class="keypad">
+			  <textarea id="userInput" placeholder="Type a message..." class="usrInput"></textarea>
+			  <div id="sendButton"><i class="fa fa-paper-plane" aria-hidden="true"></i></div>
+		   </div>
+	</div>
+    ```
 	
-	- If you want to change the way that buttons are displayed, adapt `.menu` and `.menuChips` in the file style.css.
-	   - For example, you may want to display the buttons like this:
+   - If you want to change the way that buttons are displayed, adapt `.menu` and `.menuChips` in the file style.css.
+      - For example, you may want to display the buttons like this:
 	   
-	      <img src = "Readme_images/buttons_wrapped.PNG" width = "500" title="Wrapped buttons.">
+	     <img src = "Readme_images/buttons_wrapped.PNG" width = "500" title="Wrapped buttons.">
 		  
-	   - This can be done with this code:
+	  - This can be done with this code:
 
 	    ```css
-	   .menu {
+	    .menu {
 			padding: 5px;
 			display: flex;
 			flex-wrap: wrap;
@@ -145,13 +169,13 @@ Check the file frontend/static/css/style.css to adapt the styling of the fronten
 		}
 	    ```
 
-		- Important is that `display: flex` and `flex-wrap: wrap` in `.menu`.
-		- See [this post](https://stackoverflow.com/questions/73533611/how-to-put-two-chips-divs-next-to-each-other) for some other ideas for displaying buttons next to each other.
-		- Note that by default, buttons are displayed like this:
+      - Important is that `display: flex` and `flex-wrap: wrap` in `.menu`.
+	  - See [this post](https://stackoverflow.com/questions/73533611/how-to-put-two-chips-divs-next-to-each-other) for some other ideas for displaying buttons next to each other.
+	  - Note that by default, buttons are displayed like this:
 		
-		<img src = "Readme_images/buttons_below.PNG" width = "500" title="Buttons below each other.">
+	     <img src = "Readme_images/buttons_below.PNG" width = "500" title="Buttons below each other.">
 		
-		- The corresponding code in the file style.css looks like this:
+	  - The corresponding code in the file style.css looks like this:
 		
 		```css
 		.menu {
