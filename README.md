@@ -125,16 +125,19 @@ Check the file frontend/static/css/style.css to adapt the styling of the fronten
 		   <!--Add the name of the bot here -->
 		   <span class="chat_header_title">Your Bot Name</span>
 		   
-		   <!--Chatbot contents goes here -->
-		   <div class="chats" id="chats">
-			  <div class="clearfix"></div>
-		   </div>
+		</div>
+		   
+	    <!--Chatbot contents goes here -->
+	    <div class="chats" id="chats">
+		   <div class="clearfix"></div>
+	    </div>
 
-		   <!--keypad for user to type the message -->
-		   <div class="keypad">
-			  <textarea id="userInput" placeholder="Type a message..." class="usrInput"></textarea>
-			  <div id="sendButton"><i class="fa fa-paper-plane" aria-hidden="true"></i></div>
-		   </div>
+	    <!--keypad for user to type the message -->
+	    <div class="keypad">
+		   <textarea id="userInput" placeholder="Type a message..." class="usrInput"></textarea>
+		   <div id="sendButton"><i class="fa fa-paper-plane" aria-hidden="true"></i></div>
+	    </div>
+
 	</div>
     ```
 	
