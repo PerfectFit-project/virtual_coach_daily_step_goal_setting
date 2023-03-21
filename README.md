@@ -58,7 +58,7 @@ To run this project on a Google Compute Engine, I followed these steps:
    - You can access the frontend from your browser via `http://<your_instance_IP>:3000/?userid=<some_user_id>&n=1`. `n` determines which session is started (1-5). Earlier sessions need to be completed by a user to be able to access later ones.
    - Open the chat here:
    
-   <img src = "Readme_images/open_chat.PNG" width = "250" title="Open chat.">
+      <img src = "Readme_images/open_chat.PNG" width = "250" title="Open chat.">
    
       - The button can be very small on your phone.
    
