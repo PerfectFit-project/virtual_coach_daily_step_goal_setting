@@ -115,17 +115,82 @@ Some errors I got during the setup:
 
 Check the file frontend/static/css/style.css to adapt the styling of the frontend:
    - .chats defines the chat area within the window in fullscreen mode. I tuned the height and width of this.
-   - .chat_header_title defines the chat header title. I set the color to #f7f7f7 so that the title is not visible in fullscreen mode. Change the margin-left to align the title to the center. Right now I have fully removed the title though.
+   - .chat_header_title defines the chat header title. I set the color to #f7f7f7 so that the title is not visible in fullscreen mode. Change the margin-left to align the title to the center. Right now I have fully removed the title though. If you want to add the title again, your frontend/index.html should contain this:
+   
+   ```
+       <!--chatbot widget -->
+         <div class="widget">
+            <div class="chat_header">
+
+               <!--Add the name of the bot here -->
+               <span class="chat_header_title">Your Bot Name</span>
+               <span class="dropdown-trigger" href='#' data-target='dropdown1'>
+                  <i class="material-icons">
+                  more_vert
+                  </i>
+               </span>
+    ```
+	- If you want to change the way that buttons are displayed, adapt `.menu` and `.menuChips` in the file style.css.
+	   - For example, you may want to display the buttons like this:
+	   
+	      <img src = "Readme_images/buttons_wrapped.PNG" width = "500" title="Wrapped buttons.">
+		  
+	   - This can be done with this code:
+	   
+	   ```
+	   .menu {
+			padding: 5px;
+			display: flex;
+			flex-wrap: wrap;
+		}
+
+		.menuChips {
+			display: inline-block;
+			background: #2c53af;
+			color: #fff;
+			padding: 5px;
+			margin-bottom: 5px;
+			cursor: pointer;
+			border-radius: 15px;
+			font-size: 14px;
+		}
+	    ```
+		- Important is that `display: flex` and `flex-wrap: wrap` in `.menu`.
+		- See [this post](https://stackoverflow.com/questions/73533611/how-to-put-two-chips-divs-next-to-each-other) for some other ideas for displaying buttons next to each other.
+		- Note that by default, buttons are displayed like this:
+		
+		<img src = "Readme_images/buttons_below.PNG" width = "500" title="Buttons below each other.">
+		
+		- The corresponding code in the file style.css looks like this:
+		
+		```
+		.menu {
+			padding: 5px;
+		}
+
+		.menuChips {
+			display: block;
+			background: #2c53af;
+			color: #fff;
+			text-align: center;
+			padding: 5px;
+			margin-bottom: 5px;
+			cursor: pointer;
+			border-radius: 15px;
+			font-size: 14px;
+			word-wrap: break-word;
+		}
+		```
 
 The files in frontend/static/img are used to display the chatbot and the user inside the chat, as well as to display the chatbot when the chat is still closed at the start.
 
-You can use "\n" in your utterances in domain.yml to split an utterance into two separate messages.
+You can use "\n" in your utterances in domain.yml to display a single utterance as two (or more) separate messages.
 
 
 ## Other Notes
 - The frontend is not fully cleaned up yet (i.e., still contains quite some components that are not used by this project).
+- The repository by Jitesh Gaikwad (https://github.com/AmirStudy/Rasa_Deployment) also contains code for displaying charts, drop-downs, and images in frontend/static/js/script.js (see the function `setBotResponse` for displaying responses from the rasa bot). I have removed this code in this example project, but if you need to send such kinds of messages, take a look.
 - `"--debug"` in backend/Dockerfile prints a lot of debugging statements (e.g., for the action prediction). This is handy while you are still developing your agent, but can be removed.
-
 
 
 ## License
