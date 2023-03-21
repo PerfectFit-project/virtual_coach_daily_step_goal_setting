@@ -272,7 +272,7 @@ You can use "\n" in your utterances in domain.yml to display a single utterance 
 - The frontend is not fully cleaned up yet (i.e., still contains quite some components that are not used by this project).
 - The repository by Jitesh Gaikwad (https://github.com/AmirStudy/Rasa_Deployment) also contains code for displaying charts, drop-downs, and images in frontend/static/js/script.js (see the function `setBotResponse` for displaying responses from the rasa bot). I have removed this code in this example project, but if you need to send such kinds of messages, take a look.
 - `"--debug"` in backend/Dockerfile prints a lot of debugging statements (e.g., for the action prediction). This is handy while you are still developing your agent, but can be removed.
-
+- The Developer tools in Google Chrome show the logs from script.js (i.e., the result of `console.log()`)if you access the frontend via Google Chrome.
 
 ## License
 
