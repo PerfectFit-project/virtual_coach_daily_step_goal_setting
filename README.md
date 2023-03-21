@@ -117,7 +117,7 @@ Check the file frontend/static/css/style.css to adapt the styling of the fronten
    - .chats defines the chat area within the window in fullscreen mode. I tuned the height and width of this.
    - .chat_header_title defines the chat header title. I set the color to #f7f7f7 so that the title is not visible in fullscreen mode. Change the margin-left to align the title to the center. Right now I have fully removed the title though. If you want to add the title again, your frontend/index.html should contain this:
    
-    ```
+    ```css
        <!--chatbot widget -->
          <div class="widget">
             <div class="chat_header">
@@ -137,8 +137,8 @@ Check the file frontend/static/css/style.css to adapt the styling of the fronten
 	      <img src = "Readme_images/buttons_wrapped.PNG" width = "500" title="Wrapped buttons.">
 		  
 	   - This can be done with this code:
-	   
-	    ```
+
+	    ```css
 	   .menu {
 			padding: 5px;
 			display: flex;
@@ -156,7 +156,7 @@ Check the file frontend/static/css/style.css to adapt the styling of the fronten
 			font-size: 14px;
 		}
 	    ```
-		
+
 		- Important is that `display: flex` and `flex-wrap: wrap` in `.menu`.
 		- See [this post](https://stackoverflow.com/questions/73533611/how-to-put-two-chips-divs-next-to-each-other) for some other ideas for displaying buttons next to each other.
 		- Note that by default, buttons are displayed like this:
@@ -165,7 +165,7 @@ Check the file frontend/static/css/style.css to adapt the styling of the fronten
 		
 		- The corresponding code in the file style.css looks like this:
 		
-		```
+		```css
 		.menu {
 			padding: 5px;
 		}
