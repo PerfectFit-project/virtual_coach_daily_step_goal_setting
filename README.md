@@ -117,7 +117,7 @@ Check the file frontend/static/css/style.css to adapt the styling of the fronten
    - .chats defines the chat area within the window in fullscreen mode. I tuned the height and width of this.
    - .chat_header_title defines the chat header title. I set the color to #f7f7f7 so that the title is not visible in fullscreen mode. Change the margin-left to align the title to the center. Right now I have fully removed the title though. If you want to add the title again, your file frontend/index.html should contain `chat_header_title`:
    
-    ```css
+    ```html
 	<!--chatbot widget -->
 	<div class="widget">
 		<div class="chat_header">
