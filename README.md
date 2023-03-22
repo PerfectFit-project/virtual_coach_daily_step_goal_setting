@@ -49,7 +49,7 @@ To run this project on a Google Compute Engine, I followed these steps:
 	  - You have to pay for every month, but it is rather cheap.
    - Make sure you turn off your instance whenever you do not need it, as you are charged for the time that it is up.
    - Create your own branch/fork from this project.
-   - In your branch, set the IP address of your Google Compute Engine instance in the function `send(message)` in the file frontend/static/js/script.js: `url: "http://<your_instance_IP>:5005/webhooks/rest/webhook"`. This is why it helps to have a static IP address.
+   - If you are NOT using Nginx, set the IP address of your Google Compute Engine instance in the function `send(message)` in the file frontend/static/js/script.js: `url: "http://<your_instance_IP>:5005/webhooks/rest/webhook"`.
       - When you run the project locally, use `url: "http://localhost:5005/webhooks/rest/webhook"`.
    - Clone your project from Github on the Google Compute Engine instance.
    - Navigate to your project folder on the Compute Engine instance and start your project with `docker-compose up`.
@@ -153,7 +153,7 @@ The project further uses an mysql database to store specific data from the conve
    - To inspect the database content content with DBeaver, first open port 3306 on your instance for tcp. Again, there is no need to restart your instance after opening this port.
    - When setting up the connection, use "db" for "Database", "root" for "Username", and the password specified in docker-compose.yml. Keep "Port" to 3306. The "Server Host" is the IP address of your instance.
       - You might have to set "allowPublicKeyRetrieval" to "true" in "Driver properties." 
-   - To delete the database content, just delete the folder "data_mysql" in your Google Compute Engine instance.
+   - To delete the database content, just delete the folder "data_mysql" on your Google Compute Engine instance.
 
 
 Some errors I got during the setup:
