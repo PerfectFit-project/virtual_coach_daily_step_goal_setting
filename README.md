@@ -271,6 +271,36 @@ The files in frontend/static/img are used to display the chatbot and the user in
 You can use "\n" in your utterances in domain.yml to display a single utterance as two (or more) separate messages. The resulting messages are not treated as separate messages when it comes to displaying the typing symbol though.
 
 
+## HTTPS
+
+You might want to allow also for https traffic:
+   - I recommend looking at [this tutorial](https://datahive.ai/deploying-rasa-chatbot-on-google-cloud-with-docker/). Compared to allowing only http-traffic, you have to make changes in nginx.conf and docker-compose.yml and create an SSL certificate.
+   - For example, this is what the entry for nginx in docker-compose.yml may look like when allowing https traffic:
+     
+	 ```yml
+	 nginx:
+      container_name: "nginx"
+      image: nginx
+      volumes:
+        - ./nginx.conf:/etc/nginx/nginx.conf
+        - ./certs:/etc/certs
+      ports:
+        - 80:80
+        - 443:443
+	  depends_on: 
+        - rasa
+        - action-server
+        - chatbotui
+     ```
+	 
+      - The folder "certs" on the Google compute engine instance stores the SSL certificate files in this example.
+
+   - See [this post](https://adamtheautomator.com/https-nodejs/) for how to create a self-signed SSL certificate.
+   - If you use a self-signed SSL certificate and access your frontend via https, you may see a warning like this in your browser (here Google Chrome):
+   
+     <img src = "Readme_images/https.PNG" width = "250" title="https warning browser">
+
+
 ## Other Notes
 - The frontend is not fully cleaned up yet (i.e., still contains quite some components that are not used by this project).
 - The repository by Jitesh Gaikwad (https://github.com/AmirStudy/Rasa_Deployment) also contains code for displaying charts, drop-downs, and images in frontend/static/js/script.js (see the function `setBotResponse` for displaying responses from the rasa bot). I have removed this code in this example project, but if you need to send such kinds of messages, take a look.
