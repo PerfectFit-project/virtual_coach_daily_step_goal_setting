@@ -128,6 +128,7 @@ class ActionLoadSessionNotFirst(Action):
         
         prolific_id = tracker.current_state()['sender_id']
         session_num = tracker.get_slot("session_num")
+        
         session_loaded = True
         mood_prev = ""
         
@@ -149,6 +150,8 @@ class ActionLoadSessionNotFirst(Action):
             session_loaded = False
             
         else:
+            user_name_result = user_name_result[0]
+            
             # check if user has done previous session before '
             # (i.e., if session data is saved from previous session)
             query = ("SELECT * FROM sessiondata WHERE prolific_id = %s and session_num = %s and response_type = %s")
@@ -171,14 +174,14 @@ class ActionLoadSessionNotFirst(Action):
                     # Get mood from previous session
                     query = ("SELECT response_value FROM sessiondata WHERE prolific_id = %s and session_num = %s and response_type = %s")
                     cur.execute(query, [prolific_id, str(int(session_num) - 1), "mood"])
-                    mood_prev = cur.fetchone()
+                    mood_prev = cur.fetchone()[0]
                     
         
         conn.close()
 
         
-        return [SlotSet("user_name_slot_not_first", user_name_result[0]),
-                SlotSet("mood_prev_session", mood_prev[0]),
+        return [SlotSet("user_name_slot_not_first", user_name_result),
+                SlotSet("mood_prev_session", mood_prev),
                 SlotSet("session_loaded", session_loaded)]
         
         
@@ -347,7 +350,7 @@ class ValidateActivityExperienceModForm(FormValidationAction):
         last_utterance = get_latest_bot_utterance(tracker.events)
 
         if last_utterance != 'utter_ask_activity_experience_mod_slot':
-            return {"activity_experience_slot": None}
+            return {"activity_experience_mod_slot": None}
 
         # people should either type "none" or say a bit more
         if not (len(value) >= 5 or "none" in value.lower()):
