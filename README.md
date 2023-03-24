@@ -296,9 +296,16 @@ You might want to allow also for https traffic:
       - The folder "certs" on the Google compute engine instance stores the SSL certificate files in this example.
 
    - See [this post](https://adamtheautomator.com/https-nodejs/) for how to create a self-signed SSL certificate.
-   - If you use a self-signed SSL certificate and access your frontend via https, you may see a warning like this in your browser (here Google Chrome):
+      - If you use a self-signed SSL certificate and access your frontend via https, you may see a warning like this in your browser (here Google Chrome):
    
-     <img src = "Readme_images/https.PNG" width = "250" title="https warning browser">
+        <img src = "Readme_images/https.PNG" width = "250" title="https warning browser">
+ 
+      - This might scare participants off. So I would recommend to either stick to http or to go all the way and get a proper certificate.
+	 
+   - See [this page](https://cloud.google.com/load-balancing/docs/ssl-certificates/self-managed-certs) for more information on certificates on Google cloud.
+      - Info on registering a domain: https://cloud.google.com/dns/docs/tutorials/create-domain-tutorial#register-domain.
+	     - Registering a domain for a year is quite cheap (you can get one for about 8 euros).
+      - Cloud DNS pricing info: https://cloud.google.com/dns/pricing. You need this if you get a domain and want to use it.
 
 
 ## Other Notes
