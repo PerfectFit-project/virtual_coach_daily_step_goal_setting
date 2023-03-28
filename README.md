@@ -314,6 +314,10 @@ You might want to allow also for https traffic:
 - `"--debug"` in backend/Dockerfile prints a lot of debugging statements (e.g., for the action prediction). This is handy while you are still developing your agent, but can be removed.
 - The Developer tools in Google Chrome show the logs from script.js (i.e., the result of `console.log()`)if you access the frontend via Google Chrome.
 - Think carefully about how you deal with timed out sessions. You may want to customize the `action_session_start`: https://rasa.com/docs/rasa/default-actions#customization.
+- If you have made changes and they do not reflect on your Google Compute Engine instance, check if you have run `docker-compose down --volumes` and `docker-compose up --build`.
+- If you do not see the result of retraining your rasa model, it can sometimes help to delete all models and retrain from scratch.
+- You might want to prevent people from typing while the chatbot is still sending more messages. You can adapt the file script.js to allow for this using statements such as `$('.usrInput').attr("disabled",true);` and `$(".usrInput").prop('placeholder', "Wait for Mel's response.");`
+
 
 ## License
 
