@@ -9,14 +9,6 @@ $(document).ready(function () {
 	//get session number
 	const session_num = urlParams.get('n');
 	
-	// Make fullscreen
-	if ($('.widget').width() == 350) {
-		$('.widget').css("width" , "98%");
-		$('.widget').css("height" , "100%");
-	} else {
-		$('.widget').css("width" , "350px");
-		$('.widget').css("height" , "100%");
-	}
 	
 	//start a session
 	if (session_num == "1"){
@@ -31,7 +23,6 @@ $(document).ready(function () {
 		send('/start_session_last{"session_num":"5"}');
 	}
 	
-
 })
 
 //=====================================	user enter or sends the message =====================

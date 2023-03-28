@@ -67,18 +67,23 @@ To run this project on a Google Compute Engine, I followed these steps:
    
    <img src = "Readme_images/chat.PNG" width = "500" title="Chat.">
    
-   - Right now I have set the code in frontend/static/js/script.js such that the chat is always opened in fullscreen. See this code:
+   - Right now I have set the code in frontend/static/css/style.css such that the chat is always opened in fullscreen. See this code:
      
-	 ```js
-	 if ($('.widget').width() == 350) {
-		$('.widget').css("width" , "98%");
-		$('.widget').css("height" , "100%");
-	 } else {
-		$('.widget').css("width" , "350px");
-		$('.widget').css("height" , "100%");
-	 }
+	 ```css
+	 .widget {
+	 display: none;
+	 width: 98%;
+	 right: 1%;
+	 left: 1%;
+	 height: 98%;
+	 bottom: 2%;
+	 position: fixed;
+	 background: #f7f7f7;
+	 border-radius: 10px 10px 10px 10px;
+	 box-shadow: 0px 2px 10px 1px #b5b5b5;
+     }
 	 ```
-      - The code by Tom Jacobs (https://github.com/TomJ-EU/rasa/tree/dev) instead adds a "fullscreen"-option to the drop-down used in the code by Jitesh Gaikwad (https://github.com/AmirStudy/Rasa_Deployment). For example, like this in script.js:
+      - The code by Tom Jacobs (https://github.com/TomJ-EU/rasa/tree/dev) instead first opens the chat as a smaller window and adds a "fullscreen"-option to the drop-down used in [the code by Jitesh Gaikwad](https://github.com/AmirStudy/Rasa_Deployment). For example, like this in script.js:
    
 		```js
 		//fullscreen function to toggle fullscreen.
