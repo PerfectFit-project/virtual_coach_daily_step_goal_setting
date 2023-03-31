@@ -315,6 +315,103 @@ You might want to allow also for https traffic:
       - Cloud DNS pricing info: https://cloud.google.com/dns/pricing. You need this if you get a domain and want to use it.
 
 
+## Getting the user name
+- It is not a good idea to just get and use the user name as in this example project. This is because many people reply with thing such as "Hi, my name is Mary" when being asked about their name.
+- So it might be a good idea to not ask for and use the name at all.
+- Some steps to try to improve getting the name:
+   - Use an entity and an intent for getting the entity in domain.yml:
+   
+     ```yml
+	 intents:
+     - user_name_intent
+
+	 entities:
+     - user_name_entity:
+	     influence_conversation: false
+
+	 slots:
+	   user_name_slot:
+		 type: text
+		 initial_value: ''
+		 influence_conversation: false
+		 mappings:
+		 - type: from_entity
+		   entity: user_name_entity
+		   conditions:
+			 - active_loop: user_name_form
+     ```
+	 
+   - Create some training data for the intent in the file nlu.yml (remember to create a lot of training data):
+   
+     ```yml
+	 nlu:
+
+	 - intent: user_name_intent
+	   examples: |
+		 - "Hi Mel, I'm [PERSON](user_name_entity)"
+		 - "My name is [PERSON](user_name_entity)"
+		 - "I'm [PERSON](user_name_entity)"
+		 - "[PERSON](user_name_entity)"
+     ```
+   
+   - Use spacy in config.yml. See [here](https://spacy.io/models/en) for different English language models.
+   
+     ```yml
+	 language: en
+	 pipeline:
+	 - name: SpacyNLP
+	   model: en_core_web_lg
+	   case_sensitive: false
+	 - name: SpacyTokenizer
+	 - name: SpacyFeaturizer
+	   pooling: mean
+	 - name: SpacyEntityExtractor
+	   dimensions:
+	   - PERSON
+	 - name: RegexFeaturizer
+	 - name: LexicalSyntacticFeaturizer
+	 - name: CountVectorsFeaturizer
+     ```
+	 
+   - Now that you use spacy, you also need to adapt the Dockerfile for your backend:
+   
+     ```
+     USER root
+
+	 COPY requirements.txt .
+	 RUN pip install -r requirements.txt
+
+	 # Spacy language model
+	 RUN python -m spacy download en_core_web_lg
+
+	 USER 1001
+	 ```
+	 
+   - And backend/requirements.txt needs to list `spacy` as a requirement.
+   - When rasa does not succeed in extracting a slot in the `user_name_form` (e.g., when you try a not-so-typical English name such as "Priyanka"), then an ActionExecutionRejected event is thrown.
+   - A work-around is to then just store the last user utterance as `user_name_slot`.
+   - To do this, you might create a rule like this one:
+     
+	 ```yml
+	 - rule: name session 1 failed fallback
+	   condition:
+		 - active_loop: user_name_form
+	   steps:
+	   - intent: nlu_fallback
+	   - action: action_get_name_from_last_utterance
+	   - action: utter_confirm_name
+	   - action: action_deactivate_loop
+	   - active_loop: null
+	   - action: utter_ask_for_mood_session1
+	 ```
+
+   - The action `action_get_name_from_last_utterance` just gets the text from the last user utterance via `last_user_utterance = tracker.latest_message['text']` and stores this in the slot `user_name_slot`.
+   - Since you are using spacy, you also need to have spacy installed where you train your rasa model. To do this in an anaconda environment, use `conda install -c conda-forge spacy`.
+   - And then you also need to download the language model you use.
+   - I personally got package version conflicts with rasa 3.2.8, so I used rasa 3.5.3 for the training.
+      - This also means that I updated the Dockerfile for the custom actions to use `FROM rasa/rasa-sdk:3.3.0` and the Dockerfile for the backend to use `FROM rasa/rasa:3.5.3-full`.
+   
+
 ## Other Notes
 - The frontend is not fully cleaned up yet (i.e., still contains quite some components that are not used by this project).
 - The repository by Jitesh Gaikwad (https://github.com/AmirStudy/Rasa_Deployment) also contains code for displaying charts, drop-downs, and images in frontend/static/js/script.js (see the function `setBotResponse` for displaying responses from the rasa bot). I have removed this code in this example project, but if you need to send such kinds of messages, take a look.
