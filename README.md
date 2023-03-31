@@ -316,7 +316,7 @@ You might want to allow also for https traffic:
 
 
 ## Getting the user name
-- It is not a good idea to just get and use the user name as in this example project. This is because many people reply with thing such as "Hi, my name is Mary" when being asked about their name.
+- It is not a good idea to just get and use the user name as in this example project. This is because many people reply with things such as "Hi, my name is Mary" when being asked about their name.
 - So it might be a good idea to not ask for and use the name at all.
 - Some steps to try to improve getting the name:
    - Use an entity and an intent for getting the entity in domain.yml:
@@ -411,7 +411,8 @@ You might want to allow also for https traffic:
    - I personally got package version conflicts with rasa 3.2.8, so I used rasa 3.5.3 for the training.
       - This also means that I updated the Dockerfile for the custom actions to use `FROM rasa/rasa-sdk:3.3.0` and the Dockerfile for the backend to use `FROM rasa/rasa:3.5.3-full`.
    - Now this setup will allow you to correctly handle responses such as "My name is John" or "Priyanka".
-   - But even with this complicated setup, you will still not be able to extract the name if the user types "My name is Priyanka". So unless you are confident that the user has a common English name and/or types only their name, I would suggest to not use the user name. In my pilot study, 3 out of 8 people typed more than their name.
+   - But even with this complicated setup, you will still not be able to extract the name if the user types "My name is Priyanka". So unless you are confident that the user has a common English (or whichever language model you use) name and/or types only their name, I would suggest to not use the user name. In my pilot study, 3 out of 8 people typed more than their name.
+   - You could of course also play back to the user what you got as their name and ask them for confirmation, but this might make the virtual coach look rather stupid if what they play back as the user name is "My name is Priyanka".
 
 
 ## Other Notes
