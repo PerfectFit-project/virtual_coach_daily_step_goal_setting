@@ -410,7 +410,8 @@ You might want to allow also for https traffic:
    - And then you also need to download the language model you use.
    - I personally got package version conflicts with rasa 3.2.8, so I used rasa 3.5.3 for the training.
       - This also means that I updated the Dockerfile for the custom actions to use `FROM rasa/rasa-sdk:3.3.0` and the Dockerfile for the backend to use `FROM rasa/rasa:3.5.3-full`.
-   
+   - Now, even with this complicated setup, you will still not be able to extract the name if the user types "My name is Priyanka". So unless you are confident that the user has a common English name and/or types only their name, I would suggest to not use the user name.
+
 
 ## Other Notes
 - The frontend is not fully cleaned up yet (i.e., still contains quite some components that are not used by this project).
