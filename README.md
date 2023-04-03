@@ -410,8 +410,12 @@ You might want to allow also for https traffic:
    - And then you also need to download the language model you use.
    - I personally got package version conflicts with rasa 3.2.8, so I used rasa 3.5.3 for the training.
       - This also means that I updated the Dockerfile for the custom actions to use `FROM rasa/rasa-sdk:3.3.0` and the Dockerfile for the backend to use `FROM rasa/rasa:3.5.3-full`.
-   - Now this setup will allow you to correctly handle responses such as "My name is John" or "Priyanka".
-   - But even with this complicated setup, you will still not be able to extract the name if the user types "My name is Priyanka". So unless you are confident that the user has a common English (or whichever language model you use) name and/or types only their name, I would suggest to not use the user name. In my pilot study, 3 out of 8 people typed more than their name.
+   - Now this setup MIGHT allow you to correctly handle responses such as "My name is John" or "Priyanka":
+      - It is quite difficult to get this setup to work well in all cases:
+	     - For example, the DietClassifier may also extract (wrong) entities, in which case you may need to look through all entities in `tracker.latest_message['entities']` in a custom action and choose the entity for which `entity["extractor"] == "SpacyEntityExtractor"`.
+	     - Sometimes, rasa recognizes "user_name_intent" for "Priyanka" but cannot extract an entity.
+		 - If the user uses the chatbot name in their message, sometimes the chatbot name is extracted as the user name.
+   - Unless you are confident that the user has a common English (or whichever language model you use) name and/or types only their name, I would suggest to not use the user name. In my pilot study, 3 out of 8 people typed more than their name.
    - You could of course also play back to the user what you got as their name and ask them for confirmation, but this might make the virtual coach look rather stupid if what they play back as the user name is "My name is Priyanka".
 
 
