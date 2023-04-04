@@ -428,6 +428,7 @@ You might want to allow also for https traffic:
 - If you have made changes and they do not reflect on your Google Compute Engine instance, check if you have run `docker-compose down --volumes` and `docker-compose up --build`.
 - If you do not see the result of retraining your rasa model, it can sometimes help to delete all models and retrain from scratch.
 - You might want to prevent people from typing while the chatbot is still sending more messages. You can adapt the file script.js to allow for this using statements such as `$('.usrInput').attr("disabled",true);` and `$(".usrInput").prop('placeholder', "Wait for Mel's response.");`
+- Before running the chatbot on a Google Compute Engine instance for your experiment, make sure to get a paid account. Once the trial period ends or you have used up your free credit your instance will stop.
 
 
 ## License
