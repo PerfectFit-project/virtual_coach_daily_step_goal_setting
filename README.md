@@ -436,6 +436,7 @@ You might want to allow also for https traffic:
    - Give sufficient permissions to this newly created file (e.g., via `chmod a+crw mysql.log`).
    - Run `SET global general_log = 1;`, `SET global general_log_file='/var/log/mysql/mysql.log';` and `SET global log_output = 'file';` (e.g., via the console in DBeaver under SQL Editor > Open SQL console).
    - Now you can see the logs on your Google Compute Engine instance in mysql_log/mysql.log.
+- Viewing google activity logs: https://cloud.google.com/compute/docs/logging/activity-logs.
 
 
 ## License
