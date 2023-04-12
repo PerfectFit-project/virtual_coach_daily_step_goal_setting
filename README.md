@@ -430,6 +430,12 @@ You might want to allow also for https traffic:
 - You might want to prevent people from typing while the chatbot is still sending more messages. You can adapt the file script.js to allow for this using statements such as `$('.usrInput').attr("disabled",true);` and `$(".usrInput").prop('placeholder', "Wait for Mel's response.");`
 - Before running the chatbot on a Google Compute Engine instance for your experiment, make sure to get a paid account. Once the trial period ends or you have used up your free credit your instance will stop. And a billing account will also help to prevent Google from stopping your project when it thinks that you are mining crypto currencies (e.g., see [here](https://groups.google.com/g/gce-discussion/c/5prZHD3DEnQ)).
 - When using the db, pay attention to closing connections. Also pay attention to the kind of cursor you use when you use fetchone(). It may be good to use a buffered cursor then (e.g., see [here](https://stackoverflow.com/questions/29772337/python-mysql-connector-unread-result-found-when-using-fetchone)).
+- You might want to get more detailed logs for your mysql database. See [here](https://stackoverflow.com/questions/39708213/enable-logging-in-docker-mysql-container) for a useful discussion. 
+   - You can add `- ./mysql_log:/var/log/mysql` to your mysql volumes in docker-compose.yml.
+   - Create a file called mysql.log in /var/log/mysql in your mysql container after running `docker exec -it [mysql_container_id] /bin/bash` (e.g., via `cat > mysql.log`).
+   - Give sufficient permissions to this newly created file (e.g., via `chmod a+crw mysql.log`).
+   - Run `SET global general_log = 1;`, `SET global general_log_file='/var/log/mysql/mysql.log';` and `SET global log_output = 'file';` (e.g., via the console in DBeaver under SQL Editor > Open SQL console).
+   - Now you can see the logs on your Google Compute Engine instance in mysql_log/mysql.log.
 
 
 ## License
