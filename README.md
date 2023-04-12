@@ -429,6 +429,7 @@ You might want to allow also for https traffic:
 - If you do not see the result of retraining your rasa model, it can sometimes help to delete all models and retrain from scratch.
 - You might want to prevent people from typing while the chatbot is still sending more messages. You can adapt the file script.js to allow for this using statements such as `$('.usrInput').attr("disabled",true);` and `$(".usrInput").prop('placeholder', "Wait for Mel's response.");`
 - Before running the chatbot on a Google Compute Engine instance for your experiment, make sure to get a paid account. Once the trial period ends or you have used up your free credit your instance will stop. And a billing account will also help to prevent Google from stopping your project when it thinks that you are mining crypto currencies (e.g., see [here](https://groups.google.com/g/gce-discussion/c/5prZHD3DEnQ)).
+- When using the db, pay attention to closing connections. Also pay attention to the kind of cursor you use when you use fetchone(). It may be good to use a buffered cursor then (e.g., see [here](https://stackoverflow.com/questions/29772337/python-mysql-connector-unread-result-found-when-using-fetchone)).
 
 
 ## License
