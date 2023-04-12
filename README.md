@@ -437,6 +437,7 @@ You might want to allow also for https traffic:
    - Run `SET global general_log = 1;`, `SET global general_log_file='/var/log/mysql/mysql.log';` and `SET global log_output = 'file';` (e.g., via the console in DBeaver under SQL Editor > Open SQL console).
    - Now you can see the logs on your Google Compute Engine instance in mysql_log/mysql.log.
 - Viewing google activity logs: https://cloud.google.com/compute/docs/logging/activity-logs.
+- Listing sessions/active connections on mysql server: https://dataedo.com/kb/query/mysql/list-database-sessions (e.g., can execute a query in DBeaver).
 
 
 ## License
