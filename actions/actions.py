@@ -28,7 +28,7 @@ class ActionEndDialog(Action):
     async def run(self, dispatcher, tracker, domain):
 
         return [FollowupAction('action_restart')]
-    
+
 
 class ActionDefaultFallbackEndDialog(Action):
     """Executes the fallback action and goes back to the previous state
@@ -75,19 +75,18 @@ def get_latest_bot_utterance(events) -> Optional[Any]:
 
 
 def check_session_not_done_before(cur, prolific_id, session_num):
-    
+
     query = ("SELECT * FROM sessiondata WHERE prolific_id = %s and session_num = %s")
     cur.execute(query, [prolific_id, session_num])
     done_before_result = cur.fetchone()
-    
+
     not_done_before = True
 
     # user has done the session before
     if done_before_result is not None:
         not_done_before = False
-        
+
     return not_done_before
-    
 
 
 class ActionLoadSessionFirst(Action):
@@ -98,21 +97,29 @@ class ActionLoadSessionFirst(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-    
+
         prolific_id = tracker.current_state()['sender_id']
+        session_loaded = False
+
+        try:
+            conn = mysql.connector.connect(
+                user=DATABASE_USER,
+                password=DATABASE_PASSWORD,
+                host=DATABASE_HOST,
+                port=DATABASE_PORT,
+                database='db'
+            )
+            cur = conn.cursor(buffered=True)
+            
+            session_loaded = check_session_not_done_before(cur, prolific_id, 1)
         
-        conn = mysql.connector.connect(
-            user=DATABASE_USER,
-            password=DATABASE_PASSWORD,
-            host=DATABASE_HOST,
-            port=DATABASE_PORT,
-            database='db'
-        )
-        cur = conn.cursor(prepared=True)
-        
-        session_loaded = check_session_not_done_before(cur, prolific_id, 1)
-        
-        conn.close()
+        except mysql.connector.Error as error:
+            logging.info("Error in loading first session: " + str(error))
+
+        finally:
+            if conn.is_connected():
+                cur.close()
+                conn.close()
 
         return [SlotSet("session_loaded", session_loaded)]
 
@@ -128,64 +135,72 @@ class ActionLoadSessionNotFirst(Action):
         
         prolific_id = tracker.current_state()['sender_id']
         session_num = tracker.get_slot("session_num")
-        
+
         session_loaded = True
         mood_prev = ""
-        
-        conn = mysql.connector.connect(
-            user=DATABASE_USER,
-            password=DATABASE_PASSWORD,
-            host=DATABASE_HOST,
-            port=DATABASE_PORT,
-            database='db'
-        )
-        cur = conn.cursor(prepared=True)
-        
-        # get user name from database
-        query = ("SELECT name FROM users WHERE prolific_id = %s")
-        cur.execute(query, [prolific_id])
-        user_name_result = cur.fetchone()
-        
-        if user_name_result is None:
-            session_loaded = False
-            
-        else:
-            user_name_result = user_name_result[0]
-            
-            # check if user has done previous session before '
-            # (i.e., if session data is saved from previous session)
-            query = ("SELECT * FROM sessiondata WHERE prolific_id = %s and session_num = %s and response_type = %s")
-            cur.execute(query, [prolific_id, str(int(session_num) - 1), "state_1"])
-            done_previous_result = cur.fetchone()
-            
-            if done_previous_result is None:
-                session_loaded = False
-                
-            else:
-                # check if user has not done this session before
-                # checks if some data on this session is already saved in database
-                # this basically means that it checks whether the user has already 
-                # completed the session part until the dropout question before,
-                # since that is when we first save something to the database
-                session_loaded = check_session_not_done_before(cur, prolific_id, 
-                                                               session_num)
-                
-                if session_loaded:
-                    # Get mood from previous session
-                    query = ("SELECT response_value FROM sessiondata WHERE prolific_id = %s and session_num = %s and response_type = %s")
-                    cur.execute(query, [prolific_id, str(int(session_num) - 1), "mood"])
-                    mood_prev = cur.fetchone()[0]
-                    
-        
-        conn.close()
 
-        
+        try:
+            conn = mysql.connector.connect(
+                user=DATABASE_USER,
+                password=DATABASE_PASSWORD,
+                host=DATABASE_HOST,
+                port=DATABASE_PORT,
+                database='db'
+            )
+            cur = conn.cursor(buffered=True)
+
+            # get user name from database
+            query = ("SELECT name FROM users WHERE prolific_id = %s")
+            cur.execute(query, [prolific_id])
+            user_name_result = cur.fetchone()
+
+            if user_name_result is None:
+                session_loaded = False
+
+            else:
+                user_name_result = user_name_result[0]
+
+                # check if user has done previous session before '
+                # (i.e., if session data is saved from previous session)
+                query = ("SELECT * FROM sessiondata WHERE prolific_id = %s and session_num = %s and response_type = %s")
+                cur.execute(query, [prolific_id, str(int(session_num) - 1), "state_1"])
+                done_previous_result = cur.fetchone()
+
+                if done_previous_result is None:
+                    session_loaded = False
+
+                else:
+                    # check if user has not done this session before
+                    # checks if some data on this session is already saved in database
+                    # this basically means that it checks whether the user has already 
+                    # completed the session part until the dropout question before,
+                    # since that is when we first save something to the database
+                    session_loaded = check_session_not_done_before(cur, prolific_id, 
+                                                                   session_num)
+
+                    if session_loaded:
+                        # Get mood from previous session
+                        query = ("SELECT response_value FROM sessiondata WHERE prolific_id = %s and session_num = %s and response_type = %s")
+                        cur.execute(query, [prolific_id, str(int(session_num) - 1), "mood"])
+                        mood_prev = cur.fetchone()[0]
+
+
+        except mysql.connector.Error as error:
+            session_loaded = False
+            user_name_result = "default"
+            logging.info("Error in loading session not first: " + str(error))
+
+        finally:
+            if conn.is_connected():
+                cur.close()
+                conn.close()    
+
+
         return [SlotSet("user_name_slot_not_first", user_name_result),
                 SlotSet("mood_prev_session", mood_prev),
                 SlotSet("session_loaded", session_loaded)]
-        
-        
-    
+
+
 class ActionSaveNameToDB(Action):
 
     def name(self) -> Text:
@@ -194,28 +209,36 @@ class ActionSaveNameToDB(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        
+
         now = datetime.now()
         formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
 
-        conn = mysql.connector.connect(
-            user=DATABASE_USER,
-            password=DATABASE_PASSWORD,
-            host=DATABASE_HOST,
-            port=DATABASE_PORT,
-            database='db'
-        )
-        cur = conn.cursor(prepared=True)
-        query = "INSERT INTO users(prolific_id, name, time) VALUES(%s, %s, %s)"
-        queryMatch = [tracker.current_state()['sender_id'], 
-                      tracker.get_slot("user_name_slot"),
-                      formatted_date]
-        cur.execute(query, queryMatch)
-        conn.commit()
-        conn.close()
+        try:
+            conn = mysql.connector.connect(
+                user=DATABASE_USER,
+                password=DATABASE_PASSWORD,
+                host=DATABASE_HOST,
+                port=DATABASE_PORT,
+                database='db'
+            )
+            cur = conn.cursor(prepared=True)
+            query = "INSERT INTO users(prolific_id, name, time) VALUES(%s, %s, %s)"
+            queryMatch = [tracker.current_state()['sender_id'], 
+                          tracker.get_slot("user_name_slot"),
+                          formatted_date]
+            cur.execute(query, queryMatch)
+            conn.commit()
+
+        except mysql.connector.Error as error:
+            logging.info("Error in saving name to db: " + str(error))
+
+        finally:
+            if conn.is_connected():
+                cur.close()
+                conn.close()
 
         return []
-    
+
 
 class ActionSaveActivityExperience(Action):
     def name(self):
@@ -224,33 +247,42 @@ class ActionSaveActivityExperience(Action):
     async def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        
+
         now = datetime.now()
         formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
 
-        conn = mysql.connector.connect(
-            user=DATABASE_USER,
-            password=DATABASE_PASSWORD,
-            host=DATABASE_HOST,
-            port=DATABASE_PORT,
-            database='db'
-        )
-        cur = conn.cursor(prepared=True)
-        
-        prolific_id = tracker.current_state()['sender_id']
-        session_num = tracker.get_slot("session_num")
-        
-        slots_to_save = ["effort", "activity_experience_slot",
-                         "activity_experience_mod_slot",
-                         "dropout_response"]
-        for slot in slots_to_save:
-        
-            save_sessiondata_entry(cur, conn, prolific_id, session_num,
-                                   slot, tracker.get_slot(slot),
-                                   formatted_date)
+        try:
+            conn = mysql.connector.connect(
+                user=DATABASE_USER,
+                password=DATABASE_PASSWORD,
+                host=DATABASE_HOST,
+                port=DATABASE_PORT,
+                database='db'
+            )
+            cur = conn.cursor(prepared=True)
 
-        conn.close()
-    
+            prolific_id = tracker.current_state()['sender_id']
+            session_num = tracker.get_slot("session_num")
+
+            slots_to_save = ["effort", "activity_experience_slot",
+                             "activity_experience_mod_slot",
+                             "dropout_response"]
+            for slot in slots_to_save:
+
+                save_sessiondata_entry(cur, conn, prolific_id, session_num,
+                                       slot, tracker.get_slot(slot),
+                                       formatted_date)
+
+        except mysql.connector.Error as error:
+            logging.info("Error in saving activity experience to db: " + str(error))
+
+        finally:
+            if conn.is_connected():
+                cur.close()
+                conn.close()
+
+        return []
+
     
 def save_sessiondata_entry(cur, conn, prolific_id, session_num, response_type,
                            response_value, time):
@@ -258,7 +290,7 @@ def save_sessiondata_entry(cur, conn, prolific_id, session_num, response_type,
     cur.execute(query, [prolific_id, session_num, response_type,
                         response_value, time])
     conn.commit()
-    
+
 
 class ActionSaveSession(Action):
     def name(self):
@@ -267,33 +299,40 @@ class ActionSaveSession(Action):
     async def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        
+
         now = datetime.now()
         formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
 
-        conn = mysql.connector.connect(
-            user=DATABASE_USER,
-            password=DATABASE_PASSWORD,
-            host=DATABASE_HOST,
-            port=DATABASE_PORT,
-            database='db'
-        )
-        cur = conn.cursor(prepared=True)
-        
-        prolific_id = tracker.current_state()['sender_id']
-        session_num = tracker.get_slot("session_num")
-        
-        slots_to_save = ["mood", "state_1"]
-        for slot in slots_to_save:
-        
-            save_sessiondata_entry(cur, conn, prolific_id, session_num,
-                                   slot, tracker.get_slot(slot),
-                                   formatted_date)
+        try:
+            conn = mysql.connector.connect(
+                user=DATABASE_USER,
+                password=DATABASE_PASSWORD,
+                host=DATABASE_HOST,
+                port=DATABASE_PORT,
+                database='db'
+            )
+            cur = conn.cursor(prepared=True)
 
-        conn.close()
-        
+            prolific_id = tracker.current_state()['sender_id']
+            session_num = tracker.get_slot("session_num")
+
+            slots_to_save = ["mood", "state_1"]
+            for slot in slots_to_save:
+
+                save_sessiondata_entry(cur, conn, prolific_id, session_num,
+                                       slot, tracker.get_slot(slot),
+                                       formatted_date)
+
+        except mysql.connector.Error as error:
+            logging.info("Error in save session: " + str(error))
+
+        finally:
+            if conn.is_connected():
+                cur.close()
+                conn.close()
+
         return []
-    
+
 
 class ValidateUserNameForm(FormValidationAction):
     def name(self) -> Text:
@@ -314,7 +353,7 @@ class ValidateUserNameForm(FormValidationAction):
             return {"user_name_slot": None}
 
         return {"user_name_slot": value}
-    
+
 
 class ValidateActivityExperienceForm(FormValidationAction):
     def name(self) -> Text:
@@ -336,7 +375,7 @@ class ValidateActivityExperienceForm(FormValidationAction):
             return {"activity_experience_slot": None}
 
         return {"activity_experience_slot": value}
-    
+
 
 class ValidateActivityExperienceModForm(FormValidationAction):
     def name(self) -> Text:

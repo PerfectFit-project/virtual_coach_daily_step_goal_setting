@@ -1524,7 +1524,7 @@ responses:
  
 
 session_config:
-  session_expiration_time: 5  # these are minutes
+  session_expiration_time: 33  # these are minutes (33 is max. time in Prolific for 6-minute study)
   carry_over_slots_to_new_session: false
 
 
