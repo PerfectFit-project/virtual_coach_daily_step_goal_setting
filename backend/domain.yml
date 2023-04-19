@@ -200,11 +200,11 @@ responses:
       title: "I'm ready!"
     text: "Let me know when you've finished reading the purpose of these sessions and you are ready to continue."
   utter_extra_info_session1_1:
-  - text: "So in each session we'll set a step goal for you."
+  - text: "So, in each session we'll set a step goal for you."
   utter_extra_info_session1_2:
   - text: "And don't worry, I'll also send you your goal in a message on Prolific right after this session ends."
   utter_extra_info_session1_3:
-  - text: "Please note that doing achieving your step goal after this session is voluntary and does not impact your payment."
+  - text: "Please note that achieving your step goal after this session is voluntary and does not impact your payment."
   utter_extra_info_session1_4:
   - buttons:
     - payload : /confirm_extra_info_session1
