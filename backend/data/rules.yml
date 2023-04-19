@@ -20,7 +20,7 @@ rules:
   - action: utter_prompt_usage
   - action: utter_explain_usage
 
-  - rule: start session 1 and unsuccessful session load
+- rule: start session 1 and unsuccessful session load
   steps:
   - intent: start_session1
   - action: action_load_session_first
