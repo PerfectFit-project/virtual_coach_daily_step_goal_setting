@@ -10,7 +10,6 @@ rules:
   - action: utter_default_close_session
   - action: action_end_dialog
 
-
 - rule: start session 1 and successful session load
   steps:
   - intent: start_session1
@@ -18,9 +17,20 @@ rules:
   - slot_was_set:
     - session_loaded: true
   - action: utter_greet_first_time
-  - action: user_name_form
-  - active_loop: user_name_form
+  - action: utter_prompt_usage
+  - action: utter_explain_usage
   wait_for_user_input: false
+
+# - rule: start session 1 and successful session load
+#   steps:
+#   - intent: start_session1
+#   - action: action_load_session_first
+#   - slot_was_set:
+#     - session_loaded: true
+#   - action: utter_greet_first_time
+#   - action: user_name_form
+#   - active_loop: user_name_form
+#   wait_for_user_input: false
   
 - rule: start session 1 and unsuccessful session load
   steps:

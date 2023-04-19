@@ -161,14 +161,23 @@ responses:
 
   ### Intro first session
   utter_greet_first_time:
-  - text: "Hey there, I'm your virtual coach Mel."
-  utter_ask_user_name_slot:
-  - text: "How may I call you?"
-  utter_confirm_name:
-  - text: "Hi {user_name_slot}, it's nice to meet you."
-  utter_longer_name:
-  - text: "Please let me know how I can call you. It does not need to be your real name."
-  - text: "Kindly tell me how I can call you. This does not need to be your real name. A nickname works too."
+  - text: "Hello, my name is Steph and I'll be helping you to increase your physical activity during the coming days!"
+  utter_prompt_usage:
+  - text: "Before we start, let me explain how you can communicate with me."
+  utter_explain_usage:
+  - buttons:
+    - payload: /confirm_usage
+      title: "That's clear"
+    - payload: /confirm_usage
+      title: "Nice, sounds easy enough!"
+    text: "Most of the time, you can just click on one of the buttons that appear. If no buttons appear, just make use of the text field below."
+  # utter_ask_user_name_slot:
+  # - text: "How may I call you?"
+  # utter_confirm_name:
+  # - text: "Hi {user_name_slot}, it's nice to meet you."
+  # utter_longer_name:
+  # - text: "Please let me know how I can call you. It does not need to be your real name."
+  # - text: "Kindly tell me how I can call you. This does not need to be your real name. A nickname works too."
   utter_purpose_1:
   - text: "I have mentioned by name, but let me also tell you bit about what I do: My goal is to help people prepare for quitting smoking. And since becoming more physically active may make it easier to quit smoking, I also want to prepare people for becoming more physically active."
   utter_purpose_2:
@@ -182,15 +191,6 @@ responses:
     - payload: /confirm_purpose
       title: "I'm ready"
     text: "And this is why you are here, {user_name_slot}: I want to learn how an activity I propose helps you in your specific situation.\nLet me know when you have read what my purpose is and are ready to continue."
-  utter_prompt_usage:
-  - text: "Okay! Before we start, let me explain how you can communicate with me."
-  utter_explain_usage:
-  - buttons:
-    - payload: /confirm_usage
-      title: "Yes, that's clear"
-    - payload: /confirm_usage
-      title: "Nice, sounds easy enough!"
-    text: "Most of the time, you can just click on one of the buttons like you already did. If no buttons appear, just make use of the text field below."
   utter_intro_session1_1:
   - text: "Now, let me tell you what we will do in this session."
   utter_intro_session1_2:
