@@ -19,7 +19,7 @@ import mysql.connector
 
 class ActionEndDialog(Action):
     """Action to cleanly terminate the dialog."""
-    # ATM this action just call the default restart action
+    # ATM this action just calls the default restart action
     # but this can be used to perform actions that might be needed
     # at the end of each dialog
     def name(self):
@@ -332,6 +332,28 @@ class ActionSaveSession(Action):
                 conn.close()
 
         return []
+
+
+class ValidatePreviousActivityForm(FormValidationAction):
+    def name(self) -> Text:
+        return 'validate_previous_activity_form'
+
+    def validate_previous_activity_slot(
+            self, value: Text, dispatcher: CollectingDispatcher,
+            tracker: Tracker, domain: Dict[Text, Any]) -> Dict[Text, Any]:
+        # pylint: disable=unused-argument
+        """Validate previous_activity_slot input."""
+        last_utterance = get_latest_bot_utterance(tracker.events)
+
+        if last_utterance != 'utter_ask_previous_activity_slot':
+            return {"previous_activity_slot": None}
+
+        if not len(value) >= 1:
+            dispatcher.utter_message("You didn't provide at least 5 numbers, maybe you forgot one, or your answer isn't formatted correctly, it should be numbers seperated by commas.")
+            dispatcher.utter_message(response="utter_example_input_previous_activity")
+            return {"previous_activity_slot": None}
+
+        return {"previous_activity_slot": value}
 
 
 class ValidateUserNameForm(FormValidationAction):

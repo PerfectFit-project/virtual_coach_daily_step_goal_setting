@@ -20,6 +20,66 @@ rules:
   - action: utter_prompt_usage
   - action: utter_explain_usage
 
+  - rule: start session 1 and unsuccessful session load
+  steps:
+  - intent: start_session1
+  - action: action_load_session_first
+  - slot_was_set:
+    - session_loaded: false
+  - action: utter_default_close_session
+  - action: action_end_dialog
+
+- rule: intro session 1
+  steps:
+  - intent: confirm_usage
+  - action: utter_intro_session1_1
+  - action: utter_intro_session1_2
+  - action: utter_intro_session1_3
+  - action: utter_intro_session1_4
+  - action: utter_intro_session1_5
+  - action: utter_intro_session1_6
+  - action: utter_intro_session1_7  
+
+- rule: extra info session 1
+  steps:
+  - intent: confirm_intro_session1
+  - action: utter_extra_info_session1_1
+  - action: utter_extra_info_session1_2
+  - action: utter_extra_info_session1_3
+  - action: utter_extra_info_session1_4
+
+- rule: previous activity info session 1
+  steps:
+  - intent: confirm_extra_info_session1
+  - action: utter_inform_purpose_previous_activity_1
+  - action: utter_inform_purpose_previous_activity_2
+  - action: utter_inform_purpose_previous_activity_3
+
+- rule: previous activity input session 1
+  steps:
+  - intent: able_to_provide_previous_activity
+  - action: utter_explain_input_previous_activity
+  - action: utter_example_input_previous_activity
+  - action: previous_activity_form
+  - active_loop: previous_activity_form
+  wait_for_user_input: false
+
+- rule: no previous activity input session 1
+  steps:
+  - intent: not_able_to_provide_previous_activity
+  - action: utter_end_because_no_previous_activity
+  - action: action_end_dialog
+
+- rule: get previous activity session 1
+  condition:
+    - active_loop: previous_activity_form
+  steps:
+  - action: previous_activity_form
+  - active_loop: null
+  - action: utter_thanks_previous_activity
+  - action: action_end_dialog
+
+
 # - rule: start session 1 and successful session load
 #   steps:
 #   - intent: start_session1
@@ -31,58 +91,57 @@ rules:
 #   - active_loop: user_name_form
 #   wait_for_user_input: false
   
-- rule: start session 1 and unsuccessful session load
-  steps:
-  - intent: start_session1
-  - action: action_load_session_first
-  - slot_was_set:
-    - session_loaded: false
-  - action: utter_default_close_session
-  - action: action_end_dialog
-    
+# - rule: start session 1 and unsuccessful session load
+#   steps:
+#   - intent: start_session1
+#   - action: action_load_session_first
+#   - slot_was_set:
+#     - session_loaded: false
+#   - action: utter_default_close_session
+#   - action: action_end_dialog
   
-- rule: name session 1
-  condition:
-    - active_loop: user_name_form
-  steps:
-  - action: user_name_form
-  - active_loop: null
-  - action: utter_confirm_name
-  - action: utter_ask_for_mood_session1
+# - rule: name session 1
+#   condition:
+#     - active_loop: user_name_form
+#   steps:
+#   - action: user_name_form
+#   - active_loop: null
+#   - action: utter_confirm_name
+#   - action: utter_ask_for_mood_session1
   
-- rule: mood session 1 
-  steps:
-  - intent: mood_curr_session1
-  - action: utter_mood_response
-  - action: action_save_name_to_db
-  - action: utter_purpose_1
-  - action: utter_purpose_2
-  - action: utter_purpose_3
-  - action: utter_purpose_4
-  - action: utter_purpose_5
+# - rule: mood session 1 
+#   steps:
+#   - intent: mood_curr_session1
+#   - action: utter_mood_response
+#   - action: action_save_name_to_db
+#   - action: utter_purpose_1
+#   - action: utter_purpose_2
+#   - action: utter_purpose_3
+#   - action: utter_purpose_4
+#   - action: utter_purpose_5
   
-- rule: usage session 1
-  steps:
-  - intent: confirm_purpose
-  - action: utter_prompt_usage
-  - action: utter_explain_usage
+# - rule: usage session 1
+#   steps:
+#   - intent: confirm_purpose
+#   - action: utter_prompt_usage
+#   - action: utter_explain_usage
   
-- rule: intro session 1
-  steps:
-  - intent: confirm_usage
-  - action: utter_intro_session1_1
-  - action: utter_intro_session1_2
-  - action: utter_intro_session1_3
-  - action: utter_intro_session1_4
-  - action: utter_intro_session1_5
-  - action: utter_intro_session1_6
-  - action: utter_intro_session1_7
+# - rule: intro session 1
+#   steps:
+#   - intent: confirm_usage
+#   - action: utter_intro_session1_1
+#   - action: utter_intro_session1_2
+#   - action: utter_intro_session1_3
+#   - action: utter_intro_session1_4
+#   - action: utter_intro_session1_5
+#   - action: utter_intro_session1_6
+#   - action: utter_intro_session1_7
   
-- rule: state questions session 1
-  steps:
-  - intent: confirm_intro_session1
-  - action: utter_state_question_intro
-  - action: utter_state_question_1
+# - rule: state questions session 1
+#   steps:
+#   - intent: confirm_intro_session1
+#   - action: utter_state_question_intro
+#   - action: utter_state_question_1
   
 
 - rule: start session mid (2, 3, 4) session loaded

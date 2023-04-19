@@ -7,6 +7,9 @@ intents:
 - confirm_purpose
 - confirm_usage
 - confirm_intro_session1
+- confirm_extra_info_session1
+- able_to_provide_previous_activity
+- not_able_to_provide_previous_activity
 
 ### Middle sessions (2, 3, 4)
 - start_session_mid
@@ -69,6 +72,14 @@ slots:
     mappings:
     - type: from_entity
       entity: session_num
+  previous_activity_slot:
+    type: text
+    initial_value: ''
+    influence_conversation: false
+    mappings:
+    - type: from_text
+      conditions:
+        - active_loop: previous_activity_form
   mood:
     type: text
     initial_value: ''
@@ -171,6 +182,56 @@ responses:
     - payload: /confirm_usage
       title: "Nice, sounds easy enough!"
     text: "Most of the time, you can just click on one of the buttons that appear. If no buttons appear, just make use of the text field below."
+  utter_intro_session1_1:
+  - text: "Alright! Now, to get more physically and mentally fit, it's important to increase your physical activity. That's why were are going to increase the number of steps you take each day.🚶"
+  utter_intro_session1_2:
+  - text: "When increasing the number of steps you take each day, you should try to have this increase be subtle and gradual otherwise you might run into injuries. So, it is better to do a bit more everyday than to do a lot more at once."
+  utter_intro_session1_3:
+  - text: "I will help you with gradually increasing the number of steps you take each day by assisting you in setting daily step goals."
+  utter_intro_session1_4:
+  - text: "During these sessions, I'll propose a few step goals after which you are able to choose which of those you want. To create the step goal proposals, I look at your previous activity to make sure that the goals are challenging yet attainable!"
+  utter_intro_session1_5:
+  - text: "Of course, there is only one person who knows what is best for you and that is… well you! Because of that, after picking one of my proposals, you are able to indicate that you want something lower or higher than that."
+  utter_intro_session1_6:
+  - text: "Then I will make sure to change the proposals according to your wishes so that we can set a goal together that we both like. You can do this up to 5 times."
+  utter_intro_session1_7:
+  - buttons:
+    - payload : /confirm_intro_session1
+      title: "I'm ready!"
+    text: "Let me know when you've finished reading the purpose of these sessions and you are ready to continue."
+  utter_extra_info_session1_1:
+  - text: "So in each session we'll set a step goal for you."
+  utter_extra_info_session1_2:
+  - text: "And don't worry, I'll also send you your goal in a message on Prolific right after this session ends."
+  utter_extra_info_session1_3:
+  - text: "Please note that doing achieving your step goal after this session is voluntary and does not impact your payment."
+  utter_extra_info_session1_4:
+  - buttons:
+    - payload : /confirm_extra_info_session1
+      title: "Now, let's go!"
+    text: "Let me know when you've finished reading, so that we can start creating your step goal for today."
+  utter_inform_purpose_previous_activity_1:
+  - text: "To start off, I would like to know how many steps you took in the past days, so that I can make some step goal proposals based on that."
+  utter_inform_purpose_previous_activity_2:
+  - text: "I need your steps from at least the previous 5 days, but you can input more days than that if you want. Ideally, I would like to know your steps of the past 9 days."
+  utter_inform_purpose_previous_activity_3:
+  - buttons:
+    - payload : /able_to_provide_previous_activity
+      title: "Yes"
+    - payload : /not_able_to_provide_previous_activity
+      title: "No"
+    text: "Do you know how many steps you took in the past 5 to 9 days? (e.g. by checking your phone or smartwatch)"
+  utter_explain_input_previous_activity:
+  - text: "Great! You can share it by typing the number of steps you took each day seperated by a comma."
+  utter_example_input_previous_activity:
+  - text: "So, for example, if I took 2000 steps yesterday, 3000 steps the day before that, and 2500 steps the day before that, I would type: 2000,3000,2500"
+  utter_ask_previous_activity_slot:
+  - text: "How many steps did you take in the past 5 days? (Remember, you may also give your steps up to the previous 9 days)"
+  utter_end_because_no_previous_activity:
+  - text: "Hmm, well then I cannot do much for you. I guess that our conversation ends here. Have a nice day!"
+  utter_thanks_previous_activity:
+  - text: "Thanks for sharing!"
+  
   utter_ask_user_name_slot:
   - text: "How may I call you?"
   utter_confirm_name:
@@ -191,23 +252,6 @@ responses:
     - payload: /confirm_purpose
       title: "I'm ready"
     text: "And this is why you are here, {user_name_slot}: I want to learn how an activity I propose helps you in your specific situation.\nLet me know when you have read what my purpose is and are ready to continue."
-  utter_intro_session1_1:
-  - text: "Now, let me tell you what we will do in this session."
-  utter_intro_session1_2:
-  - text: "First, I'll ask you a few questions to learn about your current situation with regard to preparing for quitting smoking."
-  utter_intro_session1_3:
-  - text: "Next, I'll recommend you a preparatory activity to do after this and before the next session, which you'll get invited to about 2 days from now."
-  utter_intro_session1_4:
-  - text: "And in the end, I'll briefly tell you about our next session."
-  utter_intro_session1_5:
-  - text: "And don't worry, I'll also send you your activity in a message on Prolific right after this session ends."
-  utter_intro_session1_6:
-  - text: "Please note that doing your recommended activity after this session is voluntary and does not impact your payment."
-  utter_intro_session1_7:
-  - buttons:
-    - payload : /confirm_intro_session1
-      title: "Now"
-    text: "Let me know when you've finished reading our plan for today's session."
     
 
   ### Greeting later sessions
@@ -1543,6 +1587,9 @@ forms:
   activity_experience_mod_form:
     required_slots:
         - activity_experience_mod_slot
+  previous_activity_form:
+    required_slots:
+        - previous_activity_slot
 
 
 actions:
@@ -1553,6 +1600,7 @@ actions:
 - action_save_session
 
 - validate_user_name_form
+- validate_previous_activity_form
 - validate_activity_experience_form
 - validate_activity_experience_mod_form
 
