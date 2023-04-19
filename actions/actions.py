@@ -348,7 +348,16 @@ class ValidatePreviousActivityForm(FormValidationAction):
         if last_utterance != 'utter_ask_previous_activity_slot':
             return {"previous_activity_slot": None}
 
-        if not len(value) >= 1:
+        previous_activity = value.split(",")
+        valid_previous_activity = true
+        if len(previous_activity) < 5:
+            valid_previous_activity = false
+        else:
+            for i in range (0, min(9, len(previous_activity))):
+                if not activity.isnumeric():
+                    valid_previous_activity = false
+        
+        if not valid_previous_activity:
             dispatcher.utter_message("You didn't provide at least 5 numbers, maybe you forgot one, or your answer isn't formatted correctly, it should be numbers seperated by commas.")
             dispatcher.utter_message(response="utter_example_input_previous_activity")
             return {"previous_activity_slot": None}
