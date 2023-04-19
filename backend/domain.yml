@@ -171,13 +171,13 @@ responses:
     - payload: /confirm_usage
       title: "Nice, sounds easy enough!"
     text: "Most of the time, you can just click on one of the buttons that appear. If no buttons appear, just make use of the text field below."
-  # utter_ask_user_name_slot:
-  # - text: "How may I call you?"
-  # utter_confirm_name:
-  # - text: "Hi {user_name_slot}, it's nice to meet you."
-  # utter_longer_name:
-  # - text: "Please let me know how I can call you. It does not need to be your real name."
-  # - text: "Kindly tell me how I can call you. This does not need to be your real name. A nickname works too."
+  utter_ask_user_name_slot:
+  - text: "How may I call you?"
+  utter_confirm_name:
+  - text: "Hi {user_name_slot}, it's nice to meet you."
+  utter_longer_name:
+  - text: "Please let me know how I can call you. It does not need to be your real name."
+  - text: "Kindly tell me how I can call you. This does not need to be your real name. A nickname works too."
   utter_purpose_1:
   - text: "I have mentioned by name, but let me also tell you bit about what I do: My goal is to help people prepare for quitting smoking. And since becoming more physically active may make it easier to quit smoking, I also want to prepare people for becoming more physically active."
   utter_purpose_2:
