@@ -349,13 +349,13 @@ class ValidatePreviousActivityForm(FormValidationAction):
             return {"previous_activity_slot": None}
 
         previous_activity = value.split(",")
-        valid_previous_activity = true
+        valid_previous_activity = True
         if len(previous_activity) < 5:
-            valid_previous_activity = false
+            valid_previous_activity = False
         else:
             for i in range (0, min(9, len(previous_activity))):
                 if not activity.isnumeric():
-                    valid_previous_activity = false
+                    valid_previous_activity = False
         
         if not valid_previous_activity:
             dispatcher.utter_message("You didn't provide at least 5 numbers, maybe you forgot one, or your answer isn't formatted correctly, it should be numbers seperated by commas.")
