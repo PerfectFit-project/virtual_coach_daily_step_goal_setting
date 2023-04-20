@@ -31,7 +31,7 @@ rules:
 
 - rule: intro session 1
   steps:
-  - intent: able_to_provide_previous_activity
+  - intent: confirm_usage
   - action: utter_intro_session1_1
   - action: utter_intro_session1_2
   - action: utter_intro_session1_3
@@ -57,7 +57,7 @@ rules:
 
 - rule: previous activity input session 1
   steps:
-  - intent: confirm_usage
+  - intent: able_to_provide_previous_activity
   - action: utter_explain_input_previous_activity
   - action: utter_example_input_previous_activity
   - action: previous_activity_form
