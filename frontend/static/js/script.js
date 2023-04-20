@@ -74,6 +74,8 @@ function setUserResponse(message) {
 	$(".usrInput").val("");
 	scrollToBottomOfResults();
 	showBotTyping();
+	$('.usrInput').attr("disabled", true);
+	$(".usrInput").prop('placeholder', "Wait for Steph's response.");
 	$(".suggestions").remove();
 }
 
@@ -142,6 +144,10 @@ function setBotResponse(response) {
 			//check if the response contains "buttons" 
 			if (response[0].hasOwnProperty("buttons")) {
 				addSuggestion(response[0].buttons);
+			//If there are no buttons and there is a single response from the bot, enable the textfield for user input again.
+			} else if (response.length == 1){
+				$('.usrInput').attr("disabled", false);
+				$(".usrInput").prop('placeholder', "Type a message...");
 			}
 
 		scrollToBottomOfResults();
@@ -192,11 +198,18 @@ function doScaledTimeout(i, response, summed_timeout) {
 		if (response[i].hasOwnProperty("buttons")) {
 			addSuggestion(response[i].buttons);
 		}
+		//only enable the text field again for user input if the message does not have buttons and is the last message from the bot
+		else if (i == response.length - 1){
+			$('.usrInput').attr("disabled", false);
+		    $(".usrInput").prop('placeholder', "Type a message...");
+		}
 		
 		scrollToBottomOfResults();
 		
 		if (i < response.length - 1){
 			showBotTyping();
+			$('.usrInput').attr("disabled", true);
+			$(".usrInput").prop('placeholder', "Wait for Steph's response.");
 		}
 	}, summed_timeout);
 }
