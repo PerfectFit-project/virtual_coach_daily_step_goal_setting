@@ -369,6 +369,7 @@ class ValidatePreviousActivityForm(FormValidationAction):
             dispatcher.utter_message(response="utter_example_input_previous_activity")
             return {"previous_activity_slot": None}
 
+        # Use only the first 9 days of previous activity
         return {"previous_activity_slot": previous_activity_slot}
 
 

@@ -31,7 +31,7 @@ rules:
 
 - rule: intro session 1
   steps:
-  - intent: able_to_provide_previous_activity
+  - intent: confirm_usage
   - action: utter_intro_session1_1
   - action: utter_intro_session1_2
   - action: utter_intro_session1_3
@@ -57,7 +57,7 @@ rules:
 
 - rule: previous activity input session 1
   steps:
-  - intent: confirm_usage
+  - intent: able_to_provide_previous_activity
   - action: utter_explain_input_previous_activity
   - action: utter_example_input_previous_activity
   - action: previous_activity_form
@@ -77,6 +77,39 @@ rules:
   - action: previous_activity_form
   - active_loop: null
   - action: utter_thanks_previous_activity
+  - action: utter_explain_user_state_1
+  - action: utter_explain_user_state_2
+  - action: utter_explain_user_state_3
+  - action: utter_explain_user_state_4
+  - action: utter_explain_user_state_5
+
+- rule: get user mood
+  - intent: confirm_user_state_explanation
+  - action: utter_get_mood
+
+- rule: get user rest
+  - intent: current_mood
+  - action: utter_respond_mood
+  - action: utter_get_rest
+
+- rule: get user available time
+  - intent: current_rest
+  - action: utter_respond_rest
+  - action: utter_get_available_time
+
+- rule: get user self motivation
+  - intent: current_available_time
+  - action: utter_respond_available_time
+  - action: utter_get_self_motivation
+
+- rule: get user self efficacy
+  - intent: current_self_motivation
+  - action: utter_respond_self_motivation
+  - action: utter_get_self_efficacy
+
+- rule: end dialog
+  - intent: current_self_efficacy
+  - action: utter_respond_self_efficacy
   - action: utter_final_close_session
   - action: action_end_dialog
 

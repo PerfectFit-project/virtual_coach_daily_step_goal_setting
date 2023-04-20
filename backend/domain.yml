@@ -10,6 +10,12 @@ intents:
 - confirm_extra_info_session1
 - able_to_provide_previous_activity
 - not_able_to_provide_previous_activity
+- confirm_user_state_explanation
+- current_mood
+- current_rest
+- current_available_time
+- current_self_motivation
+- current_self_efficacy
 
 ### Middle sessions (2, 3, 4)
 - start_session_mid
@@ -41,10 +47,25 @@ intents:
 entities:
 - session_num:
     influence_conversation: false
-
 - mood:
     influence_conversation: false
 - mood_quadrant:
+    influence_conversation: false
+- rest:
+    influence_conversation: false
+- rest_level:
+    influence_conversation: false
+- available_time:
+    influence_conversation: false
+- available_time_level:
+    influence_conversation: false
+- self_motivation:
+    influence_conversation: false
+- self_motivation_level:
+    influence_conversation: false
+- self_efficacy:
+    influence_conversation: false
+- self_efficacy_level:
     influence_conversation: false
 
 - state_1:
@@ -94,6 +115,65 @@ slots:
     mappings:
     - type: from_entity
       entity: mood_quadrant
+  rest:
+    type: text
+    initial_value: ''
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: rest
+  rest_level:
+    type: text
+    initial_value: ''
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: rest_level
+  available_time:
+    type: text
+    initial_value: ''
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: available_time
+  available_time_level:
+    type: text
+    initial_value: ''
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: available_time_level
+  self_motivation:
+    type: text
+    initial_value: ''
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: self_motivation
+  self_motivation_level:
+    type: text
+    initial_value: ''
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: self_motivation_level
+  self_efficacy:
+    type: text
+    initial_value: ''
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: self_efficacy
+  self_efficacy_level:
+    type: text
+    initial_value: ''
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: self_efficacy_level
+
+
+
   mood_prev_session:
     type: text
     initial_value: ''
@@ -231,6 +311,470 @@ responses:
   - text: "Hmm, well then I cannot do much for you. I guess that our conversation ends here. Have a nice day!"
   utter_thanks_previous_activity:
   - text: "Thanks for sharing!"
+  utter_explain_user_state_1:
+  - text: "With your previous activity I can create some step goals for you. But to make them even more suited for you for today, I need some information on your so-called 'state'."
+  utter_explain_user_state_2:
+  - text: "Your state is basically a collection of variables that determine how much steps you are likely able to take today."
+  utter_explain_user_state_3:
+  - text: "So using that, I will adjust the initially created step goal to make it even more suitable for you!"
+  utter_explain_user_state_4:
+  - text: "To get your state, I'll ask you 5 multiple-choice questions.📝 It's important that you answer them as honest as possible and know that there are no right or wrong answers."
+  utter_explain_user_state_5:
+  - buttons:
+    - payload : /confirm_user_state_explanation
+      title: "Let's continue"
+    text: "Let me know when you're done reading and are ready to continue."
+  utter_get_mood:
+  - buttons:
+    - payload: /current_mood{"mood":"satisfied", "mood_quadrant":"ha_hv"}
+      title: "Satisfied"
+    - payload: /current_mood{"mood":"pleased", "mood_quadrant":"ha_hv"}
+      title: "Pleased"
+    - payload: /current_mood{"mood":"delighted", "mood_quadrant":"ha_hv"}
+      title: "Delighted"
+    - payload: /current_mood{"mood":"happy", "mood_quadrant":"ha_hv"}
+      title: "Happy"
+    - payload: /current_mood{"mood":"glad", "mood_quadrant":"ha_hv"}
+      title: "Glad"
+    - payload: /current_mood{"mood":"excited", "mood_quadrant":"ha_hv"}
+      title: "Excited"
+    - payload: /current_mood{"mood":"aroused", "mood_quadrant":"ha_hv"}
+      title: "Aroused"
+    - payload: /current_mood{"mood":"astonished", "mood_quadrant":"ha_hv"}
+      title: "Astonished"
+    - payload: /current_mood{"mood":"alarmed", "mood_quadrant":"ha_lv"}
+      title: "Alarmed"
+    - payload: /current_mood{"mood":"angry", "mood_quadrant":"ha_lv"}
+      title: "Angry"
+    - payload: /current_mood{"mood":"annoyed", "mood_quadrant":"ha_lv"}
+      title: "Annoyed"
+    - payload: /current_mood{"mood":"distressed", "mood_quadrant":"ha_lv"}
+      title: "Distressed"
+    - payload: /current_mood{"mood":"afraid", "mood_quadrant":"ha_lv"}
+      title: "Afraid"
+    - payload: /current_mood{"mood":"frustrated", "mood_quadrant":"ha_lv"}
+      title: "Frustrated"
+    - payload: /current_mood{"mood":"miserable", "mood_quadrant":"la_lv"}
+      title: "Miserable"
+    - payload: /current_mood{"mood":"depressed", "mood_quadrant":"la_lv"}
+      title: "Depressed"
+    - payload: /current_mood{"mood":"gloomy", "mood_quadrant":"la_lv"}
+      title: "Gloomy"
+    - payload: /current_mood{"mood":"tense", "mood_quadrant":"la_lv"}
+      title: "Tense"
+    - payload: /current_mood{"mood":"droopy", "mood_quadrant":"la_lv"}
+      title: "Droopy"
+    - payload: /current_mood{"mood":"sad", "mood_quadrant":"la_lv"}
+      title: "Sad"
+    - payload: /current_mood{"mood":"tired", "mood_quadrant":"la_lv"}
+      title: "Tired"
+    - payload: /current_mood{"mood":"bored", "mood_quadrant":"la_lv"}
+      title: "Bored"
+    - payload: /current_mood{"mood":"sleepy", "mood_quadrant":"la_lv"}
+      title: "Sleepy"
+    - payload: /current_mood{"mood":"serene", "mood_quadrant":"la_hv"}
+      title: "Serene"
+    - payload: /current_mood{"mood":"relaxed", "mood_quadrant":"la_hv"}
+      title: "Relaxed"
+    - payload: /current_mood{"mood":"calm", "mood_quadrant":"la_hv"}
+      title: "Calm"
+    - payload: /current_mood{"mood":"tranquil", "mood_quadrant":"la_hv"}
+      title: "Tranquil"
+    - payload: /current_mood{"mood":"content", "mood_quadrant":"la_hv"}
+      title: "Content"
+    - payload: /current_mood{"mood":"neutral", "mood_quadrant":"neutral"}
+      title: "Neutral"
+    text: "Question 1: How are you feeling today? Choose the option that fits you best."
+  utter_respond_mood:
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "ha_hv"
+      text: "Yay, always good to hear that somebody is feeling {mood}!"
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "ha_hv"
+      text: "Awesome, you must be having a good day!"
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "ha_hv"
+      text: "Fantastic, that's very good to hear!"
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "ha_hv"
+      text: "Great, I'm happy to hear that that you're feeling {mood}!"
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "ha_hv"
+      text: "Fantastic, I'm happy to hear that!"
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "ha_hv"
+      text: "That's great news, I'm so happy that you're feeling {mood}!"
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "ha_hv"
+      text: "Good for you, I'm glad you're feeling {mood}!"
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "ha_hv"
+      text: "Excellent, it's good to hear that you're feeling {mood}!"
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "la_hv"
+      text: "Nice, that's good to hear."
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "la_hv"
+      text: "Nice, I'm glad to hear that you're feeling {mood}."
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "la_hv"
+      text: "Nice, I'm glad to hear that."
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "la_hv"
+      text: "Nice, that's always good to hear."
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "la_hv"
+      text: "Nice, glad you're feeling {mood}."
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "la_hv"
+      text: "That's good, I'm glad that you're {mood}."
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "la_hv"
+      text: "Nice, it's good to see you're {mood}."
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "la_hv"
+      text: "Good to hear, so things are going well for you."
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "la_hv"
+      text: "Good to know, you seem to be doing well."
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "la_lv"
+      text: "I hate to hear that you're feeling {mood}. I hope you feel better soon! Meanwhile, maybe this session can help to cheer you up a bit."
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "la_lv"
+      text: "I'm sorry to hear that you're feeling {mood}. Here's hoping this chat will bring some cheer and comfort to you."
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "la_lv"
+      text: "Aww I feel for you, let's chat and try to turn that frown upside down."
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "la_lv"
+      text: "I hope you're feeling better soon. In the meantime, let's see if we can brighten your day a bit with this chat."
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "la_lv"
+      text: "Oh I'm so sorry that you're not having a good day. I hope it gets better soon and that I can cheer you up a little!"
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "la_lv"
+      text: "Oh this doesn't feel good to hear. I'm sending positive vibes your way and hoping this session will make you feel a bit better."
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "la_lv"
+      text: "So sorry about that! Feel better soon - hopefully talking about becoming more physically active can help a bit."
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "ha_lv"
+      text: "I'm really sorry to hear that you're feeling {mood}. I hope you feel better soon!"
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "ha_lv"
+      text: "Aww I'm so sorry to hear this. Hopefully you feel less {mood} soon!"
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "ha_lv"
+      text: "Oh that's a shame that you're not having a good day. I hope it gets better soon and that I can distract you a bit."
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "ha_lv"
+      text: "I hate to hear that today isn't a good day for you. Hopefully you feel better soon and that it's okay to proceed with this session!"
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "ha_lv"
+      text: "Aww what a shame. Hopefully you feel less {mood} soon!"
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "ha_lv"
+      text: "Oh that's unfortunate, let's hope for a brighter tomorrow."
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "ha_lv"
+      text: "Aww, I hope things look up for you soon."
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "ha_lv"
+      text: "That's not good news, I hope you feel better soon and that you're up for continuing with this session."
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "ha_lv"
+      text: "I'm sorry you're having a tough day, I hope it gets better soon. I hope you feel okay to move forward with this session."
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "neutral"
+      text: "Ah, sounds like you're having a pretty average day."
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "neutral"
+      text: "Sounds like things are going fine for you."
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "neutral"
+      text: "I see, seems like you're doing okay then."
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "neutral"
+      text: "I see, just a normal day for you then."
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "neutral"
+      text: "Just an average day, got it."
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "neutral"
+      text: "Fair enough, you're having a day that's neither here nor there."
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "neutral"
+      text: "Okay, a day like any other."
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "neutral"
+      text: "Okay, so nothing out of the ordinary."
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "neutral"
+      text: "I see, not too bad, not too good, just an average day."
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "neutral"
+      text: "Ah, a typical day, I understand."
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "neutral"
+      text: "Ah nothing special, just a regular day for you."
+  utter_get_rest:
+  - buttons:
+    - payload: /current_rest{"rest":"0", "rest_level":"low"}
+      title: "0 (I slept terrible last night)"
+    - payload: /current_rest{"rest":"1", "rest_level":"low"}
+      title: "1"
+    - payload: /current_rest{"rest":"2", "rest_level":"low"}
+      title: "2"
+    - payload: /current_rest{"rest":"3", "rest_level":"low"}
+      title: "3"
+    - payload: /current_rest{"rest":"4", "rest_level":"mid"}
+      title: "4"
+    - payload: /current_rest{"rest":"5", "rest_level":"mid"}
+      title: "5"
+    - payload: /current_rest{"rest":"6", "rest_level":"mid"}
+      title: "6"
+    - payload: /current_rest{"rest":"7", "rest_level":"high"}
+      title: "7"
+    - payload: /current_rest{"rest":"8", "rest_level":"high"}
+      title: "8"
+    - payload: /current_rest{"rest":"9", "rest_level":"high"}
+      title: "9"
+    - payload: /current_rest{"rest":"10", "rest_level":"high"}
+      title: "10 (I slept amazing last night)"
+    text: "Question 2: How well did you sleep last night on a scale from 0 to 10?"
+  utter_respond_rest:
+    - condition:
+        - type: slot
+          name: rest_level
+          value: "low"
+      text: "Aww, that sucks. Hopefully it will be better tonight!"
+    - condition:
+        - type: slot
+          name: rest_level
+          value: "mid"
+      text: "Well that's not perfect, but it could be worse!"
+    - condition:
+        - type: slot
+          name: rest_level
+          value: "high"
+      text: "That's great, it always nice to sleep well!"
+  utter_get_available_time:
+  - buttons:
+    - payload: /current_available_time{"available_time":"0", "available_time_level":"low"}
+      title: "0 (I have no time at all to do some walking today)"
+    - payload: /current_available_time{"available_time":"1", "available_time_level":"low"}
+      title: "1"
+    - payload: /current_available_time{"available_time":"2", "available_time_level":"low"}
+      title: "2"
+    - payload: /current_available_time{"available_time":"3", "available_time_level":"low"}
+      title: "3"
+    - payload: /current_available_time{"available_time":"4", "available_time_level":"mid"}
+      title: "4"
+    - payload: /current_available_time{"available_time":"5", "available_time_level":"mid"}
+      title: "5"
+    - payload: /current_available_time{"available_time":"6", "available_time_level":"mid"}
+      title: "6"
+    - payload: /current_available_time{"available_time":"7", "available_time_level":"high"}
+      title: "7"
+    - payload: /current_available_time{"available_time":"8", "available_time_level":"high"}
+      title: "8"
+    - payload: /current_available_time{"available_time":"9", "available_time_level":"high"}
+      title: "9"
+    - payload: /current_available_time{"available_time":"10", "available_time_level":"high"}
+      title: "10 (I have a lot of time to do some walking today)"
+    text: "Question 3: How much time do you have available today to do some walking on a scale from 0 to 10?"
+  utter_respond_available_time:
+    - condition:
+        - type: slot
+          name: available_time_level
+          value: "low"
+      text: "Hmm, quite busy I see. In any case, try to do at least some walking as it is healthy and can help clear your mind!"
+    - condition:
+        - type: slot
+          name: available_time_level
+          value: "mid"
+      text: "Okay that's good! You often don't need that much time to do a healthy amount of walking."
+    - condition:
+        - type: slot
+          name: available_time_level
+          value: "high"
+      text: "Ah a lot of free time today. Use some of it to do some walking, it's good for your health!"
+  utter_get_self_motivation:
+  - buttons:
+    - payload: /current_self_motivation{"self_motivation":"0", "self_motivation_level":"low"}
+      title: "0 (I really do not want to do some walking today)"
+    - payload: /current_self_motivation{"self_motivation":"1", "self_motivation_level":"low"}
+      title: "1"
+    - payload: /current_self_motivation{"self_motivation":"2", "self_motivation_level":"low"}
+      title: "2"
+    - payload: /current_self_motivation{"self_motivation":"3", "self_motivation_level":"low"}
+      title: "3"
+    - payload: /current_self_motivation{"self_motivation":"4", "self_motivation_level":"mid"}
+      title: "4"
+    - payload: /current_self_motivation{"self_motivation":"5", "self_motivation_level":"mid"}
+      title: "5"
+    - payload: /current_self_motivation{"self_motivation":"6", "self_motivation_level":"mid"}
+      title: "6"
+    - payload: /current_self_motivation{"self_motivation":"7", "self_motivation_level":"high"}
+      title: "7"
+    - payload: /current_self_motivation{"self_motivation":"8", "self_motivation_level":"high"}
+      title: "8"
+    - payload: /current_self_motivation{"self_motivation":"9", "self_motivation_level":"high"}
+      title: "9"
+    - payload: /current_self_motivation{"self_motivation":"10", "self_motivation_level":"high"}
+      title: "10 (I am very motivated to do some walking today)"
+    text: "Question 4: How motivated are you to do some walking today on a scale from 0 to 10?"
+  utter_respond_self_motivation:
+    - condition:
+        - type: slot
+          name: self_motivation_level
+          value: "low"
+      text: "It's okay to feel less motivated sometimes. Often it's just a matter of getting started and think about the benefits of taking a walk!"
+    - condition:
+        - type: slot
+          name: self_motivation_level
+          value: "mid"
+      text: "Okay that's good! You often don't need that much time to do a healthy amount of walking."
+    - condition:
+        - type: slot
+          name: self_motivation_level
+          value: "high"
+      text: "Ah a lot of free time today. Use some of it to do some walking, it's good for your health!"
+  utter_get_self_efficacy:
+  - buttons:
+    - payload: /current_self_efficacy{"self_efficacy":"0", "self_efficacy_level":"low"}
+      title: "0 (I really do not want to do some walking today)"
+    - payload: /current_self_efficacy{"self_efficacy":"1", "self_efficacy_level":"low"}
+      title: "1"
+    - payload: /current_self_efficacy{"self_efficacy":"2", "self_efficacy_level":"low"}
+      title: "2"
+    - payload: /current_self_efficacy{"self_efficacy":"3", "self_efficacy_level":"low"}
+      title: "3"
+    - payload: /current_self_efficacy{"self_efficacy":"4", "self_efficacy_level":"mid"}
+      title: "4"
+    - payload: /current_self_efficacy{"self_efficacy":"5", "self_efficacy_level":"mid"}
+      title: "5"
+    - payload: /current_self_efficacy{"self_efficacy":"6", "self_efficacy_level":"mid"}
+      title: "6"
+    - payload: /current_self_efficacy{"self_efficacy":"7", "self_efficacy_level":"high"}
+      title: "7"
+    - payload: /current_self_efficacy{"self_efficacy":"8", "self_efficacy_level":"high"}
+      title: "8"
+    - payload: /current_self_efficacy{"self_efficacy":"9", "self_efficacy_level":"high"}
+      title: "9"
+    - payload: /current_self_efficacy{"self_efficacy":"10", "self_efficacy_level":"high"}
+      title: "10 (I am very motivated to do some walking today)"
+    text: "Question 5: How confident are you that you can achieve a step goal today on a scale from 0 to 10?"
+  utter_respond_self_efficacy:
+    - condition:
+        - type: slot
+          name: self_efficacy_level
+          value: "low"
+      text: "It's okay to feel less motivated sometimes. Often it's just a matter of getting started and think about the benefits of taking a walk!"
+    - condition:
+        - type: slot
+          name: self_efficacy_level
+          value: "mid"
+      text: "Okay that's good! You often don't need that much time to do a healthy amount of walking."
+    - condition:
+        - type: slot
+          name: self_efficacy_level
+          value: "high"
+      text: "Ah a lot of free time today. Use some of it to do some walking, it's good for your health!"
+
+
+
+
+
   
   utter_ask_user_name_slot:
   - text: "How may I call you?"
