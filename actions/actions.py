@@ -413,7 +413,7 @@ class ValidateProposeStepGoalOptionsForm(FormValidationAction):
         if not (value == option_1 or value == option_2 or value == option_3):
             valid_preferred_step_goal_option = False
         
-        if not valid_previous_activity:
+        if not valid_preferred_step_goal_option:
             dispatcher.utter_message("You didn't provide at least 5 numbers, maybe you forgot one, or your answer isn't formatted correctly, it should be numbers seperated by commas.")
             dispatcher.utter_message(response="utter_example_input_previous_activity")
             return {"preferred_step_goal_slot": None}
