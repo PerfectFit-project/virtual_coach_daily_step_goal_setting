@@ -84,30 +84,36 @@ rules:
   - action: utter_explain_user_state_5
 
 - rule: get user mood
+  steps:
   - intent: confirm_user_state_explanation
   - action: utter_get_mood
 
 - rule: get user rest
+  steps:
   - intent: current_mood
   - action: utter_respond_mood
   - action: utter_get_rest
 
 - rule: get user available time
+  steps:
   - intent: current_rest
   - action: utter_respond_rest
   - action: utter_get_available_time
 
 - rule: get user self motivation
+  steps:
   - intent: current_available_time
   - action: utter_respond_available_time
   - action: utter_get_self_motivation
 
 - rule: get user self efficacy
+  steps:
   - intent: current_self_motivation
   - action: utter_respond_self_motivation
   - action: utter_get_self_efficacy
 
 - rule: end dialog
+  steps:
   - intent: current_self_efficacy
   - action: utter_respond_self_efficacy
   - action: utter_thanks_states
