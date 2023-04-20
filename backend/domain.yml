@@ -171,6 +171,33 @@ slots:
     mappings:
     - type: from_entity
       entity: self_efficacy_level
+  step_goal_option_1_slot:
+    type: text
+    initial_value: ''
+    influence_conversation: false
+    mappings:
+    - type: custom
+  step_goal_option_2_slot:
+    type: text
+    initial_value: ''
+    influence_conversation: false
+    mappings:
+    - type: custom
+  step_goal_option_3_slot:
+    type: text
+    initial_value: ''
+    influence_conversation: false
+    mappings:
+    - type: custom
+  preferred_step_goal_slot:
+    type: text
+    initial_value: ''
+    influence_conversation: false
+    mappings:
+    - type: from_text
+      conditions:
+        - active_loop: propose_step_goal_options_form
+
 
 
 
@@ -772,7 +799,12 @@ responses:
       text: "Okay, perfect! Let's get to the goal-setting then."
   utter_thanks_states:
   - text: "Those were all the questions, thank you for your answers!"
-
+  utter_explain_goal_setting_1:
+  - text: "Now we've come to the exciting part: the actual goal-setting.🎯I am going to give you 3 step goal options and ask you to pick one of them."
+  utter_explain_goal_setting_2:
+  - text: "You can make your choice by typing the option you want. Do know that after picking one of them, you are still able to change it."
+  utter_ask_preferred_step_goal_slot:
+  - text: "Which of the following step goal options do you prefer? {step_goal_option_1_slot}, {step_goal_option_2_slot} or {step_goal_option_3_slot}?"
 
 
 
@@ -2136,6 +2168,9 @@ forms:
   previous_activity_form:
     required_slots:
         - previous_activity_slot
+  propose_step_goal_options_form:
+    required_slots:
+        - preferred_step_goal_slot
 
 
 actions:
@@ -2144,9 +2179,11 @@ actions:
 - action_save_activity_experience
 - action_save_name_to_db
 - action_save_session
+- action_create_step_goal_options
 
 - validate_user_name_form
 - validate_previous_activity_form
+- validate_propose_step_goal_options_form
 - validate_activity_experience_form
 - validate_activity_experience_mod_form
 

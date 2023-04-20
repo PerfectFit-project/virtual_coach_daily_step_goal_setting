@@ -112,11 +112,24 @@ rules:
   - action: utter_respond_self_motivation
   - action: utter_get_self_efficacy
 
-- rule: end dialog
+- rule: goal setting info
   steps:
   - intent: current_self_efficacy
   - action: utter_respond_self_efficacy
   - action: utter_thanks_states
+  - action: utter_explain_goal_setting_1
+  - action: utter_explain_goal_setting_2
+  - action: action_create_step_goal_options
+  - action: propose_step_goal_options_form
+  - active_loop: propose_step_goal_options_form
+  wait_for_user_input: false
+
+- rule: get step goal
+  condition:
+    - active_loop: propose_step_goal_options_form
+  steps:
+  - action: propose_step_goal_options_form
+  - active_loop: null
   - action: utter_final_close_session
   - action: action_end_dialog
 

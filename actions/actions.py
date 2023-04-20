@@ -334,6 +334,24 @@ class ActionSaveSession(Action):
         return []
 
 
+class ActionCreateStepGoalOptions(Action):
+
+    def name(self) -> Text:
+        return "action_create_step_goal_options"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        step_goal_1 = "1000"
+        step_goal_2 = "2000"
+        step_goal_3 = "3000"
+
+        return [SlotSet("step_goal_option_1_slot", step_goal_1),
+                SlotSet("step_goal_option_2_slot", step_goal_2),
+                SlotSet("step_goal_option_3_slot", step_goal_3)]
+
+
 class ValidatePreviousActivityForm(FormValidationAction):
     def name(self) -> Text:
         return 'validate_previous_activity_form'
@@ -371,6 +389,37 @@ class ValidatePreviousActivityForm(FormValidationAction):
 
         # Use only the first 9 days of previous activity
         return {"previous_activity_slot": previous_activity_slot}
+
+
+class ValidateProposeStepGoalOptionsForm(FormValidationAction):
+    def name(self) -> Text:
+        return 'validate_propose_step_goal_options_form'
+
+    def validate_preferred_step_goal_slot(
+            self, value: Text, dispatcher: CollectingDispatcher,
+            tracker: Tracker, domain: Dict[Text, Any]) -> Dict[Text, Any]:
+        # pylint: disable=unused-argument
+        """Validate preferred_step_goal_slot input."""
+        last_utterance = get_latest_bot_utterance(tracker.events)
+
+        if last_utterance != 'utter_ask_preferred_step_goal_slot':
+            return {"preferred_step_goal_slot": None}
+
+        valid_preferred_step_goal_option = True
+        option_1 = tracker.get_slot("step_goal_option_1_slot")
+        option_2 = tracker.get_slot("step_goal_option_2_slot")
+        option_3 = tracker.get_slot("step_goal_option_3_slot")
+        # Check if the value is one of the proposed step goal options
+        if not (value == option_1 or value == option_2 or value == option_3):
+            valid_preferred_step_goal_option = False
+        
+        if not valid_previous_activity:
+            dispatcher.utter_message("You didn't provide at least 5 numbers, maybe you forgot one, or your answer isn't formatted correctly, it should be numbers seperated by commas.")
+            dispatcher.utter_message(response="utter_example_input_previous_activity")
+            return {"preferred_step_goal_slot": None}
+
+        # Use only the first 9 days of previous activity
+        return {"preferred_step_goal_slot": value}
 
 
 class ValidateUserNameForm(FormValidationAction):
