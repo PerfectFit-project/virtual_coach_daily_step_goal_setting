@@ -771,7 +771,7 @@ responses:
           value: "high"
       text: "Okay, perfect! Let's get to the goal-setting then."
   utter_thanks_states:
-  - text: "Thank you for your answers!"
+  - text: "Those were all the questions, thank you for your answers!"
 
 
 
