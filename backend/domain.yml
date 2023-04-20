@@ -723,16 +723,16 @@ responses:
         - type: slot
           name: self_motivation_level
           value: "mid"
-      text: "Okay that's good! You often don't need that much time to do a healthy amount of walking."
+      text: "Alright, most times once you start walking, you'll get even more motivated to keep going. But it's good to already be somewhat motivated!"
     - condition:
         - type: slot
           name: self_motivation_level
           value: "high"
-      text: "Ah a lot of free time today. Use some of it to do some walking, it's good for your health!"
+      text: "Nice, let's not waste much time then and continue with the last question!"
   utter_get_self_efficacy:
   - buttons:
     - payload: /current_self_efficacy{"self_efficacy":"0", "self_efficacy_level":"low"}
-      title: "0 (I really do not want to do some walking today)"
+      title: "0 (I really do not think I can achieve a step goal today)"
     - payload: /current_self_efficacy{"self_efficacy":"1", "self_efficacy_level":"low"}
       title: "1"
     - payload: /current_self_efficacy{"self_efficacy":"2", "self_efficacy_level":"low"}
@@ -752,24 +752,26 @@ responses:
     - payload: /current_self_efficacy{"self_efficacy":"9", "self_efficacy_level":"high"}
       title: "9"
     - payload: /current_self_efficacy{"self_efficacy":"10", "self_efficacy_level":"high"}
-      title: "10 (I am very motivated to do some walking today)"
-    text: "Question 5: How confident are you that you can achieve a step goal today on a scale from 0 to 10?"
+      title: "10 (I am very confident that I can achieve a step goal today)"
+    text: "The final question, question 5: How confident are you that you can achieve a step goal today on a scale from 0 to 10?"
   utter_respond_self_efficacy:
     - condition:
         - type: slot
           name: self_efficacy_level
           value: "low"
-      text: "It's okay to feel less motivated sometimes. Often it's just a matter of getting started and think about the benefits of taking a walk!"
+      text: "Oh, don't be too harsh on yourself, you can do it!"
     - condition:
         - type: slot
           name: self_efficacy_level
           value: "mid"
-      text: "Okay that's good! You often don't need that much time to do a healthy amount of walking."
+      text: "Good. You'll be fine, it only some walking after all."
     - condition:
         - type: slot
           name: self_efficacy_level
           value: "high"
-      text: "Ah a lot of free time today. Use some of it to do some walking, it's good for your health!"
+      text: "Okay, perfect! Let's get to the goal-setting then."
+  utter_thanks_states:
+  - text: "Thank you for your answers!"
 
 
 
