@@ -354,7 +354,7 @@ class ValidatePreviousActivityForm(FormValidationAction):
             valid_previous_activity = False
         else:
             for i in range (0, min(9, len(previous_activity))):
-                if not activity.isnumeric():
+                if not previous_activity[i].isnumeric():
                     valid_previous_activity = False
         
         if not valid_previous_activity:
