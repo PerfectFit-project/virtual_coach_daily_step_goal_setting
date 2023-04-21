@@ -370,7 +370,7 @@ class ActionIncreaseGoal(Action):
             option_1 += 200
             option_2 += 200
             option_3 += 200
-            number_of_rejected_proposals ++
+            number_of_rejected_proposals += 1
             dispatcher.utter_message("But since you said you wanted something higher, I'll increase the step goals a bit!")
             tracker.change_loop_to("propose_step_goal_options_form")
         else:
@@ -401,7 +401,7 @@ class ActionDecreaseGoal(Action):
             option_1 -= 200
             option_2 -= 200
             option_3 -= 200
-            number_of_rejected_proposals ++
+            number_of_rejected_proposals += 1
             dispatcher.utter_message("But since you said you wanted something lower, I'll decrease the step goals a bit!")
             tracker.change_loop_to("propose_step_goal_options_form")
         else:
