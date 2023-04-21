@@ -377,7 +377,6 @@ class ActionIncreaseGoal(Action):
                     SlotSet("step_goal_option_3_slot", "" + option_3),
                     SlotSet("number_of_rejected_proposals", "" + number_of_rejected_proposals)]
         else:
-
             dispatcher.utter_message("Unfortunately I cannot change the goals any further. So, you will have to pick one which then becomes your step goal for today.")
             return [SlotSet("final_choice", True)]
 
@@ -407,7 +406,6 @@ class ActionDecreaseGoal(Action):
                 SlotSet("step_goal_option_3_slot", "" + option_3),
                 SlotSet("number_of_rejected_proposals", "" + number_of_rejected_proposals)]
         else:
-
             dispatcher.utter_message("Unfortunately I cannot change the goals any further. So, you will have to pick one which then becomes your step goal for today.")
             return [SlotSet("final_choice", True)]
 
@@ -482,38 +480,7 @@ class ValidateProposeStepGoalOptionsForm(FormValidationAction):
                 dispatcher.utter_message("Remember that this doesn't have to be your final goal and that you can change it later! So, just pick one of the options by typing it.")
             return {"preferred_step_goal_slot": None}
 
-        # Use only the first 9 days of previous activity
         return {"preferred_step_goal_slot": value}
-
-
-class ValidateProposeFinalStepGoalOptionsForm(FormValidationAction):
-    def name(self) -> Text:
-        return 'validate_propose_final_step_goal_options_form'
-
-    def validate_final_preferred_step_goal_slot(
-            self, value: Text, dispatcher: CollectingDispatcher,
-            tracker: Tracker, domain: Dict[Text, Any]) -> Dict[Text, Any]:
-        # pylint: disable=unused-argument
-        """Validate final_preferred_step_goal_slot input."""
-        last_utterance = get_latest_bot_utterance(tracker.events)
-
-        if last_utterance != 'utter_ask_final_preferred_step_goal_slot':
-            return {"final_preferred_step_goal_slot": None}
-
-        valid_preferred_step_goal_option = True
-        option_1 = tracker.get_slot("step_goal_option_1_slot")
-        option_2 = tracker.get_slot("step_goal_option_2_slot")
-        option_3 = tracker.get_slot("step_goal_option_3_slot")
-        # Check if the value is one of the proposed step goal options
-        if not (value == option_1 or value == option_2 or value == option_3):
-            valid_preferred_step_goal_option = False
-        
-        if not valid_preferred_step_goal_option:
-            dispatcher.utter_message("Hmm, that doesn't seem to be one of the choices I gave you. Pick one of the options by typing it.")
-            return {"final_preferred_step_goal_slot": None}
-
-        # Use only the first 9 days of previous activity
-        return {"final_preferred_step_goal_slot": value}
 
 
 class ValidateUserNameForm(FormValidationAction):

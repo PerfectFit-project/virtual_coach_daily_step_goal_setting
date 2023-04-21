@@ -894,8 +894,6 @@ responses:
           name: rejected_reason
           value: "else"
       text: "Thanks for telling me. It's okay to do less for a day, but try do to at least some steps today as it will make you feel better and more energetic to do other things!"
-  utter_ask_final_preferred_step_goal_slot:
-  - text: "So, which of the following step goals do you want for today? {step_goal_option_1_slot}, {step_goal_option_2_slot} or {step_goal_option_3_slot}?"
 
 
 
