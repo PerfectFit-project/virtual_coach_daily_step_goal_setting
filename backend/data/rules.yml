@@ -133,6 +133,7 @@ rules:
   - action: utter_check_choice
 
 - rule: goal accepted
+  steps:
   - intent: goal_accepted
   - action: utter_congratulate_on_goal
   - action: utter_wrap_up_1
@@ -140,20 +141,24 @@ rules:
   - action: utter_wrap_up_3
 
 - rule: goal rejected
+  steps:
   - intent: goal_rejected
   - action: utter_goal_not_accepted
 
 - rule: goal too low
+  steps:
   - intent: goal_too_low
   - action: utter_increase_goal_1
   - action: utter_increase_goal_2
   - action: action_increase_goal
 
 - rule: goal too high
+  steps:
   - intent: goal_too_high
   - action: utter_decrease_goal
 
 - rule: decrease goal
+  steps:
   - intent: goal_rejected_reason
   - action: utter_comfort_user
   - action: action_decrease_goal
@@ -169,6 +174,7 @@ rules:
   - action: utter_wrap_up_3
 
 - rule: end conversation
+  steps:
   - intent: end_conversation
   - action: utter_final_close_session
   - action: action_end_dialog
