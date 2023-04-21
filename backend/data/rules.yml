@@ -130,6 +130,46 @@ rules:
   steps:
   - action: propose_step_goal_options_form
   - active_loop: null
+  - action: utter_check_choice
+
+- rule: goal accepted
+  - intent: goal_accepted
+  - action: utter_congratulate_on_goal
+  - action: utter_wrap_up_1
+  - action: utter_wrap_up_2
+  - action: utter_wrap_up_3
+
+- rule: goal rejected
+  - intent: goal_rejected
+  - action: utter_goal_not_accepted
+
+- rule: goal too low
+  - intent: goal_too_low
+  - action: utter_increase_goal_1
+  - action: utter_increase_goal_2
+  - action: action_increase_goal
+
+- rule: goal too high
+  - intent: goal_too_high
+  - action: utter_decrease_goal
+
+- rule: decrease goal
+  - intent: goal_rejected_reason
+  - action: utter_comfort_user
+  - action: action_decrease_goal
+
+- rule: get final step goal
+  condition:
+    - active_loop: propose_final_step_goal_options_form
+  steps:
+  - action: propose_final_step_goal_options_form
+  - active_loop: null
+  - action: utter_wrap_up_1
+  - action: utter_wrap_up_2
+  - action: utter_wrap_up_3
+
+- rule: end conversation
+  - intent: end_conversation
   - action: utter_final_close_session
   - action: action_end_dialog
 

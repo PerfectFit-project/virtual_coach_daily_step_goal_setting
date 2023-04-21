@@ -16,6 +16,11 @@ intents:
 - current_available_time
 - current_self_motivation
 - current_self_efficacy
+- goal_accepted
+- goal_rejected
+- end_conversation
+- goal_too_high
+- goal_too_low
 
 ### Middle sessions (2, 3, 4)
 - start_session_mid
@@ -66,6 +71,8 @@ entities:
 - self_efficacy:
     influence_conversation: false
 - self_efficacy_level:
+    influence_conversation: false
+- rejection_reason:
     influence_conversation: false
 
 - state_1:
@@ -197,6 +204,27 @@ slots:
     - type: from_text
       conditions:
         - active_loop: propose_step_goal_options_form
+  rejection_reason:
+    type: text
+    initial_value: ''
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: rejection_reason
+  number_of_rejected_proposals:
+    type: text
+    initial_value: '0'
+    influence_conversation: false
+    mappings:
+    - type: custom
+  final_preferred_step_goal_slot:
+    type: text
+    initial_value: ''
+    influence_conversation: false
+    mappings:
+    - type: from_text
+      conditions:
+        - active_loop: propose_final_step_goal_options_form
 
 
 
@@ -805,7 +833,71 @@ responses:
   - text: "You can make your choice by typing the option you want. Do know that after picking one of them, you are still able to change it."
   utter_ask_preferred_step_goal_slot:
   - text: "Which of the following step goal options do you prefer? {step_goal_option_1_slot}, {step_goal_option_2_slot} or {step_goal_option_3_slot}?"
-
+  utter_check_choice:
+  - buttons:
+    - payload: /goal_accepted
+      title: "Yes, I'm happy with it"
+    - payload: /goal_rejected
+      title: "No, I want something different"
+    text: "Good choice! Now, do you want to keep this as your goal for today?"
+  utter_congratulate_on_goal:
+  - text: "Cool! Congratulations on your step goal for today of {preferred_step_goal_slot} steps!"
+  utter_wrap_up_1:
+  - text: "Now we've set a step goal for today, we can wrap up this conversation."
+  utter_wrap_up_2:
+  - text: "Remember that you are not obligated to achieve the goal, but know that taking steps is healthy for you and should not take too much time.🚶"
+  utter_wrap_up_3:
+  - buttons:
+    - payload: /end_conversation
+      title: "Bye bye!"
+    text: "I hope to see you back tomorrow and good luck with your step goal.💪 Bye!"
+  utter_goal_not_accepted:
+  - buttons:
+    - payload: /goal_too_low
+      title: "Too low"
+    - payload: /goal_too_high
+      title: "Too high"
+    text: "Ok, do you think it is too low or too high then?"
+  utter_increase_goal_1:
+  - text: "Alright, I admire your confidence and willpower!💪"
+  utter_increase_goal_2:
+  - text: "Do know though that you should not take too many steps today, as that might lead to an injury."
+  utter_decrease_goal:
+  - buttons:
+    - payload: /goal_rejected_reason{"rejection_reason":"weather"}
+      title: "The weather is not good enough today"
+    - payload: /goal_rejected_reason{"rejection_reason":"tired"}
+      title: "I'm too tired today"
+    - payload: /goal_rejected_reason{"rejection_reason":"time"}
+      title: "I do not have the time today"
+    - payload: /goal_rejected_reason{"rejection_reason":"else"}
+      title: "I just do not feel like taking that many steps today"
+    - payload: /goal_rejected_reason{"rejection_reason":"else"}
+      title: "It's because of something else"
+    text: "I see, why do you think this step goal is too high for today?"
+  utter_comfort_user:
+    - condition:
+        - type: slot
+          name: rejected_reason
+          value: "weather"
+      text: "Yeah that's annoying. However, most of the times the weather isn't bad during the entrire day. So try to find a time at which the weather is good enough a go for a little walk then!"
+    - condition:
+        - type: slot
+          name: rejected_reason
+          value: "tired"
+      text: "I understand that you do not want to take many steps when you are tired. However, being physically active is good for you and can help you get more energy to do other things. So try to take at least some steps today!"
+    - condition:
+        - type: slot
+          name: rejected_reason
+          value: "time"
+      text: "Sometimes you are busy with other things but even then you should try to do a bit of walking as it can help you clear your mind and feel more energetic to continue. So if you are busy, try to find a timeslot today were you can do a little walk, even 30 minutes is already something!👍"
+    - condition:
+        - type: slot
+          name: rejected_reason
+          value: "else"
+      text: "Thanks for telling me. It's okay to do less for a day, but try do to at least some steps today as it will make you feel better and more energetic to do other things!"
+  utter_ask_final_preferred_step_goal_slot:
+  - text: "So, which of the following step goals do you want for today? {step_goal_option_1_slot}, {step_goal_option_2_slot} or {step_goal_option_3_slot}?"
 
 
 
@@ -2171,6 +2263,9 @@ forms:
   propose_step_goal_options_form:
     required_slots:
         - preferred_step_goal_slot
+  propose_final_step_goal_options_form:
+    required_slots:
+        - final_preferred_step_goal_slot
 
 
 actions:
@@ -2180,10 +2275,13 @@ actions:
 - action_save_name_to_db
 - action_save_session
 - action_create_step_goal_options
+- action_increase_goal
+- action_decrease_goal
 
 - validate_user_name_form
 - validate_previous_activity_form
 - validate_propose_step_goal_options_form
+- validate_propose_final_step_goal_options_form
 - validate_activity_experience_form
 - validate_activity_experience_mod_form
 
