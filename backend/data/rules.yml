@@ -126,9 +126,9 @@ rules:
 
 - rule: get step goal
   condition:
-  - active_loop: propose_step_goal_options_form
   - slot_was_set:
     - final_choice: false
+  - active_loop: propose_step_goal_options_form
   steps:
   - action: propose_step_goal_options_form
   - active_loop: null
