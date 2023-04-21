@@ -217,14 +217,12 @@ slots:
     influence_conversation: false
     mappings:
     - type: custom
-  final_preferred_step_goal_slot:
-    type: text
-    initial_value: ''
+  final_choice:
+    type: bool
+    initial_value: false
     influence_conversation: false
     mappings:
-    - type: from_text
-      conditions:
-        - active_loop: propose_final_step_goal_options_form
+    - type: custom
 
 
 
@@ -2263,9 +2261,6 @@ forms:
   propose_step_goal_options_form:
     required_slots:
         - preferred_step_goal_slot
-  propose_final_step_goal_options_form:
-    required_slots:
-        - final_preferred_step_goal_slot
 
 
 actions:
@@ -2281,7 +2276,6 @@ actions:
 - validate_user_name_form
 - validate_previous_activity_form
 - validate_propose_step_goal_options_form
-- validate_propose_final_step_goal_options_form
 - validate_activity_experience_form
 - validate_activity_experience_mod_form
 

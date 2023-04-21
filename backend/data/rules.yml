@@ -127,6 +127,8 @@ rules:
 - rule: get step goal
   condition:
     - active_loop: propose_step_goal_options_form
+    - slot_was_set:
+      - final_choice: false
   steps:
   - action: propose_step_goal_options_form
   - active_loop: null
@@ -151,6 +153,9 @@ rules:
   - action: utter_increase_goal_1
   - action: utter_increase_goal_2
   - action: action_increase_goal
+  - action: propose_step_goal_options_form
+  - active_loop: propose_step_goal_options_form
+  wait_for_user_input: false
 
 - rule: goal too high
   steps:
@@ -162,12 +167,17 @@ rules:
   - intent: goal_rejected_reason
   - action: utter_comfort_user
   - action: action_decrease_goal
+  - action: propose_step_goal_options_form
+  - active_loop: propose_step_goal_options_form
+  wait_for_user_input: false
 
 - rule: get final step goal
   condition:
-    - active_loop: propose_final_step_goal_options_form
+    - active_loop: propose_step_goal_options_form
+    - slot_was_set:
+      - final_choice: true
   steps:
-  - action: propose_final_step_goal_options_form
+  - action: propose_step_goal_options_form
   - active_loop: null
   - action: utter_wrap_up_1
   - action: utter_wrap_up_2

@@ -372,15 +372,14 @@ class ActionIncreaseGoal(Action):
             option_3 += 200
             number_of_rejected_proposals += 1
             dispatcher.utter_message("But since you said you wanted something higher, I'll increase the step goals a bit!")
-            tracker.change_loop_to("propose_step_goal_options_form")
+            return [SlotSet("step_goal_option_1_slot", "" + option_1),
+                    SlotSet("step_goal_option_2_slot", "" + option_2),
+                    SlotSet("step_goal_option_3_slot", "" + option_3),
+                    SlotSet("number_of_rejected_proposals", "" + number_of_rejected_proposals)]
         else:
-            dispatcher.utter_message("Unfortunately I cannot change the goals any further. So, you will have to pick one which then becomes your step goal for today.")
-            tracker.change_loop_to("propose_final_step_goal_options_form")
 
-        return [SlotSet("step_goal_option_1_slot", option_1),
-                SlotSet("step_goal_option_2_slot", option_2),
-                SlotSet("step_goal_option_3_slot", option_3),
-                SlotSet("number_of_rejected_proposals", "" + number_of_rejected_proposals)]
+            dispatcher.utter_message("Unfortunately I cannot change the goals any further. So, you will have to pick one which then becomes your step goal for today.")
+            return [SlotSet("final_choice", True)]
 
 
 class ActionDecreaseGoal(Action):
@@ -403,15 +402,14 @@ class ActionDecreaseGoal(Action):
             option_3 -= 200
             number_of_rejected_proposals += 1
             dispatcher.utter_message("But since you said you wanted something lower, I'll decrease the step goals a bit!")
-            tracker.change_loop_to("propose_step_goal_options_form")
-        else:
-            dispatcher.utter_message("Unfortunately I cannot change the goals any further. So, you will have to pick one which then becomes your step goal for today.")
-            tracker.change_loop_to("propose_final_step_goal_options_form")
-
-        return [SlotSet("step_goal_option_1_slot", "" + option_1),
+            return [SlotSet("step_goal_option_1_slot", "" + option_1),
                 SlotSet("step_goal_option_2_slot", "" + option_2),
                 SlotSet("step_goal_option_3_slot", "" + option_3),
                 SlotSet("number_of_rejected_proposals", "" + number_of_rejected_proposals)]
+        else:
+
+            dispatcher.utter_message("Unfortunately I cannot change the goals any further. So, you will have to pick one which then becomes your step goal for today.")
+            return [SlotSet("final_choice", True)]
 
 
 
@@ -477,8 +475,11 @@ class ValidateProposeStepGoalOptionsForm(FormValidationAction):
             valid_preferred_step_goal_option = False
         
         if not valid_preferred_step_goal_option:
-            dispatcher.utter_message("Hmm, that doesn't seem to be one of the choices I gave you.")
-            dispatcher.utter_message("Remember that this doesn't have to be your final goal and that you can change it later! So, just pick one of the options by typing it.")
+            if tracker.get_slot("final_choice"):
+                dispatcher.utter_message("Hmm, that doesn't seem to be one of the choices I gave you. Just pick one of the options by typing it.")
+            else:
+                dispatcher.utter_message("Hmm, that doesn't seem to be one of the choices I gave you.")
+                dispatcher.utter_message("Remember that this doesn't have to be your final goal and that you can change it later! So, just pick one of the options by typing it.")
             return {"preferred_step_goal_slot": None}
 
         # Use only the first 9 days of previous activity
