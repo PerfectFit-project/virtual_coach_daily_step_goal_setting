@@ -21,6 +21,7 @@ intents:
 - end_conversation
 - goal_too_high
 - goal_too_low
+- goal_rejected_reason
 
 ### Middle sessions (2, 3, 4)
 - start_session_mid
