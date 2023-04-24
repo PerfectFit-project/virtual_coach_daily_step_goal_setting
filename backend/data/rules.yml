@@ -126,9 +126,7 @@ rules:
 
 - rule: get step goal
   condition:
-  - slot_was_set:
-    - final_choice: false
-  - active_loop: propose_step_goal_options_form
+    - active_loop: propose_step_goal_options_form
   steps:
   - action: propose_step_goal_options_form
   - active_loop: null
@@ -170,18 +168,6 @@ rules:
   - action: propose_step_goal_options_form
   - active_loop: propose_step_goal_options_form
   wait_for_user_input: false
-
-- rule: get final step goal
-  condition:
-  - active_loop: propose_step_goal_options_form
-  - slot_was_set:
-    - final_choice: true
-  steps:
-  - action: propose_step_goal_options_form
-  - active_loop: null
-  - action: utter_wrap_up_1
-  - action: utter_wrap_up_2
-  - action: utter_wrap_up_3
 
 - rule: end conversation
   steps:

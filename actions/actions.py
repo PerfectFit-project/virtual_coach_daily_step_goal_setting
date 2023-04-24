@@ -343,9 +343,9 @@ class ActionCreateStepGoalOptions(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         
-        step_goal_1 = "1000"
-        step_goal_2 = "2000"
-        step_goal_3 = "3000"
+        step_goal_1 = "4000"
+        step_goal_2 = "6000"
+        step_goal_3 = "8000"
 
         return [SlotSet("step_goal_option_1_slot", step_goal_1),
                 SlotSet("step_goal_option_2_slot", step_goal_2),
@@ -402,9 +402,9 @@ class ActionDecreaseGoal(Action):
             number_of_rejected_proposals += 1
             dispatcher.utter_message("But since you said you wanted something lower, I'll decrease the step goals a bit!")
             return [SlotSet("step_goal_option_1_slot", "" + option_1),
-                SlotSet("step_goal_option_2_slot", "" + option_2),
-                SlotSet("step_goal_option_3_slot", "" + option_3),
-                SlotSet("number_of_rejected_proposals", "" + number_of_rejected_proposals)]
+                    SlotSet("step_goal_option_2_slot", "" + option_2),
+                    SlotSet("step_goal_option_3_slot", "" + option_3),
+                    SlotSet("number_of_rejected_proposals", "" + number_of_rejected_proposals)]
         else:
             dispatcher.utter_message("Unfortunately I cannot change the goals any further. So, you will have to pick one which then becomes your step goal for today.")
             return [SlotSet("final_choice", True)]

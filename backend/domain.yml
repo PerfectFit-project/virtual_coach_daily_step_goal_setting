@@ -832,12 +832,20 @@ responses:
   utter_ask_preferred_step_goal_slot:
   - text: "Which of the following step goal options do you prefer? {step_goal_option_1_slot}, {step_goal_option_2_slot} or {step_goal_option_3_slot}?"
   utter_check_choice:
-  - buttons:
-    - payload: /goal_accepted
-      title: "Yes, I'm happy with it"
-    - payload: /goal_rejected
-      title: "No, I want something different"
+  - condition:
+      - type: slot
+        name: final_choice
+        value: false
+    buttons:
+      - payload: /goal_accepted
+        title: "Yes, I'm happy with it"
+      - payload: /goal_rejected
+        title: "No, I want something different"
     text: "Good choice! Now, do you want to keep this as your goal for today?"
+  - buttons: 
+    - payload: /goal_accepted
+      title: "Okay"
+    text: "As I cannot change the step goal further, this will be your step goal for today."
   utter_congratulate_on_goal:
   - text: "Cool! Congratulations on your step goal for today of {preferred_step_goal_slot} steps!"
   utter_wrap_up_1:
