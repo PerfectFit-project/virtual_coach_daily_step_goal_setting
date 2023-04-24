@@ -365,6 +365,7 @@ class ActionIncreaseGoal(Action):
         option_1 = int(tracker.get_slot("step_goal_option_1_slot"))
         option_2 = int(tracker.get_slot("step_goal_option_2_slot"))
         option_3 = int(tracker.get_slot("step_goal_option_3_slot"))
+        logging.info("Retrieval succeeded. Number of rejections is " + number_of_rejected_proposals)
 
         if number_of_rejected_proposals < 4:
             option_1 += 200
@@ -394,6 +395,7 @@ class ActionDecreaseGoal(Action):
         option_1 = int(tracker.get_slot("step_goal_option_1_slot"))
         option_2 = int(tracker.get_slot("step_goal_option_2_slot"))
         option_3 = int(tracker.get_slot("step_goal_option_3_slot"))
+        logging.info("Retrieval succeeded. Number of rejections is " + number_of_rejected_proposals)
 
         if number_of_rejected_proposals < 4:
             option_1 -= 200
