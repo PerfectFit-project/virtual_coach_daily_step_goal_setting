@@ -365,7 +365,6 @@ class ActionIncreaseGoal(Action):
         option_1 = int(tracker.get_slot("step_goal_option_1_slot"))
         option_2 = int(tracker.get_slot("step_goal_option_2_slot"))
         option_3 = int(tracker.get_slot("step_goal_option_3_slot"))
-        logging.info("Retrieval succeeded. Number of rejections is " + number_of_rejected_proposals)
 
         if number_of_rejected_proposals < 4:
             option_1 += 200
@@ -373,10 +372,10 @@ class ActionIncreaseGoal(Action):
             option_3 += 200
             number_of_rejected_proposals += 1
             dispatcher.utter_message("But since you said you wanted something higher, I'll increase the step goals a bit!")
-            return [SlotSet("step_goal_option_1_slot", "" + option_1),
-                    SlotSet("step_goal_option_2_slot", "" + option_2),
-                    SlotSet("step_goal_option_3_slot", "" + option_3),
-                    SlotSet("number_of_rejected_proposals", "" + number_of_rejected_proposals)]
+            return [SlotSet("step_goal_option_1_slot", str(option_1)),
+                    SlotSet("step_goal_option_2_slot", str(option_2)),
+                    SlotSet("step_goal_option_3_slot", str(option_3)),
+                    SlotSet("number_of_rejected_proposals", str(number_of_rejected_proposals))]
         else:
             dispatcher.utter_message("Unfortunately I cannot change the goals any further. So, you will have to pick one which then becomes your step goal for today.")
             return [SlotSet("final_choice", True)]
@@ -395,7 +394,6 @@ class ActionDecreaseGoal(Action):
         option_1 = int(tracker.get_slot("step_goal_option_1_slot"))
         option_2 = int(tracker.get_slot("step_goal_option_2_slot"))
         option_3 = int(tracker.get_slot("step_goal_option_3_slot"))
-        logging.info("Retrieval succeeded. Number of rejections is " + number_of_rejected_proposals)
 
         if number_of_rejected_proposals < 4:
             option_1 -= 200
@@ -403,10 +401,10 @@ class ActionDecreaseGoal(Action):
             option_3 -= 200
             number_of_rejected_proposals += 1
             dispatcher.utter_message("But since you said you wanted something lower, I'll decrease the step goals a bit!")
-            return [SlotSet("step_goal_option_1_slot", "" + option_1),
-                    SlotSet("step_goal_option_2_slot", "" + option_2),
-                    SlotSet("step_goal_option_3_slot", "" + option_3),
-                    SlotSet("number_of_rejected_proposals", "" + number_of_rejected_proposals)]
+            return [SlotSet("step_goal_option_1_slot", str(option_1)),
+                    SlotSet("step_goal_option_2_slot", str(option_2)),
+                    SlotSet("step_goal_option_3_slot", str(option_3)),
+                    SlotSet("number_of_rejected_proposals", str(number_of_rejected_proposals))]
         else:
             dispatcher.utter_message("Unfortunately I cannot change the goals any further. So, you will have to pick one which then becomes your step goal for today.")
             return [SlotSet("final_choice", True)]
