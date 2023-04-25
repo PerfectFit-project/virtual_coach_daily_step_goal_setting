@@ -1,7 +1,6 @@
 version: "3.1"
 
 intents:
-### Session 1
 - mood_curr_session1
 - start_session1
 - confirm_purpose
@@ -773,7 +772,7 @@ responses:
         - type: slot
           name: available_time_level
           value: "high"
-      text: "Ah a lot of free time today. Use some of it to do some walking, it's good for your health!"
+      text: "Ah, a lot of free time today. Use some of it to do some walking, it's good for your health!"
   utter_get_self_motivation:
   - buttons:
     - payload: /current_self_motivation{"self_motivation":"0", "self_motivation_level":"low"}
@@ -864,6 +863,11 @@ responses:
         name: session_num
         value: "1"
     text: "Now we've come to the exciting part: the actual goal-setting.🎯I am going to give you 3 step goal options and ask you to pick one of them."
+  -  condition:
+      - type: slot
+        name: session_num
+        value: "1"
+    text: "For one last time we've come to the goal-setting part.🎯 You know the drill, choose one of the 3 options I give you."
   - text: "We've once again come to the actual goal-setting part.🎯 I'll propose 3 step goal options of which you have to choose 1."    
   utter_explain_goal_setting_2:
   - condition:
@@ -897,10 +901,28 @@ responses:
         name: session_num
         value: "1"
     text: "Now we've set a step goal for today, we can wrap up this conversation."
+  - condition:
+      - type: slot
+        name: session_num
+        value: "5"
+    text: "Well, I guess that was it for this intervention. I hope you enjoyed our collaboration and continue to increase your physical activity!💪"
   - text: "Alright, that was it for today!"
   utter_wrap_up_2:
+  - condition:
+      - type: slot
+        name: session_num
+        value: "5"
+    text: "Remember that you are not obligated to achieve the final goal we set, but again know that taking steps is healthy for you.🚶"
   - text: "Remember that you are not obligated to achieve the goal, but know that taking steps is healthy for you and should not take too much time.🚶"
   utter_wrap_up_3:
+  - condition:
+      - type: slot
+        name: session_num
+        value: "5"
+    buttons:
+      - payload:/end_conversation
+        title: "Goodbye!"
+    text: "Take care and goodbye!"
   - buttons:
     - payload: /end_conversation
       title: "Bye bye!"
@@ -988,7 +1010,7 @@ responses:
         - type: slot
           name: goal_remembered
           value: "true"
-      text: "Alright! If I remember correctly you had the goal of taking {goal_prev_session} steps yesterday.🎯"
+      text: "Alright! If I remember correctly, you had the goal of taking {goal_prev_session} steps yesterday.🎯"
     - condition:
         - type: slot
           name: goal_remembered
@@ -1024,7 +1046,14 @@ responses:
   utter_thanks_goal_achievability:
   - text: "Okay, thanks for sharing!"
   utter_start_state_questions:
+  - condition:
+      - type: slot
+        name: session_num
+        value: "5"
+    text: "For one last time, let's take a look at your state. The questions didn't change but your answers probably did. Again, try to answer as honest as possible!"
   - text: "Let's now look at your state again. I'll ask you the same 5 questions as yesterday.📝 Try to answer them as honest as possible again."
+  utter_greet_final_session:
+  - text: "Hey, welcome back once more! This is the fifth and final day of the intervention. I'm glad to see you're still here! 🤗"
 
 
 

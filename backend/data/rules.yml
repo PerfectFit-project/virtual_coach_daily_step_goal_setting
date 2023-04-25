@@ -230,6 +230,24 @@ rules:
   - action: utter_start_state_questions
   - action: utter_get_mood
 
+- rule: start session last session loaded
+  steps:
+  - intent: start_session_last
+  - action: action_load_session_not_first
+  - slot_was_set: 
+    - session_loaded: true
+  - action: utter_greet_final_session
+  - action: utter_get_started
+  
+- rule: start session last session not loaded so end dialog
+  steps:
+  - intent: start_session_last
+  - action: action_load_session_not_first
+  - slot_was_set: 
+    - session_loaded: false
+  - action: utter_default_close_session
+  - action: action_end_dialog
+
 # - rule: start session 1 and successful session load
 #   steps:
 #   - intent: start_session1
@@ -313,23 +331,23 @@ rules:
 #   - action: action_end_dialog
   
 
-- rule: start session last session loaded
-  steps:
-  - intent: start_session_last
-  - action: action_load_session_not_first
-  - slot_was_set: 
-    - session_loaded: true
-  - action: utter_greet_repeat
-  - action: utter_ask_for_mood_session_last
+# - rule: start session last session loaded
+#   steps:
+#   - intent: start_session_last
+#   - action: action_load_session_not_first
+#   - slot_was_set: 
+#     - session_loaded: true
+#   - action: utter_greet_repeat
+#   - action: utter_ask_for_mood_session_last
   
-- rule: start session last session not loaded so end dialog
-  steps:
-  - intent: start_session_last
-  - action: action_load_session_not_first
-  - slot_was_set: 
-    - session_loaded: false
-  - action: utter_default_close_session
-  - action: action_end_dialog
+# - rule: start session last session not loaded so end dialog
+#   steps:
+#   - intent: start_session_last
+#   - action: action_load_session_not_first
+#   - slot_was_set: 
+#     - session_loaded: false
+#   - action: utter_default_close_session
+#   - action: action_end_dialog
   
   
 - rule: mood and intro session mid
