@@ -175,6 +175,49 @@ rules:
   - action: utter_final_close_session
   - action: action_end_dialog
 
+- rule: start session mid (2, 3, 4) session loaded
+  steps:
+  - intent: start_session_mid
+  - action: action_load_session_not_first
+  - slot_was_set: 
+    - session_loaded: true
+  - action: utter_greet_repeat
+  - action: utter_get_started
+  
+- rule: start session mid (2, 3, 4) session not loaded so end dialog
+  steps:
+  - intent: start_session_mid
+  - action: action_load_session_not_first
+  - slot_was_set: 
+    - session_loaded: false
+  - action: utter_default_close_session
+  - action: action_end_dialog
+
+- rule: introduction session mid
+  - intent: get_started_session_mid
+  - action: utter_get_previous_activity
+
+- rule: able to provide previous activity not first session
+  steps:
+  - intent: able_to_provide_previous_activity_not_first_session
+  - action: previous_activity_not_session1_form
+  - active_loop: previous_activity_not_session1_form
+  wait_for_user_input: false
+
+- rule: get previous activity not session 1
+  condition:
+    - active_loop: previous_activity_not_session1_form
+  steps:
+  - action: previous_activity_not_session1_form
+  - active_loop: null
+  - action: utter_thanks_previous_activity_not_session1
+  - action: utter_check_previous_goal
+
+- rule: check goal attainability
+  steps:
+  - intent: remember_goal
+  - action: utter_respond_previous_goal
+  - action: action_respond_goal_achievement
 
 # - rule: start session 1 and successful session load
 #   steps:
@@ -240,23 +283,23 @@ rules:
 #   - action: utter_state_question_1
   
 
-- rule: start session mid (2, 3, 4) session loaded
-  steps:
-  - intent: start_session_mid
-  - action: action_load_session_not_first
-  - slot_was_set: 
-    - session_loaded: true
-  - action: utter_greet_repeat
-  - action: utter_ask_for_mood_session_mid
+# - rule: start session mid (2, 3, 4) session loaded
+#   steps:
+#   - intent: start_session_mid
+#   - action: action_load_session_not_first
+#   - slot_was_set: 
+#     - session_loaded: true
+#   - action: utter_greet_repeat
+#   - action: utter_ask_for_mood_session_mid
   
-- rule: start session mid (2, 3, 4) session not loaded so end dialog
-  steps:
-  - intent: start_session_mid
-  - action: action_load_session_not_first
-  - slot_was_set: 
-    - session_loaded: false
-  - action: utter_default_close_session
-  - action: action_end_dialog
+# - rule: start session mid (2, 3, 4) session not loaded so end dialog
+#   steps:
+#   - intent: start_session_mid
+#   - action: action_load_session_not_first
+#   - slot_was_set: 
+#     - session_loaded: false
+#   - action: utter_default_close_session
+#   - action: action_end_dialog
   
 
 - rule: start session last session loaded

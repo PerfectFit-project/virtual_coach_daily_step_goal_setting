@@ -22,6 +22,9 @@ intents:
 - goal_too_high
 - goal_too_low
 - goal_rejected_reason
+- get_started_session_mid
+- able_to_provide_previous_activity_not_first_session
+- remember_goal
 
 ### Middle sessions (2, 3, 4)
 - start_session_mid
@@ -75,10 +78,13 @@ entities:
     influence_conversation: false
 - rejection_reason:
     influence_conversation: false
+- goal_remembered:
+    influence_conversation: false
+
+
 
 - state_1:
     influence_conversation: false
-
 - effort:
     influence_conversation: false
 - effort_level:
@@ -88,7 +94,6 @@ entities:
 
 
 slots:
-  ### intro/general
   session_loaded:
     type: bool
     influence_conversation: true
@@ -224,7 +229,27 @@ slots:
     influence_conversation: false
     mappings:
     - type: custom
-
+  goal_prev_session:
+    type: text
+    initial_value: ''
+    influence_conversation: false
+    mappings:
+    - type: custom
+  previous_activity_not_session1_slot:
+    type: text
+    initial_value: ''
+    influence_conversation: false
+    mappings:
+    - type: from_text
+      conditions:
+        - active_loop: previous_activity_not_session1_form
+  goal_remembered:
+    type: text
+    initial_value: ''
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: goal_remembered
 
 
 
@@ -303,8 +328,6 @@ slots:
       entity: dropout_response 
 
 responses:
-
-  ### Intro first session
   utter_greet_first_time:
   - text: "Hello, my name is Steph and I'll be helping you to increase your physical activity during the coming days!"
   utter_prompt_usage:
@@ -903,6 +926,49 @@ responses:
           name: rejection_reason
           value: "else"
       text: "Thanks for telling me. It's okay to do less for a day, but try do to at least some steps today as it will make you feel better and more energetic to do other things!"
+  utter_greet_repeat:
+    - text: "Hi, nice to see you again!"
+    - text: "Hello, welcome back!"
+    - text: "Hello, it's great to see you again!"
+    - text: "Hi, I'm happy to see you again!"
+    - text: "Hey there, good to see you again!"
+    - text: "Welcome back! It's good to see you again."
+    - text: "Welcome to session {session_num}! Glad to see you back."
+  utter_get_started:
+  - buttons:
+    - payload: /get_started_session_mid
+      title: "Alright!"
+    text: "I am curious to hear how you did yesterday🚶, so let's get right in!"
+  utter_get_previous_activity:
+  - buttons:
+    - payload : /able_to_provide_previous_activity_not_first_session
+      title: "Yes"
+    - payload : /not_able_to_provide_previous_activity
+      title: "No"
+    text: "Do you know how many steps you yesterday? (e.g. by checking your phone or smartwatch)"
+  utter_ask_previous_activity_not_session1_slot:
+  - text: "Perfect! Can you tell me how many steps you took yesterday? Just typing the number is sufficient."
+  utter_thanks_previous_activity_not_session1:
+  - text: "Nice! Thanks for sharing."
+  utter_check_previous_goal:
+  - buttons:
+    - payload: /remember_goal{"goal_remembered":"true"}
+      title: "Yes, I remember it"
+    - payload: /remember_goal{"goal_remembered":"false"}
+      title: "No, I forgot it"
+    text: "Now, do you remember your step goal from yesterday?"
+  utter_respond_previous_goal:
+    - condition:
+        - type: slot
+          name: goal_remembered
+          value: "true"
+      text: "Alright! If I remember correctly you had the goal of taking {goal_prev_session} steps yesterday.🎯"
+    - condition:
+        - type: slot
+          name: goal_remembered
+          value: "false"
+      text: "That's fine, no problem. I recall setting a goal of {goal_prev_session} steps with you yesterday.🎯"
+
 
 
 
@@ -927,35 +993,6 @@ responses:
     - payload: /confirm_purpose
       title: "I'm ready"
     text: "And this is why you are here, {user_name_slot}: I want to learn how an activity I propose helps you in your specific situation.\nLet me know when you have read what my purpose is and are ready to continue."
-    
-
-  ### Greeting later sessions
-  utter_greet_repeat:
-    - condition:
-        - type: slot
-          name: session_num
-          value: "2"
-      text: "Hi {user_name_slot_not_first}, nice to see you again!"
-    - condition:
-        - type: slot
-          name: session_num
-          value: "3"
-      text: "Hello {user_name_slot_not_first}, welcome back!"
-    - condition:
-        - type: slot
-          name: session_num
-          value: "4"
-      text: "Hello, it's great to see you again {user_name_slot_not_first}!"
-    - condition:
-        - type: slot
-          name: session_num
-          value: "5"
-      text: "Hi {user_name_slot_not_first}, I'm happy to see you again!"
-
-    - text: "Hey there, good to see you again!"
-    - text: "Welcome back! It's good to see you again."
-    
-    
   ### Intro middle sessions
   utter_intro_session_mid_1:
     - condition:
@@ -2268,6 +2305,9 @@ forms:
   propose_step_goal_options_form:
     required_slots:
         - preferred_step_goal_slot
+  previous_activity_not_session1_form:
+    required_slots:
+        - previous_activity_not_session1_slot
 
 
 actions:
@@ -2279,12 +2319,14 @@ actions:
 - action_create_step_goal_options
 - action_increase_goal
 - action_decrease_goal
+- action_respond_goal_achievement
 
 - validate_user_name_form
 - validate_previous_activity_form
 - validate_propose_step_goal_options_form
 - validate_activity_experience_form
 - validate_activity_experience_mod_form
+- validate_previous_activity_not_session1_form
 
 - action_end_dialog
 - action_default_fallback_end_dialog

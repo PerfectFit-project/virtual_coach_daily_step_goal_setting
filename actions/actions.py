@@ -140,19 +140,20 @@ class ActionLoadSessionNotFirst(Action):
         mood_prev = ""
 
         try:
-            conn = mysql.connector.connect(
-                user=DATABASE_USER,
-                password=DATABASE_PASSWORD,
-                host=DATABASE_HOST,
-                port=DATABASE_PORT,
-                database='db'
-            )
-            cur = conn.cursor(buffered=True)
+            # conn = mysql.connector.connect(
+            #     user=DATABASE_USER,
+            #     password=DATABASE_PASSWORD,
+            #     host=DATABASE_HOST,
+            #     port=DATABASE_PORT,
+            #     database='db'
+            # )
+            # cur = conn.cursor(buffered=True)
 
             # get user name from database
-            query = ("SELECT name FROM users WHERE prolific_id = %s")
-            cur.execute(query, [prolific_id])
-            user_name_result = cur.fetchone()
+            # query = ("SELECT name FROM users WHERE prolific_id = %s")
+            # cur.execute(query, [prolific_id])
+            # user_name_result = cur.fetchone()
+            user_name_result = ["result"]
 
             if user_name_result is None:
                 session_loaded = False
@@ -162,9 +163,10 @@ class ActionLoadSessionNotFirst(Action):
 
                 # check if user has done previous session before '
                 # (i.e., if session data is saved from previous session)
-                query = ("SELECT * FROM sessiondata WHERE prolific_id = %s and session_num = %s and response_type = %s")
-                cur.execute(query, [prolific_id, str(int(session_num) - 1), "state_1"])
-                done_previous_result = cur.fetchone()
+                # query = ("SELECT * FROM sessiondata WHERE prolific_id = %s and session_num = %s and response_type = %s")
+                # cur.execute(query, [prolific_id, str(int(session_num) - 1), "state_1"])
+                # done_previous_result = cur.fetchone()
+                done_previous_result = "yes"
 
                 if done_previous_result is None:
                     session_loaded = False
@@ -175,14 +177,16 @@ class ActionLoadSessionNotFirst(Action):
                     # this basically means that it checks whether the user has already 
                     # completed the session part until the dropout question before,
                     # since that is when we first save something to the database
-                    session_loaded = check_session_not_done_before(cur, prolific_id, 
-                                                                   session_num)
+                    # session_loaded = check_session_not_done_before(cur, prolific_id, 
+                    #                                                session_num)
+                    session_loaded = True
 
                     if session_loaded:
                         # Get mood from previous session
-                        query = ("SELECT response_value FROM sessiondata WHERE prolific_id = %s and session_num = %s and response_type = %s")
-                        cur.execute(query, [prolific_id, str(int(session_num) - 1), "mood"])
-                        mood_prev = cur.fetchone()[0]
+                        # query = ("SELECT response_value FROM sessiondata WHERE prolific_id = %s and session_num = %s and response_type = %s")
+                        # cur.execute(query, [prolific_id, str(int(session_num) - 1), "mood"])
+                        # mood_prev = cur.fetchone()[0]
+                        prev_goal = "5000"
 
 
         except mysql.connector.Error as error:
@@ -190,14 +194,13 @@ class ActionLoadSessionNotFirst(Action):
             user_name_result = "default"
             logging.info("Error in loading session not first: " + str(error))
 
-        finally:
-            if conn.is_connected():
-                cur.close()
-                conn.close()    
+        # finally:
+            # if conn.is_connected():
+            #     cur.close()
+            #     conn.close()    
 
 
-        return [SlotSet("user_name_slot_not_first", user_name_result),
-                SlotSet("mood_prev_session", mood_prev),
+        return [SlotSet("goal_prev_session", prev_goal),
                 SlotSet("session_loaded", session_loaded)]
 
 
@@ -410,6 +413,25 @@ class ActionDecreaseGoal(Action):
             return [SlotSet("final_choice", True)]
 
 
+class ActionRespondGoalAchievement(Action):
+
+    def name(self) -> Text:
+        return "action_respond_goal_achievement"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        previous_step_goal = int(tracker.get_slot("goal_prev_session"))
+        previous_activity = int(tracker.get_slot("previous_activity_not_session1_slot"))
+
+        if previous_step_goal <= previous_activity:
+            dispatcher.utter_message("That means that you achieved yesterday's goal, congrats! Keep it up!")
+        else:
+            dispatcher.utter_message("This means that you unfortunately did not achieve the goal we set yesterday. But do not be discouraged, I'm sure you will make it today!")
+
+        return []
+
 
 class ValidatePreviousActivityForm(FormValidationAction):
     def name(self) -> Text:
@@ -482,6 +504,28 @@ class ValidateProposeStepGoalOptionsForm(FormValidationAction):
 
         return {"preferred_step_goal_slot": value}
 
+
+class ValidatePreviousActivityNotSession1Form(FormValidationAction):
+    def name(self) -> Text:
+        return 'validate_previous_activity_not_session1_form'
+
+    def validate_previous_activity_not_session1_slot(
+            self, value: Text, dispatcher: CollectingDispatcher,
+            tracker: Tracker, domain: Dict[Text, Any]) -> Dict[Text, Any]:
+        # pylint: disable=unused-argument
+        """Validate previous_activity_not_session1_slot input."""
+        last_utterance = get_latest_bot_utterance(tracker.events)
+
+        if last_utterance != 'utter_ask_previous_activity_not_session1_slot':
+            return {"previous_activity_not_session1_slot": None}
+
+        # Check if the response is a number
+        if value.isnumeric():
+            return {"previous_activity_not_session1_slot": value}
+        else:
+            dispatcher.utter_message("Your input is not formatted correctly. Please only respond with the number of steps you took yesterday")
+            return {"previous_activity_not_session1_slot": None}
+        
 
 class ValidateUserNameForm(FormValidationAction):
     def name(self) -> Text:
