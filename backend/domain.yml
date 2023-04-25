@@ -968,9 +968,11 @@ responses:
       title: "Yes"
     - payload : /not_able_to_provide_previous_activity
       title: "No"
-    text: "Do you know how many steps you yesterday? (e.g. by checking your phone or smartwatch)"
+    text: "Do you know how many steps you took yesterday? (e.g. by checking your phone or smartwatch)"
+  utter_explain_previous_activity_not_session1_slot:
+  - text: "Perfect! You can tell me by just typing the number."
   utter_ask_previous_activity_not_session1_slot:
-  - text: "Perfect! Can you tell me how many steps you took yesterday? Just typing the number is sufficient."
+  - text: "So, how many steps did you take yesterday?"
   utter_thanks_previous_activity_not_session1:
   - text: "Nice! Thanks for sharing."
   utter_check_previous_goal:

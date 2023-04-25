@@ -201,6 +201,7 @@ rules:
 - rule: able to provide previous activity not first session
   steps:
   - intent: able_to_provide_previous_activity_not_first_session
+  - action: utter_explain_previous_activity_not_session1_slot
   - action: previous_activity_not_session1_form
   - active_loop: previous_activity_not_session1_form
   wait_for_user_input: false
@@ -221,6 +222,9 @@ rules:
   - action: action_respond_goal_achievement
   - action: utter_explain_goal_achievement
   - action: utter_get_goal_achievability
+  
+- rule: check states not session 1
+  - intent: current_goal_achievability
   - action: utter_thanks_goal_achievability
   - action: utter_start_state_questions
   - action: utter_get_mood
