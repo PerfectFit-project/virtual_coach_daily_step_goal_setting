@@ -80,6 +80,8 @@ entities:
     influence_conversation: false
 - goal_remembered:
     influence_conversation: false
+- goal_achievability:
+    influence_conversation: false
 
 
 
@@ -250,7 +252,13 @@ slots:
     mappings:
     - type: from_entity
       entity: goal_remembered
-
+  goal_achievability:
+    type: text
+    initial_value: ''
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: goal_achievability
 
 
   mood_prev_session:
@@ -850,9 +858,19 @@ responses:
   utter_thanks_states:
   - text: "Those were all the questions, thank you for your answers!"
   utter_explain_goal_setting_1:
-  - text: "Now we've come to the exciting part: the actual goal-setting.🎯I am going to give you 3 step goal options and ask you to pick one of them."
+  - condition:
+      - type: slot
+        name: session_num
+        value: "1"
+    text: "Now we've come to the exciting part: the actual goal-setting.🎯I am going to give you 3 step goal options and ask you to pick one of them."
+  - text: "We've once again come to the actual goal-setting part.🎯 I'll propose 3 step goal options of which you have to choose 1."    
   utter_explain_goal_setting_2:
-  - text: "You can make your choice by typing the option you want. Do know that after picking one of them, you are still able to change it."
+  - condition:
+      - type: slot
+        name: session_num
+        value: "1"
+    text: "You can make your choice by typing the option you want. Do know that after picking one of them, you are still able to change it."
+  - text: "Type the option you want and remember that your pick doesn't have to be your final decision since you can change it up to 5 times!"
   utter_ask_preferred_step_goal_slot:
   - text: "Which of the following step goal options do you prefer? {step_goal_option_1_slot}, {step_goal_option_2_slot} or {step_goal_option_3_slot}?"
   utter_check_choice:
@@ -873,7 +891,12 @@ responses:
   utter_congratulate_on_goal:
   - text: "Cool! Congratulations on your step goal for today of {preferred_step_goal_slot} steps!"
   utter_wrap_up_1:
-  - text: "Now we've set a step goal for today, we can wrap up this conversation."
+  - condition:
+      - type: slot
+        name: session_num
+        value: "1"
+    text: "Now we've set a step goal for today, we can wrap up this conversation."
+  - text: "Alright, that was it for today!"
   utter_wrap_up_2:
   - text: "Remember that you are not obligated to achieve the goal, but know that taking steps is healthy for you and should not take too much time.🚶"
   utter_wrap_up_3:
@@ -968,6 +991,37 @@ responses:
           name: goal_remembered
           value: "false"
       text: "That's fine, no problem. I recall setting a goal of {goal_prev_session} steps with you yesterday.🎯"
+  utter_explain_goal_achievement:
+  - text: "I would like to know whether you think the goal we set yesterday was achievable looking back at it."
+  utter_get_goal_achievability:
+  - buttons:
+    - payload: /current_goal_achievability{"goal_achievability":"0", "self_efficacy_level":"low"}
+      title: "0 (I think yesterday's goal was impossible to achieve)"
+    - payload: /current_goal_achievability{"goal_achievability":"1", "self_efficacy_level":"low"}
+      title: "1"
+    - payload: /current_goal_achievability{"goal_achievability":"2", "self_efficacy_level":"low"}
+      title: "2"
+    - payload: /current_goal_achievability{"goal_achievability":"3", "self_efficacy_level":"low"}
+      title: "3"
+    - payload: /current_goal_achievability{"goal_achievability":"4", "self_efficacy_level":"mid"}
+      title: "4"
+    - payload: /current_goal_achievability{"goal_achievability":"5", "self_efficacy_level":"mid"}
+      title: "5"
+    - payload: /current_goal_achievability{"goal_achievability":"6", "self_efficacy_level":"mid"}
+      title: "6"
+    - payload: /current_goal_achievability{"goal_achievability":"7", "self_efficacy_level":"high"}
+      title: "7"
+    - payload: /current_goal_achievability{"goal_achievability":"8", "self_efficacy_level":"high"}
+      title: "8"
+    - payload: /current_goal_achievability{"goal_achievability":"9", "self_efficacy_level":"high"}
+      title: "9"
+    - payload: /current_goal_achievability{"goal_achievability":"10", "self_efficacy_level":"high"}
+      title: "10 (I think yesterday's goal was very easy to achieve)"
+    text: "So, knowing what you know now, how achievable do you think the goal of yesterday was on a scale from 0 to 10?"
+  utter_thanks_goal_achievability:
+  - text: "Okay, thanks for sharing!"
+  utter_start_state_questions:
+  - text: "Let's now look at your state again. I'll ask you the same 5 questions as yesterday.📝 Try to answer them as honest as possible again."
 
 
 

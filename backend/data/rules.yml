@@ -218,6 +218,11 @@ rules:
   - intent: remember_goal
   - action: utter_respond_previous_goal
   - action: action_respond_goal_achievement
+  - action: utter_explain_goal_achievement
+  - action: utter_get_goal_achievability
+  - action: utter_thanks_goal_achievability
+  - action: utter_start_state_questions
+  - action: utter_get_mood
 
 # - rule: start session 1 and successful session load
 #   steps:
