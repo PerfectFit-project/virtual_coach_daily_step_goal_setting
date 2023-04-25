@@ -224,6 +224,7 @@ rules:
   - action: utter_get_goal_achievability
   
 - rule: check states not session 1
+  steps:
   - intent: current_goal_achievability
   - action: utter_thanks_goal_achievability
   - action: utter_start_state_questions
