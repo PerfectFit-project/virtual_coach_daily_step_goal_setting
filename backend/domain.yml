@@ -921,7 +921,7 @@ responses:
         name: session_num
         value: "5"
     buttons:
-      - payload:/end_conversation
+      - payload: /end_conversation
         title: "Goodbye!"
     text: "Take care and goodbye!"
   - buttons:
