@@ -25,6 +25,7 @@ intents:
 - get_started_session_mid
 - able_to_provide_previous_activity_not_first_session
 - remember_goal
+- current_goal_achievability
 
 ### Middle sessions (2, 3, 4)
 - start_session_mid
