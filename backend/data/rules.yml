@@ -194,6 +194,7 @@ rules:
   - action: action_end_dialog
 
 - rule: introduction session mid
+  steps:
   - intent: get_started_session_mid
   - action: utter_get_previous_activity
 
