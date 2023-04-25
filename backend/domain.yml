@@ -336,6 +336,7 @@ slots:
       entity: dropout_response 
 
 responses:
+
   utter_greet_first_time:
   - text: "Hello, my name is Steph and I'll be helping you to increase your physical activity during the coming days!"
   utter_prompt_usage:
@@ -863,7 +864,7 @@ responses:
         name: session_num
         value: "1"
     text: "Now we've come to the exciting part: the actual goal-setting.🎯I am going to give you 3 step goal options and ask you to pick one of them."
-  -  condition:
+  - condition:
       - type: slot
         name: session_num
         value: "5"
