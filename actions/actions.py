@@ -137,7 +137,8 @@ class ActionLoadSessionNotFirst(Action):
         session_num = tracker.get_slot("session_num")
 
         session_loaded = True
-        mood_prev = ""
+        prev_goal = ""
+        previous_activity = ""
 
         try:
             conn = mysql.connector.connect(
@@ -164,10 +165,15 @@ class ActionLoadSessionNotFirst(Action):
                     session_loaded = False
                 else:
                     prev_goal = res[0]
+                    query = ("SELECT response_value FROM sessiondata WHERE prolific_id = %s and session_num = %s and response_type = %s")
+                    cur.execute(query, [prolific_id, str(int(session_num) - 1), "prev_activity"])
+                    res = cur.fetchone()
+                    previous_activity = res[0]
 
         except mysql.connector.Error as error:
             session_loaded = False
-            prev_goal = "default"
+            prev_goal = "0"
+            previous_activity = "0"
             logging.info("Error in loading session not first: " + str(error))
 
         finally:
@@ -176,7 +182,8 @@ class ActionLoadSessionNotFirst(Action):
                 conn.close()    
 
         return [SlotSet("goal_prev_session", prev_goal),
-                SlotSet("session_loaded", session_loaded)]
+                SlotSet("session_loaded", session_loaded),
+                SlotSet("previous_activity_from_db", previous_activity)]
 
 
 class ActionSaveStateToDB(Action):
@@ -221,11 +228,12 @@ class ActionSaveStateToDB(Action):
         return []
 
 
-class ActionSaveActivityExperience(Action):
-    def name(self):
-        return "action_save_activity_experience"
+class ActionSaveGoalToDB(Action):
 
-    async def run(self, dispatcher: CollectingDispatcher,
+    def name(self) -> Text:
+        return "action_save_goal_to_db"
+
+    def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
@@ -245,17 +253,143 @@ class ActionSaveActivityExperience(Action):
             prolific_id = tracker.current_state()['sender_id']
             session_num = tracker.get_slot("session_num")
 
-            slots_to_save = ["effort", "activity_experience_slot",
-                             "activity_experience_mod_slot",
-                             "dropout_response"]
-            for slot in slots_to_save:
-
-                save_sessiondata_entry(cur, conn, prolific_id, session_num,
-                                       slot, tracker.get_slot(slot),
+            save_sessiondata_entry(cur, conn, prolific_id, session_num,
+                                       "goal", tracker.get_slot("preferred_step_goal_slot"),
                                        formatted_date)
 
         except mysql.connector.Error as error:
-            logging.info("Error in saving activity experience to db: " + str(error))
+            logging.info("Error in saving name to db: " + str(error))
+
+        finally:
+            if conn.is_connected():
+                cur.close()
+                conn.close()
+
+        return []
+
+
+class ActionSaveGoalAchievabilityToDB(Action):
+
+    def name(self) -> Text:
+        return "action_save_goal_achievability_to_db"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        now = datetime.now()
+        formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
+
+        try:
+            conn = mysql.connector.connect(
+                user=DATABASE_USER,
+                password=DATABASE_PASSWORD,
+                host=DATABASE_HOST,
+                port=DATABASE_PORT,
+                database='db'
+            )
+            cur = conn.cursor(prepared=True)
+
+            prolific_id = tracker.current_state()['sender_id']
+            session_num = tracker.get_slot("session_num")
+
+            save_sessiondata_entry(cur, conn, prolific_id, session_num,
+                                       "goal_achievability", tracker.get_slot("goal_achievability"),
+                                       formatted_date)
+
+        except mysql.connector.Error as error:
+            logging.info("Error in saving name to db: " + str(error))
+
+        finally:
+            if conn.is_connected():
+                cur.close()
+                conn.close()
+
+        return []
+
+
+class ActionSavePreviousActivitySession1ToDB(Action):
+
+    def name(self) -> Text:
+        return "action_save_previous_activity_session1_to_db"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        now = datetime.now()
+        formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
+
+        try:
+            conn = mysql.connector.connect(
+                user=DATABASE_USER,
+                password=DATABASE_PASSWORD,
+                host=DATABASE_HOST,
+                port=DATABASE_PORT,
+                database='db'
+            )
+            cur = conn.cursor(prepared=True)
+
+            prolific_id = tracker.current_state()['sender_id']
+            session_num = tracker.get_slot("session_num")
+
+            previous_activity = tracker.get_slot("previous_activity_slot").split(',')
+            if len(previous_activity) < 9:
+                sum_of_elements = 0
+                for steps in previous_activity:
+                    sum_of_elements += int(steps)
+                mean = sum_of_elements/len(previous_activity)
+                for i in range(9 - len(previous_activity))
+                    previous_activity.append(str(mean))
+            save_sessiondata_entry(cur, conn, prolific_id, session_num, "prev_activity", previous_activity, formatted_date)
+
+        except mysql.connector.Error as error:
+            logging.info("Error in saving name to db: " + str(error))
+
+        finally:
+            if conn.is_connected():
+                cur.close()
+                conn.close()
+
+        return []
+
+
+class ActionSavePreviousActivityToDB(Action):
+
+    def name(self) -> Text:
+        return "action_save_previous_activity_to_db"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        now = datetime.now()
+        formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
+
+        try:
+            conn = mysql.connector.connect(
+                user=DATABASE_USER,
+                password=DATABASE_PASSWORD,
+                host=DATABASE_HOST,
+                port=DATABASE_PORT,
+                database='db'
+            )
+            cur = conn.cursor(prepared=True)
+
+            prolific_id = tracker.current_state()['sender_id']
+            session_num = tracker.get_slot("session_num")
+
+            previous_activity = tracker.get_slot("previous_activity_from_db").split(',')
+            prev_day_activity = int(tracker.get_slot("previous_activity_not_session1_slot"))
+            previous_activity.pop(8)
+            previous_activity.insert(0, prev_day_activity)
+            prev_activity = ""
+            for activity in previous_activity:
+                prev_activity += activity
+            save_sessiondata_entry(cur, conn, prolific_id, session_num, "prev_activity", prev_activity, formatted_date)
+
+        except mysql.connector.Error as error:
+            logging.info("Error in saving name to db: " + str(error))
 
         finally:
             if conn.is_connected():
@@ -271,48 +405,6 @@ def save_sessiondata_entry(cur, conn, prolific_id, session_num, response_type,
     cur.execute(query, [prolific_id, session_num, response_type,
                         response_value, time])
     conn.commit()
-
-
-class ActionSaveSession(Action):
-    def name(self):
-        return "action_save_session"
-
-    async def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
-        now = datetime.now()
-        formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
-
-        try:
-            conn = mysql.connector.connect(
-                user=DATABASE_USER,
-                password=DATABASE_PASSWORD,
-                host=DATABASE_HOST,
-                port=DATABASE_PORT,
-                database='db'
-            )
-            cur = conn.cursor(prepared=True)
-
-            prolific_id = tracker.current_state()['sender_id']
-            session_num = tracker.get_slot("session_num")
-
-            slots_to_save = ["mood", "state_1"]
-            for slot in slots_to_save:
-
-                save_sessiondata_entry(cur, conn, prolific_id, session_num,
-                                       slot, tracker.get_slot(slot),
-                                       formatted_date)
-
-        except mysql.connector.Error as error:
-            logging.info("Error in save session: " + str(error))
-
-        finally:
-            if conn.is_connected():
-                cur.close()
-                conn.close()
-
-        return []
 
 
 class ActionCreateStepGoalOptions(Action):
@@ -503,68 +595,3 @@ class ValidatePreviousActivityNotSession1Form(FormValidationAction):
         else:
             dispatcher.utter_message("Your input is not formatted correctly. Please only respond with the number of steps you took yesterday")
             return {"previous_activity_not_session1_slot": None}
-        
-
-class ValidateUserNameForm(FormValidationAction):
-    def name(self) -> Text:
-        return 'validate_user_name_form'
-
-    def validate_user_name_slot(
-            self, value: Text, dispatcher: CollectingDispatcher,
-            tracker: Tracker, domain: Dict[Text, Any]) -> Dict[Text, Any]:
-        # pylint: disable=unused-argument
-        """Validate user_name_slot input."""
-        last_utterance = get_latest_bot_utterance(tracker.events)
-
-        if last_utterance != 'utter_ask_user_name_slot':
-            return {"user_name_slot": None}
-
-        if not len(value) >= 1:
-            dispatcher.utter_message(response="utter_longer_name")
-            return {"user_name_slot": None}
-
-        return {"user_name_slot": value}
-
-
-class ValidateActivityExperienceForm(FormValidationAction):
-    def name(self) -> Text:
-        return 'validate_activity_experience_form'
-
-    def validate_activity_experience_slot(
-            self, value: Text, dispatcher: CollectingDispatcher,
-            tracker: Tracker, domain: Dict[Text, Any]) -> Dict[Text, Any]:
-        # pylint: disable=unused-argument
-        """Validate activity_experience_slot input."""
-        last_utterance = get_latest_bot_utterance(tracker.events)
-
-        if last_utterance != 'utter_ask_activity_experience_slot':
-            return {"activity_experience_slot": None}
-
-        # people should either type "none" or say a bit more
-        if not (len(value) >= 10 or "none" in value.lower()):
-            dispatcher.utter_message(response="utter_provide_more_detail")
-            return {"activity_experience_slot": None}
-
-        return {"activity_experience_slot": value}
-
-
-class ValidateActivityExperienceModForm(FormValidationAction):
-    def name(self) -> Text:
-        return 'validate_activity_experience_mod_form'
-
-    def validate_activity_experience_mod_slot(
-            self, value: Text, dispatcher: CollectingDispatcher,
-            tracker: Tracker, domain: Dict[Text, Any]) -> Dict[Text, Any]:
-        # pylint: disable=unused-argument
-        """Validate activity_experience_mod_slot input."""
-        last_utterance = get_latest_bot_utterance(tracker.events)
-
-        if last_utterance != 'utter_ask_activity_experience_mod_slot':
-            return {"activity_experience_mod_slot": None}
-
-        # people should either type "none" or say a bit more
-        if not (len(value) >= 5 or "none" in value.lower()):
-            dispatcher.utter_message(response="utter_provide_more_detail")
-            return {"activity_experience_mod_slot": None}
-
-        return {"activity_experience_mod_slot": value}
