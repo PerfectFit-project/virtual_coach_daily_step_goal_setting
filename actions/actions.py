@@ -140,74 +140,49 @@ class ActionLoadSessionNotFirst(Action):
         mood_prev = ""
 
         try:
-            # conn = mysql.connector.connect(
-            #     user=DATABASE_USER,
-            #     password=DATABASE_PASSWORD,
-            #     host=DATABASE_HOST,
-            #     port=DATABASE_PORT,
-            #     database='db'
-            # )
-            # cur = conn.cursor(buffered=True)
+            conn = mysql.connector.connect(
+                user=DATABASE_USER,
+                password=DATABASE_PASSWORD,
+                host=DATABASE_HOST,
+                port=DATABASE_PORT,
+                database='db'
+            )
+            cur = conn.cursor(buffered=True)
 
-            # get user name from database
-            # query = ("SELECT name FROM users WHERE prolific_id = %s")
-            # cur.execute(query, [prolific_id])
-            # user_name_result = cur.fetchone()
-            user_name_result = ["result"]
+            # check if user has not done this session before
+            session_loaded = check_session_not_done_before(cur, prolific_id, 
+                                                            session_num)
 
-            if user_name_result is None:
-                session_loaded = False
-
-            else:
-                user_name_result = user_name_result[0]
-
-                # check if user has done previous session before '
-                # (i.e., if session data is saved from previous session)
-                # query = ("SELECT * FROM sessiondata WHERE prolific_id = %s and session_num = %s and response_type = %s")
-                # cur.execute(query, [prolific_id, str(int(session_num) - 1), "state_1"])
-                # done_previous_result = cur.fetchone()
-                done_previous_result = "yes"
-
-                if done_previous_result is None:
+            if session_loaded:
+                # Get goal from previous session
+                query = ("SELECT response_value FROM sessiondata WHERE prolific_id = %s and session_num = %s and response_type = %s")
+                cur.execute(query, [prolific_id, str(int(session_num) - 1), "goal"])
+                res = cur.fetchone()
+                
+                # Check if the user has completed the previous session
+                if res is None:
                     session_loaded = False
-
                 else:
-                    # check if user has not done this session before
-                    # checks if some data on this session is already saved in database
-                    # this basically means that it checks whether the user has already 
-                    # completed the session part until the dropout question before,
-                    # since that is when we first save something to the database
-                    # session_loaded = check_session_not_done_before(cur, prolific_id, 
-                    #                                                session_num)
-                    session_loaded = True
-
-                    if session_loaded:
-                        # Get mood from previous session
-                        # query = ("SELECT response_value FROM sessiondata WHERE prolific_id = %s and session_num = %s and response_type = %s")
-                        # cur.execute(query, [prolific_id, str(int(session_num) - 1), "mood"])
-                        # mood_prev = cur.fetchone()[0]
-                        prev_goal = "5000"
-
+                    prev_goal = res[0]
 
         except mysql.connector.Error as error:
             session_loaded = False
-            user_name_result = "default"
+            prev_goal = "default"
             logging.info("Error in loading session not first: " + str(error))
 
-        # finally:
-            # if conn.is_connected():
-            #     cur.close()
-            #     conn.close()    
-
+        finally:
+            if conn.is_connected():
+                cur.close()
+                conn.close()    
 
         return [SlotSet("goal_prev_session", prev_goal),
                 SlotSet("session_loaded", session_loaded)]
 
 
-class ActionSaveNameToDB(Action):
+class ActionSaveStateToDB(Action):
 
     def name(self) -> Text:
-        return "action_save_name_to_db"
+        return "action_save_state_to_db"
 
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
@@ -225,12 +200,15 @@ class ActionSaveNameToDB(Action):
                 database='db'
             )
             cur = conn.cursor(prepared=True)
-            query = "INSERT INTO users(prolific_id, name, time) VALUES(%s, %s, %s)"
-            queryMatch = [tracker.current_state()['sender_id'], 
-                          tracker.get_slot("user_name_slot"),
-                          formatted_date]
-            cur.execute(query, queryMatch)
-            conn.commit()
+
+            prolific_id = tracker.current_state()['sender_id']
+            session_num = tracker.get_slot("session_num")
+
+            slots_to_save = ["mood", "rest", "available_time", "self_motivation", "self_efficacy"]
+            for slot in slots_to_save:
+                save_sessiondata_entry(cur, conn, prolific_id, session_num,
+                                       slot, tracker.get_slot(slot),
+                                       formatted_date)
 
         except mysql.connector.Error as error:
             logging.info("Error in saving name to db: " + str(error))
