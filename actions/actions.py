@@ -341,7 +341,10 @@ class ActionSavePreviousActivitySession1ToDB(Action):
                 mean = sum_of_elements/len(previous_activity)
                 for i in range(9 - len(previous_activity)):
                     previous_activity.append(str(mean))
-            save_sessiondata_entry(cur, conn, prolific_id, session_num, "prev_activity", previous_activity, formatted_date)
+            prev_activity = ""
+            for activity in previous_activity:
+                prev_activity += activity
+            save_sessiondata_entry(cur, conn, prolific_id, session_num, "prev_activity", prev_activity, formatted_date)
 
         except mysql.connector.Error as error:
             logging.info("Error in saving name to db: " + str(error))
