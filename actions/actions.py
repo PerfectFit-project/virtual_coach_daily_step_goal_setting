@@ -25,7 +25,7 @@ class ActionEndDialog(Action):
     def name(self):
         return "action_end_dialog"
 
-    def run(self, dispatcher, tracker, domain):
+    async def run(self, dispatcher, tracker, domain):
 
         return [ConversationPaused()]
 
