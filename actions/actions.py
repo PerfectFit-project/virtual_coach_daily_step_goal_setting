@@ -334,6 +334,8 @@ class ActionSavePreviousActivitySession1ToDB(Action):
             session_num = tracker.get_slot("session_num")
 
             previous_activity = tracker.get_slot("previous_activity_slot").split(',')
+            # Make sure the previous activity of the user consists of 9 entries
+            # so fill with the mean of the given steps per day.
             if len(previous_activity) < 9:
                 sum_of_elements = 0
                 for steps in previous_activity:
@@ -341,9 +343,12 @@ class ActionSavePreviousActivitySession1ToDB(Action):
                 mean = sum_of_elements/len(previous_activity)
                 for i in range(9 - len(previous_activity)):
                     previous_activity.append(str(mean))
-            prev_activity = ""
-            for activity in previous_activity:
-                prev_activity += activity
+            
+            # Save the previous activity
+            prev_activity = previous_activity[0]
+            for i in range(1,9):
+                prev_activity += ","
+                prev_activity += previous_activity[i]
             save_sessiondata_entry(cur, conn, prolific_id, session_num, "prev_activity", prev_activity, formatted_date)
 
         except mysql.connector.Error as error:
@@ -382,13 +387,18 @@ class ActionSavePreviousActivityToDB(Action):
             prolific_id = tracker.current_state()['sender_id']
             session_num = tracker.get_slot("session_num")
 
+            # Update the previous activity by removing the oldest entry
+            # and adding the steps of the yesterday.
             previous_activity = tracker.get_slot("previous_activity_from_db").split(',')
             prev_day_activity = tracker.get_slot("previous_activity_not_session1_slot")
             previous_activity.pop(8)
             previous_activity.insert(0, prev_day_activity)
-            prev_activity = ""
-            for activity in previous_activity:
-                prev_activity += activity
+
+            # Save the previous activity
+            prev_activity = previous_activity[0]
+            for i in range(1,9):
+                prev_activity += ","
+                prev_activity += previous_activity[i]
             save_sessiondata_entry(cur, conn, prolific_id, session_num, "prev_activity", prev_activity, formatted_date)
 
         except mysql.connector.Error as error:
