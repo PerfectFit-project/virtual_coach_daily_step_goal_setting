@@ -339,7 +339,7 @@ class ActionSavePreviousActivitySession1ToDB(Action):
                 for steps in previous_activity:
                     sum_of_elements += int(steps)
                 mean = sum_of_elements/len(previous_activity)
-                for i in range(9 - len(previous_activity))
+                for i in range(9 - len(previous_activity)):
                     previous_activity.append(str(mean))
             save_sessiondata_entry(cur, conn, prolific_id, session_num, "prev_activity", previous_activity, formatted_date)
 
@@ -380,7 +380,7 @@ class ActionSavePreviousActivityToDB(Action):
             session_num = tracker.get_slot("session_num")
 
             previous_activity = tracker.get_slot("previous_activity_from_db").split(',')
-            prev_day_activity = int(tracker.get_slot("previous_activity_not_session1_slot"))
+            prev_day_activity = tracker.get_slot("previous_activity_not_session1_slot")
             previous_activity.pop(8)
             previous_activity.insert(0, prev_day_activity)
             prev_activity = ""
