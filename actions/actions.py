@@ -27,7 +27,7 @@ class ActionEndDialog(Action):
 
     async def run(self, dispatcher, tracker, domain):
 
-        return [FollowupAction('action_restart')]
+        return [ConversationPaused()]
 
 
 class ActionDefaultFallbackEndDialog(Action):
