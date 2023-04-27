@@ -481,6 +481,10 @@ class ActionCreateStepGoalOptions(Action):
 def perform_rl_action(option_1, option_2, option_3, prolific_id, session_num):
     now = datetime.now()
     formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
+
+    step_goal_1 = 0
+    step_goal_2 = 0
+    step_goal_3 = 0
     
     try:
             conn = mysql.connector.connect(
@@ -510,15 +514,35 @@ def perform_rl_action(option_1, option_2, option_3, prolific_id, session_num):
 
             # Use the least used rl action
             if least_used_action == "dec":
-                return option_1 - 400, option_2 - 400, option_3 - 400
+                step_goal_1 =  option_1 - 400
+                step_goal_2 =  option_2 - 400
+                step_goal_3 =  option_3 - 400
             elif least_used_action == "sdec": 
-                return option_1 - 200, option_2 - 200, option_3 - 200
+                step_goal_1 = option_1 - 200
+                step_goal_2 = option_2 - 200
+                step_goal_3 = option_3 - 200
             elif least_used_action == "nothing": 
-                return option_1, option_2, option_3
+                step_goal_1 = option_1
+                step_goal_2 = option_2
+                step_goal_3 = option_3
             elif least_used_action == "sinc": 
-                return option_1 + 200, option_2 + 200, option_3 + 200
+                step_goal_1 = option_1 + 200
+                step_goal_2 = option_2 + 200
+                step_goal_3 = option_3 + 200
             else: 
-                return option_1 + 400, option_2 + 400, option_3 + 400
+                step_goal_1 = option_1 + 400
+                step_goal_2 = option_2 + 400
+                step_goal_3 = option_3 + 400
+    
+    except mysql.connector.Error as error:
+            logging.info("Error in saving name to db: " + str(error))
+
+    finally:
+        if conn.is_connected():
+            cur.close()
+            conn.close()
+
+    return step_goal_1, step_goal_2, step_goal_3
 
 
 class ActionIncreaseGoal(Action):
