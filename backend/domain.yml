@@ -297,6 +297,8 @@ responses:
   utter_explain_user_state_2:
   - text: "So, I'll ask you 5 multiple-choice questions.📝 It's important that you answer them as honestly as possible and know that there are no right or wrong answers."
   utter_explain_user_state_3:
+  - text: "For the first question, know that there'll be quite a lot of answer options. Don't be intimidated by them and choose the answer that fits you best!"
+  utter_explain_user_state_4:
   - buttons:
     - payload : /confirm_user_state_explanation
       title: "Let's continue"

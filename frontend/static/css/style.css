@@ -400,7 +400,7 @@ div.content_data::-webkit-scrollbar {
 /* css for suggestions buttons */
 
 .suggestions {
-	padding: 5px;
+	padding: 2px;
 	width: 80%;
 	border-radius: 10px;
 	background: #ffffff;
@@ -414,7 +414,7 @@ div.content_data::-webkit-scrollbar {
 }
 
 .menu {
-	padding: 5px;
+	padding: 2px;
 }
 
 .menuChips {
@@ -422,11 +422,12 @@ div.content_data::-webkit-scrollbar {
 	background: #2c53af;
 	color: #fff;
 	text-align: center;
-	padding: 5px;
-	margin-bottom: 5px;
+	padding: 8px;
+	margin-bottom: 9px;
+	margin-top: 9px;
 	cursor: pointer;
 	border-radius: 15px;
-	font-size: 14px;
+	font-size: 16px;
 	word-wrap: break-word;
 }
 
