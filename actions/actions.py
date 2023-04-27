@@ -15,6 +15,7 @@ from typing import Any, Dict, List, Optional, Text
 
 import logging
 import mysql.connector
+import numpy as np
 
 
 class ActionEndDialog(Action):
@@ -326,6 +327,8 @@ class ActionSavePreviousActivitySession1ToDB(Action):
         now = datetime.now()
         formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
 
+        prev_activity = ""
+
         try:
             conn = mysql.connector.connect(
                 user=DATABASE_USER,
@@ -365,7 +368,7 @@ class ActionSavePreviousActivitySession1ToDB(Action):
                 cur.close()
                 conn.close()
 
-        return []
+        return [SlotSet("previous_activity_from_db", prev_activity)]
 
 
 class ActionSavePreviousActivityToDB(Action):
@@ -379,6 +382,8 @@ class ActionSavePreviousActivityToDB(Action):
 
         now = datetime.now()
         formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
+
+        prev_activity = ""
 
         try:
             conn = mysql.connector.connect(
@@ -415,7 +420,7 @@ class ActionSavePreviousActivityToDB(Action):
                 cur.close()
                 conn.close()
 
-        return []
+        return [SlotSet("previous_activity_from_db", prev_activity)]
 
     
 def save_sessiondata_entry(cur, conn, prolific_id, session_num, response_type,
@@ -434,10 +439,35 @@ class ActionCreateStepGoalOptions(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        # Create initial step goal options
+        previous_activity = tracker.get_slot("previous_activity_from_db").split(',')
+        prev_activity = []
+        for steps in previous_activity:
+            prev_activity.append(int(steps))
+        prev_activity.sort()
+        option_1 = int(math.ceil(np.percentile(prev_activity, 60) / 100.0)) * 100
+        option_2 = option_1 + 100
+        option_3 = option_1 + 200
         
-        step_goal_1 = "4000"
-        step_goal_2 = "6000"
-        step_goal_3 = "8000"
+        # Bound initial step goal options
+        lower_bound = 2000
+        upper_bound = 10000
+        step_goal_1 = "0"
+        step_goal_2 = "0"
+        step_goal_3 = "0"
+        if option_1 < lower_bound:
+            step_goal_1 = str(lower_bound)
+            step_goal_2 = str(lower_bound + 100)
+            step_goal_3 = str(lower_bound + 200)
+        elif option_3 > upper_bound:
+            step_goal_1 = str(upper_bound - 200)
+            step_goal_2 = str(upper_bound - 100)
+            step_goal_3 = str(upper_bound)
+        else:
+            step_goal_1 = str(option_1)
+            step_goal_2 = str(option_2)
+            step_goal_3 = str(option_3)
 
         return [SlotSet("step_goal_option_1_slot", step_goal_1),
                 SlotSet("step_goal_option_2_slot", step_goal_2),
@@ -458,10 +488,16 @@ class ActionIncreaseGoal(Action):
         option_2 = int(tracker.get_slot("step_goal_option_2_slot"))
         option_3 = int(tracker.get_slot("step_goal_option_3_slot"))
 
-        if number_of_rejected_proposals < 4:
-            option_1 += 200
-            option_2 += 200
-            option_3 += 200
+        if option_3 == 10000:
+            # Do not increase if the upperbound is reached
+            number_of_rejected_proposals += 1
+            dispatcher.utter_message("I'm sorry but I cannot give you a higher goal than 10.000 steps. Please choose the goal that feels best to you.")
+            return [SlotSet("number_of_rejected_proposals", str(number_of_rejected_proposals))]
+        elif number_of_rejected_proposals < 4:
+            # Increase the goal proposals within the bounds
+            option_1 += min(200, 10000 - option_3)
+            option_2 += min(200, 10000 - option_3)
+            option_3 += min(200, 10000 - option_3)
             number_of_rejected_proposals += 1
             dispatcher.utter_message("But since you said you wanted something higher, I'll increase the step goals a bit!")
             return [SlotSet("step_goal_option_1_slot", str(option_1)),
@@ -487,10 +523,16 @@ class ActionDecreaseGoal(Action):
         option_2 = int(tracker.get_slot("step_goal_option_2_slot"))
         option_3 = int(tracker.get_slot("step_goal_option_3_slot"))
 
+        if option_1 == 2000:
+            # Do not decrease if the lowerbound is reached
+            number_of_rejected_proposals += 1
+            dispatcher.utter_message("I'm sorry but I cannot give you a lower goal than 2.000 steps. Please choose the goal that feels best to you.")
+            return [SlotSet("number_of_rejected_proposals", str(number_of_rejected_proposals))]
         if number_of_rejected_proposals < 4:
-            option_1 -= 200
-            option_2 -= 200
-            option_3 -= 200
+            # Decrease the goal proposals within the bounds
+            option_1 -= min(200, option_1 - 2000)
+            option_2 -= min(200, option_1 - 2000)
+            option_3 -= min(200, option_1 - 2000)
             number_of_rejected_proposals += 1
             dispatcher.utter_message("But since you said you wanted something lower, I'll decrease the step goals a bit!")
             return [SlotSet("step_goal_option_1_slot", str(option_1)),
