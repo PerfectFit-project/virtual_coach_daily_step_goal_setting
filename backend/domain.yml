@@ -246,15 +246,15 @@ responses:
   utter_intro_session1_1:
   - text: "Alright! Now, to get more physically and mentally fit, it's important to increase your physical activity. That's why were are going to increase the number of steps you take each day.🚶"
   utter_intro_session1_2:
-  - text: "When increasing the number of steps you take each day, you should try to have this increase be subtle and gradual otherwise you might run into injuries. So, it is better to do a bit more everyday than to do a lot more at once."
+  - text: "When increasing the number of steps you take each day, you should try to have this increase be subtle and gradual otherwise you might run into injuries.🤕 So, it is better to do a bit more everyday than to do a lot more at once."
   utter_intro_session1_3:
-  - text: "I will help you with gradually increasing the number of steps you take each day by assisting you in setting daily step goals."
+  - text: "I will help you with gradually increasing the number of steps you take each day by assisting you in setting daily step goals.🎯"
   utter_intro_session1_4:
   - text: "During these sessions, I'll propose a few step goals after which you are able to choose which of those you want. To create the step goal proposals, I look at your previous activity to make sure that the goals are challenging yet attainable!"
   utter_intro_session1_5:
   - text: "Of course, there is only one person who knows what is best for you and that is… well you! Because of that, after picking one of my proposals, you are able to indicate that you want something lower or higher than that."
   utter_intro_session1_6:
-  - text: "Then I will make sure to change the proposals according to your wishes so that we can set a goal together that we both like. You can do this up to 5 times."
+  - text: "Then I will make sure to change the proposals according to your wishes so that we can set a goal together that we both like.🤗 You can do this up to 5 times."
   utter_intro_session1_7:
   - buttons:
     - payload : /confirm_intro_session1
@@ -281,7 +281,7 @@ responses:
       title: "Yes"
     - payload : /not_able_to_provide_previous_activity
       title: "No"
-    text: "Do you know how many steps you took in the past 5 to 9 days? (e.g. by checking your phone or smartwatch)"
+    text: "Do you know how many steps you took in the past 5 to 9 days? (e.g. by looking it up on your phone or smartwatch)"
   utter_explain_input_previous_activity:
   - text: "Great! You can share it by typing the number of steps you took each day seperated by a comma."
   utter_example_input_previous_activity:
@@ -291,20 +291,16 @@ responses:
   utter_end_because_no_previous_activity:
   - text: "Hmm, well then I cannot do much for you. I guess that our conversation ends here. Have a nice day!"
   utter_thanks_previous_activity:
-  - text: "Thanks for sharing!"
+  - text: "Thanks for sharing!👍"
   utter_explain_user_state_1:
-  - text: "With your previous activity I can create some step goals for you. But to make them even more suited for you for today, I need some information on your so-called 'state'."
+  - text: "With your previous activity I can create some step goals for you. But to make them even more suited for you for today, I need some more information from you."
   utter_explain_user_state_2:
-  - text: "Your state is basically a collection of variables that determine how much steps you are likely able to take today."
+  - text: "So, I'll ask you 5 multiple-choice questions.📝 It's important that you answer them as honestly as possible and know that there are no right or wrong answers."
   utter_explain_user_state_3:
-  - text: "So using that, I will adjust the initially created step goal to make it even more suitable for you!"
-  utter_explain_user_state_4:
-  - text: "To get your state, I'll ask you 5 multiple-choice questions.📝 It's important that you answer them as honest as possible and know that there are no right or wrong answers."
-  utter_explain_user_state_5:
   - buttons:
     - payload : /confirm_user_state_explanation
       title: "Let's continue"
-    text: "Let me know when you're done reading and are ready to continue."
+    text: "Let me know when you're ready to continue."
   utter_get_mood:
   - buttons:
     - payload: /current_mood{"mood":"satisfied", "mood_quadrant":"ha_hv"}
@@ -631,7 +627,7 @@ responses:
   utter_get_available_time:
   - buttons:
     - payload: /current_available_time{"available_time":"0", "available_time_level":"low"}
-      title: "0 (I have no time at all to do some walking today)"
+      title: "0 (I have no time at all to go for a walk today)"
     - payload: /current_available_time{"available_time":"1", "available_time_level":"low"}
       title: "1"
     - payload: /current_available_time{"available_time":"2", "available_time_level":"low"}
@@ -651,28 +647,28 @@ responses:
     - payload: /current_available_time{"available_time":"9", "available_time_level":"high"}
       title: "9"
     - payload: /current_available_time{"available_time":"10", "available_time_level":"high"}
-      title: "10 (I have a lot of time to do some walking today)"
-    text: "Question 3: How much time do you have available today to do some walking on a scale from 0 to 10?"
+      title: "10 (I have a lot of time to go for a walk today)"
+    text: "Question 3: How much time do you have available today to go for a walk on a scale from 0 to 10?"
   utter_respond_available_time:
     - condition:
         - type: slot
           name: available_time_level
           value: "low"
-      text: "Hmm, quite busy I see. In any case, try to do at least some walking as it is healthy and can help clear your mind!"
+      text: "Hmm, quite busy I see. But, try to at least go for a little walk as it is healthy and can help clear your mind!"
     - condition:
         - type: slot
           name: available_time_level
           value: "mid"
-      text: "Okay that's good! You often don't need that much time to do a healthy amount of walking."
+      text: "Okay that's good! You often don't need that much time to go for a little healthy walk."
     - condition:
         - type: slot
           name: available_time_level
           value: "high"
-      text: "Ah, a lot of free time today. Use some of it to do some walking, it's good for your health!"
+      text: "Ah, a lot of free time today. Use some of it to go for a walk as it's good for your health!"
   utter_get_self_motivation:
   - buttons:
     - payload: /current_self_motivation{"self_motivation":"0", "self_motivation_level":"low"}
-      title: "0 (I really do not want to do some walking today)"
+      title: "0 (I really do not want to go for a walk today)"
     - payload: /current_self_motivation{"self_motivation":"1", "self_motivation_level":"low"}
       title: "1"
     - payload: /current_self_motivation{"self_motivation":"2", "self_motivation_level":"low"}
@@ -692,14 +688,14 @@ responses:
     - payload: /current_self_motivation{"self_motivation":"9", "self_motivation_level":"high"}
       title: "9"
     - payload: /current_self_motivation{"self_motivation":"10", "self_motivation_level":"high"}
-      title: "10 (I am very motivated to do some walking today)"
-    text: "Question 4: How motivated are you to do some walking today on a scale from 0 to 10?"
+      title: "10 (I am very motivated to go for a walk today)"
+    text: "Question 4: How motivated are you to go for a walk today on a scale from 0 to 10?"
   utter_respond_self_motivation:
     - condition:
         - type: slot
           name: self_motivation_level
           value: "low"
-      text: "It's okay to feel less motivated sometimes. Often it's just a matter of getting started and think about the benefits of taking a walk!"
+      text: "It's okay to feel less motivated sometimes. Often it's just a matter of getting started and thinking about the benefits of going for a walk!"
     - condition:
         - type: slot
           name: self_motivation_level
@@ -745,7 +741,7 @@ responses:
         - type: slot
           name: self_efficacy_level
           value: "mid"
-      text: "Good. You'll be fine, it only some walking after all."
+      text: "Okay, that's alright. You'll be fine!"
     - condition:
         - type: slot
           name: self_efficacy_level
@@ -796,7 +792,7 @@ responses:
       - type: slot
         name: session_num
         value: "1"
-    text: "Now we've set a step goal for today, we can wrap up this conversation."
+    text: "Great, you now have a realistic and personal step goal for today. It's time to wrap-up this conversation."
   - condition:
       - type: slot
         name: session_num
@@ -804,12 +800,7 @@ responses:
     text: "Well, I guess that was it for this intervention. I hope you enjoyed our collaboration and continue to increase your physical activity!💪"
   - text: "Alright, that was it for today!"
   utter_wrap_up_2:
-  - condition:
-      - type: slot
-        name: session_num
-        value: "5"
-    text: "Remember that you are not obligated to achieve the final goal we set, but again know that taking steps is healthy for you.🚶"
-  - text: "Remember that you are not obligated to achieve the goal, but know that taking steps is healthy for you and should not take too much time.🚶"
+  - text: "Remember that taking steps is healthy for you and shouldn't have to take take too much time. You can do this!🚶"
   utter_wrap_up_3:
   - condition:
       - type: slot
@@ -862,7 +853,7 @@ responses:
         - type: slot
           name: rejection_reason
           value: "time"
-      text: "Sometimes you are busy with other things but even then you should try to do a bit of walking as it can help you clear your mind and feel more energetic to continue. So if you are busy, try to find a timeslot today were you can do a little walk, even 30 minutes is already something!👍"
+      text: "Sometimes you are busy with other things but even then you should try to go for a little walk as it can help you clear your mind and feel more energetic to continue. So if you are busy, try to find a timeslot today were you can do a little walk, even 10 minutes is already something!👍"
     - condition:
         - type: slot
           name: rejection_reason
@@ -887,7 +878,7 @@ responses:
       title: "Yes"
     - payload : /not_able_to_provide_previous_activity
       title: "No"
-    text: "Do you know how many steps you took yesterday? (e.g. by checking your phone or smartwatch)"
+    text: "Do you know how many steps you took yesterday? (e.g. by looking it up on your phone or smartwatch)"
   utter_explain_previous_activity_not_session1_slot:
   - text: "Perfect! You can tell me by just typing the number."
   utter_ask_previous_activity_not_session1_slot:
@@ -946,8 +937,8 @@ responses:
       - type: slot
         name: session_num
         value: "5"
-    text: "For one last time, let's take a look at your state. The questions didn't change but your answers probably did. Again, try to answer as honest as possible!"
-  - text: "Let's now look at your state again. I'll ask you the same 5 questions as yesterday.📝 Try to answer them as honest as possible again."
+    text: "For one last time, I need some more information. The questions didn't change but your answers probably did. Again, try to answer as honestly as possible!"
+  - text: "No I would again like to get some more information. I'll ask you the same 5 questions as yesterday.📝 Try to answer them as honestly as possible again."
   utter_greet_final_session:
   - text: "Hey, welcome back once more! This is the fifth and final day of the intervention. I'm glad to see you're still here! 🤗"
   utter_final_close_session:

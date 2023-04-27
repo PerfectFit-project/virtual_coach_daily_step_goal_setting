@@ -213,9 +213,11 @@ class ActionSaveStateToDB(Action):
 
             slots_to_save = ["mood", "rest", "available_time", "self_motivation", "self_efficacy"]
             for slot in slots_to_save:
-                save_sessiondata_entry(cur, conn, prolific_id, session_num,
-                                       slot, tracker.get_slot(slot),
-                                       formatted_date)
+                state = tracker.get_slot(slot)
+                if slot != "mood" and len(slot) > 2:
+                    s = state.split(' ')
+                    state = s[0]
+                save_sessiondata_entry(cur, conn, prolific_id, session_num, slot, state, formatted_date)
 
         except mysql.connector.Error as error:
             logging.info("Error in saving name to db: " + str(error))
@@ -293,9 +295,13 @@ class ActionSaveGoalAchievabilityToDB(Action):
             prolific_id = tracker.current_state()['sender_id']
             session_num = tracker.get_slot("session_num")
 
-            save_sessiondata_entry(cur, conn, prolific_id, session_num,
-                                       "goal_achievability", tracker.get_slot("goal_achievability"),
-                                       formatted_date)
+            # Format the achievability correctly
+            achievability = tracker.get_slot("goal_achievability")
+            if len(achievability) > 2:
+                ach = achievability.split(' ')
+                achievability = ach[0]
+
+            save_sessiondata_entry(cur, conn, prolific_id, session_num, "goal_achievability", achievability, formatted_date)
 
         except mysql.connector.Error as error:
             logging.info("Error in saving name to db: " + str(error))
@@ -340,7 +346,7 @@ class ActionSavePreviousActivitySession1ToDB(Action):
                 sum_of_elements = 0
                 for steps in previous_activity:
                     sum_of_elements += int(steps)
-                mean = sum_of_elements/len(previous_activity)
+                mean = round(sum_of_elements/len(previous_activity))
                 for i in range(9 - len(previous_activity)):
                     previous_activity.append(str(mean))
             
@@ -463,7 +469,7 @@ class ActionIncreaseGoal(Action):
                     SlotSet("step_goal_option_3_slot", str(option_3)),
                     SlotSet("number_of_rejected_proposals", str(number_of_rejected_proposals))]
         else:
-            dispatcher.utter_message("Unfortunately I cannot change the goals any further. So, you will have to pick one which then becomes your step goal for today.")
+            dispatcher.utter_message("Unfortunately I cannot change the goals any further. So, please pick the goal which feels best to you.")
             return [SlotSet("final_choice", True)]
 
 

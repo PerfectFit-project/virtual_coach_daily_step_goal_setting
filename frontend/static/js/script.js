@@ -9,10 +9,6 @@ $(document).ready(function () {
 	//get session number
 	const session_num = urlParams.get('n');
 	
-	showBotTyping();
-	$('.usrInput').attr("disabled", true);
-	$(".usrInput").prop('placeholder', "Wait for Steph's response.");
-	
 	//start a session
 	if (session_num == "1"){
 		send('/start_session1{"session_num":"1"}');

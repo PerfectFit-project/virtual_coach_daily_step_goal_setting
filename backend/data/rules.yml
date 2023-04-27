@@ -80,8 +80,6 @@ rules:
   - action: utter_explain_user_state_1
   - action: utter_explain_user_state_2
   - action: utter_explain_user_state_3
-  - action: utter_explain_user_state_4
-  - action: utter_explain_user_state_5
 
 - rule: get user mood
   steps:
