@@ -16,6 +16,7 @@ from typing import Any, Dict, List, Optional, Text
 import logging
 import mysql.connector
 import numpy as np
+import math
 
 
 class ActionEndDialog(Action):
