@@ -159,6 +159,13 @@ rules:
 - rule: goal too high
   steps:
   - intent: goal_too_high
+  - slot_was_set:
+    - number_of_rejected_proposals: "0"
+  - action: utter_decrease_goal
+
+- rule: goal too high not first iteration
+  steps:
+  - intent: goal_too_high
   - action: utter_decrease_goal
 
 - rule: decrease goal

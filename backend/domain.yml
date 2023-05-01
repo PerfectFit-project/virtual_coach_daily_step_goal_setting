@@ -620,7 +620,7 @@ responses:
         - type: slot
           name: rest_level
           value: "mid"
-      text: "Well that's not perfect, but it could be worse!"
+      text: "Ah okay, decent!"
     - condition:
         - type: slot
           name: rest_level
@@ -825,8 +825,11 @@ responses:
     text: "Ok, do you think it is too low or too high then?"
   utter_increase_goal_1:
   - text: "Alright, I admire your confidence and willpower!💪"
+  - text: "Okay, you want more I see."
+  - text: "Looking for a challenge, I like it!"
   utter_increase_goal_2:
-  - text: "Do know though that you should not take too many steps today, as that might lead to an injury."
+  - text: "Do know though, that you should not take too many steps today, as that might lead to an injury.🤕"
+  - text: "Don't get too far ahead of yourself though, as that could lead to an injury."
   utter_decrease_goal:
   - buttons:
     - payload: /goal_rejected_reason{"rejection_reason":"weather"}
