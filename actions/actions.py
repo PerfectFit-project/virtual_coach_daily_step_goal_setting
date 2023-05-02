@@ -598,7 +598,8 @@ class ActionDecreaseGoal(Action):
             # Do not decrease if the lowerbound is reached
             number_of_rejected_proposals += 1
             dispatcher.utter_message("I'm sorry but I can't give you a lower goal than 2.000 steps. Please choose the goal that feels best to you.")
-            return [SlotSet("number_of_rejected_proposals", str(number_of_rejected_proposals))]
+            return [SlotSet("number_of_rejected_proposals", str(number_of_rejected_proposals)),
+                    SlotSet("first_proposal", False)]
         if number_of_rejected_proposals < 4:
             # Decrease the goal proposals within the bounds
             option_1 -= min(200, option_1 - 2000)
@@ -609,7 +610,8 @@ class ActionDecreaseGoal(Action):
             return [SlotSet("step_goal_option_1_slot", str(option_1)),
                     SlotSet("step_goal_option_2_slot", str(option_2)),
                     SlotSet("step_goal_option_3_slot", str(option_3)),
-                    SlotSet("number_of_rejected_proposals", str(number_of_rejected_proposals))]
+                    SlotSet("number_of_rejected_proposals", str(number_of_rejected_proposals)),
+                    SlotSet("first_proposal", False)]
         else:
             dispatcher.utter_message("Unfortunately I can't change the goals any further. So, you will have to pick one which then becomes your step goal for today.")
             return [SlotSet("final_choice", True)]

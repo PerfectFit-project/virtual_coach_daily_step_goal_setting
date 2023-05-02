@@ -182,6 +182,12 @@ slots:
     mappings:
     - type: from_entity
       entity: rejection_reason
+  first_proposal:
+    type: bool
+    initial_value: true
+    influence_conversation: true
+    mappings:
+    - type: custom
   number_of_rejected_proposals:
     type: text
     initial_value: '0'
