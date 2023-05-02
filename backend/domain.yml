@@ -18,6 +18,8 @@ intents:
 - end_conversation
 - goal_too_high
 - goal_too_low
+- first_rejection
+- not_first_rejection
 - goal_rejected_reason
 - get_started_session_mid
 - able_to_provide_previous_activity_not_first_session
@@ -56,8 +58,6 @@ entities:
 - goal_achievability:
     influence_conversation: false
 - previous_activity_from_db:
-    influence_conversation: false
-- first_proposal:
     influence_conversation: false
 
 slots:
@@ -187,10 +187,9 @@ slots:
   first_proposal:
     type: bool
     initial_value: true
-    influence_conversation: true
+    influence_conversation: false
     mappings:
-    - type: from_entity
-      entity: first_proposal
+    - type: custom
   number_of_rejected_proposals:
     type: text
     initial_value: '0'
@@ -841,15 +840,15 @@ responses:
   - text: "Don't get too far ahead of yourself though, as that could lead to an injury."
   utter_decrease_goal:
   - buttons:
-    - payload: /goal_rejected_reason{"rejection_reason":"weather", "first_proposal":false}
+    - payload: /goal_rejected_reason{"rejection_reason":"weather"}
       title: "The weather is not good enough today"
-    - payload: /goal_rejected_reason{"rejection_reason":"tired", "first_proposal":false}
+    - payload: /goal_rejected_reason{"rejection_reason":"tired"}
       title: "I'm too tired today"
-    - payload: /goal_rejected_reason{"rejection_reason":"time", "first_proposal":false}
+    - payload: /goal_rejected_reason{"rejection_reason":"time"}
       title: "I do not have the time today"
-    - payload: /goal_rejected_reason{"rejection_reason":"else", "first_proposal":false}
+    - payload: /goal_rejected_reason{"rejection_reason":"else"}
       title: "I just do not feel like taking that many steps today"
-    - payload: /goal_rejected_reason{"rejection_reason":"else", "first_proposal":false}
+    - payload: /goal_rejected_reason{"rejection_reason":"else"}
       title: "It's because of something else"
     text: "I see, why do you think this step goal is too high for today?"
   utter_comfort_user:
@@ -1023,6 +1022,7 @@ actions:
 - action_save_state_to_db
 - action_save_goal_achievability_to_db
 - action_save_previous_activity_session1_to_db
+- action_check_first_rejection
 - validate_previous_activity_form
 - validate_propose_step_goal_options_form
 - validate_previous_activity_not_session1_form

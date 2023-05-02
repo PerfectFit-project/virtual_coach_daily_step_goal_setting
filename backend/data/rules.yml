@@ -157,19 +157,18 @@ rules:
   wait_for_user_input: false
 
 - rule: goal too high
-  condition:
-  - slot_was_set:
-    - first_proposal: true
   steps:
   - intent: goal_too_high
+  - action: action_check_first_rejection
+
+- rule: goal too high
+  steps:
+  - intent: first_rejection
   - action: utter_decrease_goal
 
 - rule: goal too high not first iteration
-  condition:
-  - slot_was_set:
-    - first_proposal: false
   steps:
-  - intent: goal_too_high
+  - intent: not_first_rejection
   - action: action_decrease_goal
   - action: propose_step_goal_options_form
   - active_loop: propose_step_goal_options_form

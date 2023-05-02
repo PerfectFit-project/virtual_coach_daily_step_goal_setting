@@ -10,7 +10,7 @@ from definitions import (DATABASE_HOST, DATABASE_PASSWORD,
                          DATABASE_PORT, DATABASE_USER)
 from rasa_sdk import Action, FormValidationAction, Tracker
 from rasa_sdk.executor import CollectingDispatcher
-from rasa_sdk.events import FollowupAction, SlotSet, ConversationPaused
+from rasa_sdk.events import FollowupAction, SlotSet, ConversationPaused, UserUttered, ActionExecuted
 from typing import Any, Dict, List, Optional, Text
 
 import logging
@@ -633,6 +633,23 @@ class ActionRespondGoalAchievement(Action):
             dispatcher.utter_message("This means that you unfortunately did not achieve the goal we set yesterday. But do not be discouraged, I'm sure you will make it today!")
 
         return []
+
+
+class ActionCheckFirstRejection(Action):
+
+    def name(self) -> Text:
+        return "action_check_first_rejection"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        first_rejection = bool(tracker.get_slot("first_proposal"))
+
+        if first_rejection:
+            return[ActionExecuted:"action_listen", UserUttered(text="/first_rejection", parse_data={"intent": {"name": "first_rejection", "confidence": 1.0}}), SlotSet("first_proposal", False)]
+        else:
+            return[ActionExecuted:"action_listen", UserUttered(text="/not_first_rejection", parse_data={"intent": {"name": "not_first_rejection", "confidence": 1.0}})]
 
 
 class ValidatePreviousActivityForm(FormValidationAction):
