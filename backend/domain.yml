@@ -185,7 +185,7 @@ slots:
   first_proposal:
     type: bool
     initial_value: true
-    influence_conversation: false
+    influence_conversation: true
     mappings:
     - type: custom
   number_of_rejected_proposals:
@@ -838,15 +838,15 @@ responses:
   - text: "Don't get too far ahead of yourself though, as that could lead to an injury."
   utter_decrease_goal:
   - buttons:
-    - payload: /goal_rejected_reason{"rejection_reason":"weather"}
+    - payload: /goal_rejected_reason{"rejection_reason":"weather", "first_proposal":false}
       title: "The weather is not good enough today"
-    - payload: /goal_rejected_reason{"rejection_reason":"tired"}
+    - payload: /goal_rejected_reason{"rejection_reason":"tired", "first_proposal":false}
       title: "I'm too tired today"
-    - payload: /goal_rejected_reason{"rejection_reason":"time"}
+    - payload: /goal_rejected_reason{"rejection_reason":"time", "first_proposal":false}
       title: "I do not have the time today"
-    - payload: /goal_rejected_reason{"rejection_reason":"else"}
+    - payload: /goal_rejected_reason{"rejection_reason":"else", "first_proposal":false}
       title: "I just do not feel like taking that many steps today"
-    - payload: /goal_rejected_reason{"rejection_reason":"else"}
+    - payload: /goal_rejected_reason{"rejection_reason":"else", "first_proposal":false}
       title: "It's because of something else"
     text: "I see, why do you think this step goal is too high for today?"
   utter_comfort_user:
