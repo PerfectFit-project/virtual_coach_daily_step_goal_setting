@@ -185,7 +185,7 @@ slots:
   first_proposal:
     type: bool
     initial_value: true
-    influence_conversation: true
+    influence_conversation: false
     mappings:
     - type: custom
   number_of_rejected_proposals:
