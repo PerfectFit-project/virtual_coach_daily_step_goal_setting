@@ -57,6 +57,8 @@ entities:
     influence_conversation: false
 - previous_activity_from_db:
     influence_conversation: false
+- first_proposal:
+    influence_conversation: false
 
 slots:
   session_loaded:
@@ -187,7 +189,8 @@ slots:
     initial_value: true
     influence_conversation: true
     mappings:
-    - type: custom
+    - type: from_entity
+      entity: first_proposal
   number_of_rejected_proposals:
     type: text
     initial_value: '0'
