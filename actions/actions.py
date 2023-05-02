@@ -647,9 +647,9 @@ class ActionCheckFirstRejection(Action):
         first_rejection = bool(tracker.get_slot("first_proposal"))
 
         if first_rejection:
-            return[ActionExecuted:"action_listen", UserUttered(text="/first_rejection", parse_data={"intent": {"name": "first_rejection", "confidence": 1.0}}), SlotSet("first_proposal", False)]
+            return[ActionExecuted("action_listen"), UserUttered(text="/first_rejection", parse_data={"intent": {"name": "first_rejection", "confidence": 1.0}}), SlotSet("first_proposal", False)]
         else:
-            return[ActionExecuted:"action_listen", UserUttered(text="/not_first_rejection", parse_data={"intent": {"name": "not_first_rejection", "confidence": 1.0}})]
+            return[ActionExecuted("action_listen"), UserUttered(text="/not_first_rejection", parse_data={"intent": {"name": "not_first_rejection", "confidence": 1.0}})]
 
 
 class ValidatePreviousActivityForm(FormValidationAction):
