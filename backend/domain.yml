@@ -239,7 +239,6 @@ slots:
       entity: previous_activity_from_db
 
 responses:
-
   utter_greet_first_time:
   - text: "Hello, my name is Steph and I'll be helping you to increase your physical activity during the coming days!"
   utter_prompt_usage:
