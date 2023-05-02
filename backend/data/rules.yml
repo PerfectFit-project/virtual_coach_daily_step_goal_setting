@@ -67,6 +67,8 @@ rules:
   steps:
   - intent: not_able_to_provide_previous_activity
   - action: utter_end_because_no_previous_activity
+  - action: utter_give_prolific_link
+  - action: utter_final_close_session
   - action: action_end_dialog
 
 - rule: get previous activity session 1
@@ -186,6 +188,7 @@ rules:
 - rule: end conversation
   steps:
   - intent: end_conversation
+  - action: utter_give_prolific_link
   - action: utter_final_close_session
   - action: action_end_dialog
 

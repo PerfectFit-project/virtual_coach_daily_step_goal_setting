@@ -953,6 +953,32 @@ responses:
   - text: "No I would again like to get some more information. I'll ask you the same 5 questions as yesterday.📝 Try to answer them as honestly as possible again."
   utter_greet_final_session:
   - text: "Hey, welcome back once more! This is the fifth and final day of the intervention. I'm glad to see you're still here! 🤗"
+  utter_give_prolific_link:
+  - condition:
+      - type: slot
+        name: session_num
+        value: "1"
+    text: "Here's your Prolific link to complete this part of the study: ..."
+  - condition:
+      - type: slot
+        name: session_num
+        value: "2"
+    text: "Here's your Prolific link to complete this part of the study: ..."
+  - condition:
+      - type: slot
+        name: session_num
+        value: "3"
+    text: "Here's your Prolific link to complete this part of the study: ..."
+  - condition:
+      - type: slot
+        name: session_num
+        value: "4"
+    text: "Here's your Prolific link to complete this part of the study: ..."
+  - condition:
+      - type: slot
+        name: session_num
+        value: "5"
+    text: "Here's your Prolific link to complete this part of the study: ..."
   utter_final_close_session:
   - text: "THIS IS THE END OF THIS SESSION. PLEASE CLOSE THIS WINDOW.\nANY FURTHER TYPING IN THIS CHAT RENDERS THIS SESSION INVALID. IF YOU HAVE QUESTIONS, CONTACT THE RESEARCHER PER MESSAGE ON PROLIFIC."
     
