@@ -632,7 +632,7 @@ responses:
         - type: slot
           name: rest_level
           value: "high"
-      text: "That's great, it always nice to sleep well!"
+      text: "That's great, it's always nice to sleep well!"
   utter_get_available_time:
   - buttons:
     - payload: /current_available_time{"available_time":"0", "available_time_level":"low"}
@@ -950,7 +950,7 @@ responses:
         name: session_num
         value: "5"
     text: "For one last time, I need some more information. The questions didn't change but your answers probably did. Again, try to answer as honestly as possible!"
-  - text: "No I would again like to get some more information. I'll ask you the same 5 questions as yesterday.📝 Try to answer them as honestly as possible again."
+  - text: "Now I would again like to get some more information. I'll ask you the same 5 questions as yesterday.📝 Try to answer them as honestly as possible again."
   utter_greet_final_session:
   - text: "Hey, welcome back once more! This is the fifth and final day of the intervention. I'm glad to see you're still here! 🤗"
   utter_give_prolific_link:
@@ -998,12 +998,6 @@ responses:
   - text: "Thanks for letting me know!"
   - text: "Okay thanks!"
   - text: "Thanks for sharing that with me!"
-  
-  utter_provide_more_detail:
-  - text: "Hmm, can you describe this in a bit more detail?"
-  - text: "I see, could you elaborate a little more on this?"
-  - text: "I'd like to understand better, can you give me more details on this?"
-  - text: "I'm not quite following, could you provide more details?"
   
   utter_default:
   - text: "There is a problem with this session."
