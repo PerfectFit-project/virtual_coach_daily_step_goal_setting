@@ -243,25 +243,27 @@ responses:
   - text: "Hello, my name is Steph and I'll be helping you to increase your physical activity during the coming days!"
   utter_prompt_usage:
   - text: "Before we start, let me explain how you can communicate with me."
-  utter_explain_usage:
+  utter_explain_usage_1:
+  - text: "Most of the time, you can just click on one of the buttons that appear. If no buttons appear, just make use of the text field shown."
+  utter_explain_usage_2:
   - buttons:
     - payload: /confirm_usage
-      title: "That's clear"
-    - payload: /confirm_usage
-      title: "Nice, sounds easy enough!"
-    text: "Most of the time, you can just click on one of the buttons that appear. If no buttons appear, just make use of the text field below."
+      title: "Let's go!"
+    text: "Try it out by clicking the button below."
   utter_intro_session1_1:
   - text: "Alright! Now, to get more physically and mentally fit, it's important to increase your physical activity. That's why were are going to increase the number of steps you take each day.🚶"
   utter_intro_session1_2:
-  - text: "When increasing the number of steps you take each day, you should try to have this increase be subtle and gradual otherwise you might run into injuries.🤕 So, it is better to do a bit more everyday than to do a lot more at once."
+  - text: "When increasing the number of steps you take each day, you should try to have this increase be subtle and gradual otherwise you might run into injuries.🤕 So, it's better to do a bit more everyday than to do a lot more at once."
   utter_intro_session1_3:
-  - text: "I will help you with gradually increasing the number of steps you take each day by assisting you in setting daily step goals.🎯"
+  - text: "I'll help you with gradually increasing the number of steps you take each day by assisting you in setting daily step goals.🎯"
   utter_intro_session1_4:
-  - text: "During these sessions, I'll propose a few step goals after which you are able to choose which of those you want. To create the step goal proposals, I look at your previous activity to make sure that the goals are challenging yet attainable!"
+  - text: "During these sessions, I'll propose a few step goals after which you are able to choose which of those you want. To create the step goal proposals, I'll ask you for your physical activity of the last few days to make sure that the goals are challenging yet attainable!"
+  utter_intro_session1_5:
+  - text: "After that I'll also ask you a few questions on things like your mood to make the step goal proposals even more personal!"
   utter_intro_session1_5:
   - text: "Of course, there is only one person who knows what is best for you and that is… well you! Because of that, after picking one of my proposals, you are able to indicate that you want something lower or higher than that."
   utter_intro_session1_6:
-  - text: "Then I will make sure to change the proposals according to your wishes so that we can set a goal together that we both like.🤗 You can do this up to 5 times."
+  - text: "Then I'll make sure to change the proposals according to your wishes so that we can set a goal together that is acceptable for you.🤗 I can change the proposals up to 5 times if you want."
   utter_intro_session1_7:
   - buttons:
     - payload : /confirm_intro_session1
@@ -739,7 +741,7 @@ responses:
       title: "9"
     - payload: /current_self_efficacy{"self_efficacy":"10", "self_efficacy_level":"high"}
       title: "10 (I am very confident that I can achieve a step goal today)"
-    text: "The final question, question 5: How confident are you that you can achieve a step goal today on a scale from 0 to 10?"
+    text: "The final question, question 5: If you were given a step goal of your average number of steps from the last few days, how confident are you that you can achieve that step goal today on a scale from 0 to 10?"
   utter_respond_self_efficacy:
     - condition:
         - type: slot
