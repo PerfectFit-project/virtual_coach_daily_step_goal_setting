@@ -618,7 +618,7 @@ responses:
       title: "9"
     - payload: /current_rest{"rest":"10", "rest_level":"high"}
       title: "10 (I slept amazing last night)"
-    text: "Question 2: How well did you sleep last night on a scale from 0 to 10?"
+    text: "Question 2: How did you sleep last night on a scale from 0 to 10?"
   utter_respond_rest:
     - condition:
         - type: slot
@@ -659,7 +659,7 @@ responses:
       title: "9"
     - payload: /current_available_time{"available_time":"10", "available_time_level":"high"}
       title: "10 (I have a lot of time to go for a walk today)"
-    text: "Question 3: How much time do you have available today to go for a walk on a scale from 0 to 10?"
+    text: "Question 3: How much or little time do you have available today to go for a walk on a scale from 0 to 10?"
   utter_respond_available_time:
     - condition:
         - type: slot
@@ -700,7 +700,7 @@ responses:
       title: "9"
     - payload: /current_self_motivation{"self_motivation":"10", "self_motivation_level":"high"}
       title: "10 (I am very motivated to go for a walk today)"
-    text: "Question 4: How motivated are you to go for a walk today on a scale from 0 to 10?"
+    text: "Question 4: How motivated or demotivated are you to go for a walk today on a scale from 0 to 10?"
   utter_respond_self_motivation:
     - condition:
         - type: slot
@@ -741,7 +741,7 @@ responses:
       title: "9"
     - payload: /current_self_efficacy{"self_efficacy":"10", "self_efficacy_level":"high"}
       title: "10 (I am very confident that I can achieve a step goal today)"
-    text: "The final question, question 5: If you were given a step goal of your average number of steps from the last few days, how confident are you that you can achieve that step goal today on a scale from 0 to 10?"
+    text: "The final question, question 5: If you were given a step goal of your average number of steps from the last few days, how confident or not confident are you that you can achieve that step goal today on a scale from 0 to 10?"
   utter_respond_self_efficacy:
     - condition:
         - type: slot
@@ -943,7 +943,7 @@ responses:
       title: "9"
     - payload: /current_goal_achievability{"goal_achievability":"10", "self_efficacy_level":"high"}
       title: "10 (I think yesterday's goal was very easy to achieve)"
-    text: "So, knowing what you know now, how achievable do you think the goal of yesterday was on a scale from 0 to 10?"
+    text: "So, knowing what you know now, how achievable or unachievable do you think the goal of yesterday was on a scale from 0 to 10?"
   utter_thanks_goal_achievability:
   - text: "Okay, thanks for sharing!"
   utter_start_state_questions:
