@@ -37,7 +37,8 @@ rules:
   - action: utter_intro_session1_4
   - action: utter_intro_session1_5
   - action: utter_intro_session1_6
-  - action: utter_intro_session1_7  
+  - action: utter_intro_session1_7
+  - action: utter_intro_session1_8  
 
 - rule: extra info session 1
   steps:

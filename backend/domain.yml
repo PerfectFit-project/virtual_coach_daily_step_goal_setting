@@ -260,11 +260,11 @@ responses:
   - text: "During these sessions, I'll propose a few step goals after which you are able to choose which of those you want. To create the step goal proposals, I'll ask you for your physical activity of the last few days to make sure that the goals are challenging yet attainable!"
   utter_intro_session1_5:
   - text: "After that I'll also ask you a few questions on things like your mood to make the step goal proposals even more personal!"
-  utter_intro_session1_5:
-  - text: "Of course, there is only one person who knows what is best for you and that is… well you! Because of that, after picking one of my proposals, you are able to indicate that you want something lower or higher than that."
   utter_intro_session1_6:
-  - text: "Then I'll make sure to change the proposals according to your wishes so that we can set a goal together that is acceptable for you.🤗 I can change the proposals up to 5 times if you want."
+  - text: "Of course, there is only one person who knows what is best for you and that is… well you! Because of that, after picking one of my proposals, you are able to indicate that you want something lower or higher than that."
   utter_intro_session1_7:
+  - text: "Then I'll make sure to change the proposals according to your wishes so that we can set a goal together that is acceptable for you.🤗 I can change the proposals up to 5 times if you want."
+  utter_intro_session1_8:
   - buttons:
     - payload : /confirm_intro_session1
       title: "I'm ready!"
