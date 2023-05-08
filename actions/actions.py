@@ -740,7 +740,7 @@ class ValidateProposeStepGoalOptionsForm(FormValidationAction):
                 dispatcher.utter_message("Hmm, that doesn't seem to be one of the choices I gave you. Just pick one of the options by typing it.")
             else:
                 dispatcher.utter_message("Hmm, that doesn't seem to be one of the choices I gave you.")
-                dispatcher.utter_message("Remember that this doesn't have to be your final goal and that you can change it later! So, just pick one of the options by typing it.")
+                dispatcher.utter_message("Just pick one of the options by typing it.")
             return {"preferred_step_goal_slot": None}
 
         return {"preferred_step_goal_slot": value}

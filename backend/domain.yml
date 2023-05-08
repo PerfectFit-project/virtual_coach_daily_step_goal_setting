@@ -785,8 +785,8 @@ responses:
       - type: slot
         name: session_num
         value: "1"
-    text: "You can make your choice by typing the option you want. Do know that after picking one of them, you are still able to change it."
-  - text: "Type the option you want and remember that your pick doesn't have to be your final decision since you can change it up to 5 times!"
+    text: "You can make your choice by typing the option you want."
+  - text: "Type the option you want and remember that can change the proposals up to 5 times!"
   utter_ask_preferred_step_goal_slot:
   - condition:
       - type: slot
