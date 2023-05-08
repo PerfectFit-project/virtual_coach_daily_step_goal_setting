@@ -17,7 +17,8 @@ rules:
     - session_loaded: true
   - action: utter_greet_first_time
   - action: utter_prompt_usage
-  - action: utter_explain_usage
+  - action: utter_explain_usage_1
+  - action: utter_explain_usage_2
 
 - rule: start session 1 and unsuccessful session load
   steps:
