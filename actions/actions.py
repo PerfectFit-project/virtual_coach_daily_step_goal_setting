@@ -729,6 +729,9 @@ class ValidateProposeStepGoalOptionsForm(FormValidationAction):
         # Check if the value is one of the proposed step goal options
         if not (value == option_1 or value == option_2 or value == option_3):
             if value == "other" or value == "Other":
+                if bool(tracker.get_slot("final_choice")):
+                    dispatcher.utter_message("I cannot change the step goal proposals any further, so please pick the goal that fits you best by typing it.")
+                    return {"preferred_step_goal_slot": None}
                 return {"preferred_step_goal_slot": value}
             valid_preferred_step_goal_option = False
         

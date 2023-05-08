@@ -788,7 +788,12 @@ responses:
     text: "You can make your choice by typing the option you want. Do know that after picking one of them, you are still able to change it."
   - text: "Type the option you want and remember that your pick doesn't have to be your final decision since you can change it up to 5 times!"
   utter_ask_preferred_step_goal_slot:
-  - text: "Which of the following step goal options do you prefer? {step_goal_option_1_slot}, {step_goal_option_2_slot} or {step_goal_option_3_slot}?"
+  - condition:
+      - type: slot
+        name: final_choice
+        value: false
+    text: "Which of the following step goal options do you prefer? {step_goal_option_1_slot}, {step_goal_option_2_slot} or {step_goal_option_3_slot}? Or type 'other' of you want something differently."
+  - text: "So, which of the following step goals has your preference? {step_goal_option_1_slot}, {step_goal_option_2_slot} or {step_goal_option_3_slot}?"
   utter_check_choice:
   - condition:
       - type: slot
@@ -839,7 +844,7 @@ responses:
       title: "Too low"
     - payload: /goal_too_high
       title: "Too high"
-    text: "Ok, do you think it is too low or too high then?"
+    text: "Ok, do you think the proposals are too low or too high then?"
   utter_increase_goal_1:
   - text: "Alright, I admire your confidence and willpower!💪"
   - text: "Okay, you want more I see."
