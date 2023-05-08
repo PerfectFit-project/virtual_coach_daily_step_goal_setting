@@ -381,8 +381,8 @@ div.content_data::-webkit-scrollbar {
 /* css for single card */
 /* This contains the buttons */
 .singleCard {
-	padding-left: 10%;
-	padding-right: 10px;
+	padding-left: 0%;
+	padding-right: 0px;
 }
 
 
@@ -401,10 +401,9 @@ div.content_data::-webkit-scrollbar {
 
 .suggestions {
 	padding: 2px;
-	width: 80%;
+	width: 100%;
 	border-radius: 10px;
-	background: #ffffff;
-	box-shadow: 2px 5px 5px 1px #dbdade;
+	background: #f7f7f7;
 }
 
 .menuTitle {
@@ -415,6 +414,9 @@ div.content_data::-webkit-scrollbar {
 
 .menu {
 	padding: 2px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
 }
 
 .menuChips {
@@ -429,6 +431,8 @@ div.content_data::-webkit-scrollbar {
 	border-radius: 15px;
 	font-size: 16px;
 	word-wrap: break-word;
+	box-shadow: 2px 5px 5px 1px #dbdade;
+	min-width: 50px;
 }
 
 
