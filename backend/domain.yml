@@ -256,10 +256,12 @@ responses:
   utter_intro_session1_2:
   - text: "When increasing the number of steps you take each day, you should try to have this increase be subtle and gradual otherwise you might run into injuries.🤕 So, it's better to do a bit more everyday than to do a lot more at once."
   utter_intro_session1_3:
+  - text: "I'll help you with gradually increasing the number of steps you take each day by assisting you in setting daily step goals.🎯"
+  utter_confirm_purpose:
   - buttons:
     - payload: /confirm_purpose
       title: "Yes, continue"
-    text: "I'll help you with gradually increasing the number of steps you take each day by assisting you in setting daily step goals.🎯"
+    text: "Let me know when you are done reading and are ready to continue."
   utter_intro_session1_4:
   - text: "During these sessions, I'll propose a few step goals after which you are able to choose which of those you want. To create the step goal proposals, I'll ask you for your physical activity of the last few days to make sure that the goals are challenging yet attainable!"
   utter_intro_session1_5:
@@ -1050,6 +1052,7 @@ actions:
 - action_save_goal_achievability_to_db
 - action_save_previous_activity_session1_to_db
 - action_check_first_rejection
+- action_continue_after_goal_picking
 - validate_previous_activity_form
 - validate_propose_step_goal_options_form
 - validate_previous_activity_not_session1_form
