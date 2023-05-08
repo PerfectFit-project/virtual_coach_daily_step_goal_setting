@@ -245,7 +245,7 @@ responses:
   utter_prompt_usage:
   - text: "Before we start, let me explain how you can communicate with me."
   utter_explain_usage_1:
-  - text: "Most of the time, you can just click on one of the buttons that appear. If no buttons appear, just make use of the text field shown."
+  - text: "Most of the time, you can just click on one of the buttons that appear. If no buttons appear, just make use of the text field shown at the bottom of the screen."
   utter_explain_usage_2:
   - buttons:
     - payload: /confirm_usage
