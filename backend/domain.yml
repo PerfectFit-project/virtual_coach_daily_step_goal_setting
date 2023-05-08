@@ -3,6 +3,7 @@ version: "3.1"
 intents:
 - start_session1
 - confirm_usage
+- confirm_purpose
 - confirm_intro_session1
 - confirm_extra_info_session1
 - able_to_provide_previous_activity
@@ -255,7 +256,10 @@ responses:
   utter_intro_session1_2:
   - text: "When increasing the number of steps you take each day, you should try to have this increase be subtle and gradual otherwise you might run into injuries.🤕 So, it's better to do a bit more everyday than to do a lot more at once."
   utter_intro_session1_3:
-  - text: "I'll help you with gradually increasing the number of steps you take each day by assisting you in setting daily step goals.🎯"
+  - buttons:
+    - payload: /confirm_purpose
+      title: "Yes, continue"
+    text: "I'll help you with gradually increasing the number of steps you take each day by assisting you in setting daily step goals.🎯"
   utter_intro_session1_4:
   - text: "During these sessions, I'll propose a few step goals after which you are able to choose which of those you want. To create the step goal proposals, I'll ask you for your physical activity of the last few days to make sure that the goals are challenging yet attainable!"
   utter_intro_session1_5:
@@ -283,8 +287,10 @@ responses:
   utter_inform_purpose_previous_activity_1:
   - text: "To start off, I would like to know how many steps you took in the past days, so that I can make some step goal proposals based on that."
   utter_inform_purpose_previous_activity_2:
-  - text: "I need your steps from at least the previous 5 days, but you can input more days than that if you want. Ideally, I would like to know your steps of the past 9 days."
+  - text: "I need your steps from at least the previous 5 days, but you can input more days than that if you want."
   utter_inform_purpose_previous_activity_3:
+  - text: "Ideally, I would like to know your steps of the past 9 days so I can propose better goals."
+  utter_inform_purpose_previous_activity_4:
   - buttons:
     - payload : /able_to_provide_previous_activity
       title: "Yes"
@@ -292,11 +298,11 @@ responses:
       title: "No"
     text: "Do you know how many steps you took in the past 5 to 9 days? (e.g. by looking it up on your phone or smartwatch)"
   utter_explain_input_previous_activity:
-  - text: "Great! You can share it by typing the number of steps you took each day seperated by a comma."
+  - text: "Great! You can share it by typing the number of steps you took each day seperated by a semicolon."
   utter_example_input_previous_activity:
-  - text: "So, for example, if I took 2000 steps yesterday, 3000 steps the day before that, and 2500 steps the day before that, I would type: 2000,3000,2500"
+  - text: "So, for example, if I took 2000 steps yesterday, 3000 steps the day before that, and 2500 steps the day before that, I would type: 2000;3000;2500"
   utter_ask_previous_activity_slot:
-  - text: "How many steps did you take in the past 5 days? (Remember, you may also give your steps up to the previous 9 days)"
+  - text: "How many steps did you take in the past 5 days (input as: steps of yesterday;steps of day before that;etc)? Remember, you may also give your steps up to the previous 9 days."
   utter_end_because_no_previous_activity:
   - text: "Hmm, well then I cannot do much for you. I guess that our conversation ends here. Have a nice day!"
   utter_thanks_previous_activity:

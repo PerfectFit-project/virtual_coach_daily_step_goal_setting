@@ -666,7 +666,7 @@ class ValidatePreviousActivityForm(FormValidationAction):
         if last_utterance != 'utter_ask_previous_activity_slot':
             return {"previous_activity_slot": None}
 
-        previous_activity = value.split(",")
+        previous_activity = value.split(";")
         valid_previous_activity = True
         previous_activity_slot = ""
         # Check if there are at least 5 values
@@ -683,7 +683,7 @@ class ValidatePreviousActivityForm(FormValidationAction):
                     previous_activity_slot += "," + previous_activity[i]
         
         if not valid_previous_activity:
-            dispatcher.utter_message("You didn't provide at least 5 numbers, maybe you forgot one, or your answer isn't formatted correctly, it should be numbers seperated by commas.")
+            dispatcher.utter_message("You didn't provide at least 5 numbers, maybe you forgot one, or your answer isn't formatted correctly, it should be numbers seperated by a semicolon.")
             dispatcher.utter_message(response="utter_example_input_previous_activity")
             return {"previous_activity_slot": None}
 
@@ -711,6 +711,8 @@ class ValidateProposeStepGoalOptionsForm(FormValidationAction):
         option_3 = tracker.get_slot("step_goal_option_3_slot")
         # Check if the value is one of the proposed step goal options
         if not (value == option_1 or value == option_2 or value == option_3):
+            if value == "other" or value == "Other":
+                return [ActionExecuted("action_listen"), UserUttered(text="/goal_rejected", parse_data={"intent": {"name": "goal_rejected", "confidence": 1.0}}), SlotSet("preferred_step_goal_slot": value)]
             valid_preferred_step_goal_option = False
         
         if not valid_preferred_step_goal_option:
@@ -721,7 +723,7 @@ class ValidateProposeStepGoalOptionsForm(FormValidationAction):
                 dispatcher.utter_message("Remember that this doesn't have to be your final goal and that you can change it later! So, just pick one of the options by typing it.")
             return {"preferred_step_goal_slot": None}
 
-        return {"preferred_step_goal_slot": value}
+        return [ActionExecuted("action_listen"), UserUttered(text="/goal_accepted", parse_data={"intent": {"name": "goal_accepted", "confidence": 1.0}}), SlotSet("preferred_step_goal_slot": value)]
 
 
 class ValidatePreviousActivityNotSession1Form(FormValidationAction):

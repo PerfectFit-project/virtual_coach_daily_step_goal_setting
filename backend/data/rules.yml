@@ -35,6 +35,10 @@ rules:
   - action: utter_intro_session1_1
   - action: utter_intro_session1_2
   - action: utter_intro_session1_3
+
+- rule: intro session1 part 2
+  steps:
+  - intent: confirm_purpose
   - action: utter_intro_session1_4
   - action: utter_intro_session1_5
   - action: utter_intro_session1_6
@@ -55,6 +59,7 @@ rules:
   - action: utter_inform_purpose_previous_activity_1
   - action: utter_inform_purpose_previous_activity_2
   - action: utter_inform_purpose_previous_activity_3
+  - action: utter_inform_purpose_previous_activity_4
 
 - rule: previous activity input session 1
   steps:
@@ -134,7 +139,7 @@ rules:
   steps:
   - action: propose_step_goal_options_form
   - active_loop: null
-  - action: utter_check_choice
+  # - action: utter_check_choice
 
 - rule: goal accepted
   steps:
