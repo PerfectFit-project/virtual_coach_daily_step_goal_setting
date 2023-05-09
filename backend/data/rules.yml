@@ -35,16 +35,17 @@ rules:
   - action: utter_intro_session1_1
   - action: utter_intro_session1_2
   - action: utter_intro_session1_3
+  - action: utter_intro_session1_4
   - action: utter_confirm_purpose
 
 - rule: intro session1 part 2
   steps:
   - intent: confirm_purpose
-  - action: utter_intro_session1_4
   - action: utter_intro_session1_5
   - action: utter_intro_session1_6
   - action: utter_intro_session1_7
-  - action: utter_intro_session1_8  
+  - action: utter_intro_session1_8
+  - action: utter_intro_session1_9  
 
 - rule: extra info session 1
   steps:
@@ -74,8 +75,8 @@ rules:
 - rule: no previous activity input session 1
   steps:
   - intent: not_able_to_provide_previous_activity
-  - action: utter_end_because_no_previous_activity
-  - action: utter_give_prolific_link
+  - action: utter_end_because_no_previous_activity_1
+  - action: utter_end_because_no_previous_activity_2
   - action: utter_final_close_session
   - action: action_end_dialog
 
@@ -129,6 +130,7 @@ rules:
   - action: action_save_state_to_db
   - action: utter_explain_goal_setting_1
   - action: utter_explain_goal_setting_2
+  - action: utter_explain_goal_setting_3
   - action: action_create_step_goal_options
   - action: propose_step_goal_options_form
   - active_loop: propose_step_goal_options_form

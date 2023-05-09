@@ -329,6 +329,7 @@ class ActionSavePreviousActivitySession1ToDB(Action):
         formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
 
         prev_activity = ""
+        mean = 0
 
         try:
             conn = mysql.connector.connect(
@@ -353,6 +354,8 @@ class ActionSavePreviousActivitySession1ToDB(Action):
                 mean = round(sum_of_elements/len(previous_activity))
                 for i in range(9 - len(previous_activity)):
                     previous_activity.append(str(mean))
+
+            mean = int(math.ceil(mean / 100.0)) * 100
             
             # Save the previous activity
             prev_activity = previous_activity[0]
@@ -369,7 +372,8 @@ class ActionSavePreviousActivitySession1ToDB(Action):
                 cur.close()
                 conn.close()
 
-        return [SlotSet("previous_activity_from_db", prev_activity)]
+        return [SlotSet("previous_activity_from_db", prev_activity),
+                SlotSet("average_prev_steps", str(mean))]
 
 
 class ActionSavePreviousActivityToDB(Action):
@@ -385,6 +389,7 @@ class ActionSavePreviousActivityToDB(Action):
         formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
 
         prev_activity = ""
+        mean = ""
 
         try:
             conn = mysql.connector.connect(
@@ -408,9 +413,12 @@ class ActionSavePreviousActivityToDB(Action):
 
             # Save the previous activity
             prev_activity = previous_activity[0]
+            total_steps = int(previous_activity[0])
             for i in range(1,9):
                 prev_activity += ","
                 prev_activity += previous_activity[i]
+                total_steps += int(previous_activity[i])
+            mean = str(int(math.ceil(total_steps / 100.0)) * 100)
             save_sessiondata_entry(cur, conn, prolific_id, session_num, "prev_activity", prev_activity, formatted_date)
 
         except mysql.connector.Error as error:
@@ -421,7 +429,8 @@ class ActionSavePreviousActivityToDB(Action):
                 cur.close()
                 conn.close()
 
-        return [SlotSet("previous_activity_from_db", prev_activity)]
+        return [SlotSet("previous_activity_from_db", prev_activity),
+                SlotSet("average_prev_steps", mean)]
 
     
 def save_sessiondata_entry(cur, conn, prolific_id, session_num, response_type,
@@ -606,6 +615,7 @@ class ActionDecreaseGoal(Action):
             option_3 -= min(200, option_1 - 2000)
             number_of_rejected_proposals += 1
             dispatcher.utter_message("Since you said you wanted something lower, I'll decrease the step goals a bit!")
+            dispatcher.utter_message("Picking a lower goal is fine but do know that lower goals can hinder your progress towards the final goal of 10.000 steps per day.")
             return [SlotSet("step_goal_option_1_slot", str(option_1)),
                     SlotSet("step_goal_option_2_slot", str(option_2)),
                     SlotSet("step_goal_option_3_slot", str(option_3)),
