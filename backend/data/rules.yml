@@ -256,6 +256,15 @@ rules:
   - intent: current_goal_achievability
   - action: utter_thanks_goal_achievability
   - action: action_save_goal_achievability_to_db
+  - action: utter_explain_self_efficacy_1
+  - action: utter_explain_self_efficacy_2
+  - action: utter_get_goal_self_efficacy_feedback
+
+- rule: check self-efficacy feedback
+  steps:
+  - intent: current_self_efficacy_feedback
+  - action: utter_thanks_self_efficacy_feedback
+  - action: action_save_self_efficacy_feedback_to_db
   - action: utter_start_state_questions
   - action: utter_get_mood
 

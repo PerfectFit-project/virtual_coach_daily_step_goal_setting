@@ -28,6 +28,7 @@ intents:
 - current_goal_achievability
 - start_session_mid
 - start_session_last
+- current_self_efficacy_feedback
 
 entities:
 - session_num:
@@ -59,6 +60,8 @@ entities:
 - goal_achievability:
     influence_conversation: false
 - previous_activity_from_db:
+    influence_conversation: false
+- self_efficacy_feedback:
     influence_conversation: false
 
 slots:
@@ -244,6 +247,19 @@ slots:
     influence_conversation: false
     mappings:
     - type: custom
+  self_efficacy_from_db:
+    type: text
+    initial_value: ''
+    influence_conversation: false
+    mappings:
+    - type: custom
+  self_efficacy_feedback:
+    type: text
+    initial_value: ''
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: self_efficacy_feedback
 
 responses:
   utter_greet_first_time:
@@ -955,38 +971,69 @@ responses:
   - text: "I would like to know whether you think the goal we set yesterday was achievable looking back at it."
   utter_get_goal_achievability:
   - buttons:
-    - payload: /current_goal_achievability{"goal_achievability":"0", "self_efficacy_level":"low"}
+    - payload: /current_goal_achievability{"goal_achievability":"0"}
       title: "0 (I think yesterday's goal was impossible to achieve)"
-    - payload: /current_goal_achievability{"goal_achievability":"1", "self_efficacy_level":"low"}
+    - payload: /current_goal_achievability{"goal_achievability":"1"}
       title: "1"
-    - payload: /current_goal_achievability{"goal_achievability":"2", "self_efficacy_level":"low"}
+    - payload: /current_goal_achievability{"goal_achievability":"2"}
       title: "2"
-    - payload: /current_goal_achievability{"goal_achievability":"3", "self_efficacy_level":"low"}
+    - payload: /current_goal_achievability{"goal_achievability":"3"}
       title: "3"
-    - payload: /current_goal_achievability{"goal_achievability":"4", "self_efficacy_level":"mid"}
+    - payload: /current_goal_achievability{"goal_achievability":"4"}
       title: "4"
-    - payload: /current_goal_achievability{"goal_achievability":"5", "self_efficacy_level":"mid"}
+    - payload: /current_goal_achievability{"goal_achievability":"5"}
       title: "5"
-    - payload: /current_goal_achievability{"goal_achievability":"6", "self_efficacy_level":"mid"}
+    - payload: /current_goal_achievability{"goal_achievability":"6"}
       title: "6"
-    - payload: /current_goal_achievability{"goal_achievability":"7", "self_efficacy_level":"high"}
+    - payload: /current_goal_achievability{"goal_achievability":"7"}
       title: "7"
-    - payload: /current_goal_achievability{"goal_achievability":"8", "self_efficacy_level":"high"}
+    - payload: /current_goal_achievability{"goal_achievability":"8"}
       title: "8"
-    - payload: /current_goal_achievability{"goal_achievability":"9", "self_efficacy_level":"high"}
+    - payload: /current_goal_achievability{"goal_achievability":"9"}
       title: "9"
-    - payload: /current_goal_achievability{"goal_achievability":"10", "self_efficacy_level":"high"}
+    - payload: /current_goal_achievability{"goal_achievability":"10"}
       title: "10 (I think yesterday's goal was very easy to achieve)"
     text: "So, knowing what you know now, how achievable or unachievable do you think the goal of yesterday was on a scale from 0 to 10?"
   utter_thanks_goal_achievability:
   - text: "Okay, thanks for sharing!"
+  utter_explain_self_efficacy_1:
+  - text: "I would also like to know whether you think your confidence of achieving a goal yesterday was accurate looking back at it now."
+  utter_explain_self_efficacy_2:
+  - text: "Yesterday you told me that your confidence was {self_efficacy_from_db} out of 10."
+  utter_get_goal_self_efficacy_feedback:
+  - buttons:
+    - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"0"}
+      title: "0 (I think my confidence yesterday was very unaccurate)"
+    - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"1"}
+      title: "1"
+    - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"2"}
+      title: "2"
+    - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"3"}
+      title: "3"
+    - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"4"}
+      title: "4"
+    - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"5"}
+      title: "5"
+    - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"6"}
+      title: "6"
+    - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"7"}
+      title: "7"
+    - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"8"}
+      title: "8"
+    - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"9"}
+      title: "9"
+    - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"10"}
+      title: "10 (I think my confidence yesterday was very accurate)"
+    text: "But, knowing what you know now, how accurate or unaccurate do you think your confidence of achieving a goal yesterday was on a scale from 0 to 10?"
+  utter_thanks_self_efficacy_feedback:
+  - text: "Cool, thank you."
   utter_start_state_questions:
   - condition:
       - type: slot
         name: session_num
         value: "5"
     text: "For one last time, I need some more information. The questions didn't change but your answers probably did. Again, try to answer as honestly as possible!"
-  - text: "Now I would again like to get some more information. I'll ask you the same 5 questions as yesterday.📝 Try to answer them as honestly as possible again."
+  - text: "Now I would again like to get some more information to learn how to make the step goal proposals even more personal in the future. I'll ask you the same 5 questions as yesterday.📝 Try to answer them as honestly as possible again."
   utter_greet_final_session:
   - text: "Hey, welcome back once more! This is the fifth and final day of the intervention. I'm glad to see you're still here! 🤗"
   utter_give_prolific_link:
@@ -1077,6 +1124,7 @@ actions:
 - action_save_state_to_db
 - action_save_goal_achievability_to_db
 - action_save_previous_activity_session1_to_db
+- action_save_self_efficacy_feedback_to_db
 - action_check_first_rejection
 - action_continue_after_goal_picking
 - validate_previous_activity_form
