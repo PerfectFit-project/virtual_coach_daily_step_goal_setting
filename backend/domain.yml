@@ -1003,7 +1003,7 @@ responses:
   utter_get_goal_self_efficacy_feedback:
   - buttons:
     - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"0"}
-      title: "0 (I think my confidence yesterday was very unaccurate)"
+      title: "0 (I think my confidence yesterday was very inaccurate)"
     - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"1"}
       title: "1"
     - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"2"}
@@ -1024,7 +1024,7 @@ responses:
       title: "9"
     - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"10"}
       title: "10 (I think my confidence yesterday was very accurate)"
-    text: "But, knowing what you know now, how accurate or unaccurate do you think your confidence of achieving a goal yesterday was on a scale from 0 to 10?"
+    text: "But, knowing what you know now, how accurate or inaccurate do you think your confidence of achieving a goal yesterday was on a scale from 0 to 10?"
   utter_thanks_self_efficacy_feedback:
   - text: "Cool, thank you."
   utter_start_state_questions:

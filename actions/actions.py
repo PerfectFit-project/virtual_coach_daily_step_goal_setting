@@ -266,6 +266,9 @@ class ActionSaveGoalToDB(Action):
             save_sessiondata_entry(cur, conn, prolific_id, session_num,
                                        "goal", tracker.get_slot("preferred_step_goal_slot"),
                                        formatted_date)
+            
+            save_sessiondata_entry(curr, conn, prolific_id, session_num, "number_of_rejected_proposals", 
+                                        tracker.get_slot("number_of_rejected_proposals"), formatted_date)
 
         except mysql.connector.Error as error:
             logging.info("Error in saving name to db: " + str(error))
