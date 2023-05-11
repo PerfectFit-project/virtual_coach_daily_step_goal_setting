@@ -240,8 +240,8 @@ function addSuggestion(textToAdd) {
 
 // on click of suggestions, get the value and send to rasa
 $(document).on("click", ".menu .menuChips", function () {
-	$('.usrInput').attr("disabled",false);
-	$(".usrInput").prop('placeholder', "Type a message...");
+	// $('.usrInput').attr("disabled",false);
+	$(".usrInput").prop('placeholder', "Wait for Steph's response.");
 	var text = this.innerText;
 	var payload = this.getAttribute('data-payload');
 	console.log("payload: ", this.getAttribute('data-payload'))

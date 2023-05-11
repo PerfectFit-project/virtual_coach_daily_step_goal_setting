@@ -284,7 +284,7 @@ responses:
   utter_confirm_purpose:
   - buttons:
     - payload: /confirm_purpose
-      title: "Yes, continue"
+      title: "Yes, continue!"
     text: "Let me know when you are done reading the purpose of these sessions and are ready to continue."
   utter_intro_session1_5:
   - text: "During these sessions, I'll propose a few step goal options after which you are able to choose which of those you want. To create those step goal proposals, I'll ask you for your steps per day of the last few days to make sure that the goals are challenging yet attainable!"
@@ -293,7 +293,7 @@ responses:
   utter_intro_session1_7:
   - text: "Of course, there is only one person who knows what is best for you and that is… well you! Because of that, instead of picking one of my proposals, you are able to indicate that you want something lower or higher than them."
   utter_intro_session1_8:
-  - text: "Then I'll make sure to change the proposals according to your wishes so that we can set a goal together that is acceptable for you.🤗 I can change the proposals up to 5 times if you want."
+  - text: "Then, I'll make sure to change the proposals according to your wishes so that we can set a goal together that is acceptable for you.🤗 I can change the proposals up to 5 times if you want."
   utter_intro_session1_9:
   - buttons:
     - payload : /confirm_intro_session1
@@ -328,7 +328,7 @@ responses:
   utter_example_input_previous_activity:
   - text: "So, for example, if I took 2000 steps yesterday, 3000 steps the day before that, and 2500 steps the day before that, I would type: 2000;3000;2500"
   utter_ask_previous_activity_slot:
-  - text: "How many steps did you take in the past 5 days (input as: STEPS_OF_YESTERDAY;STEPS_OF_THE_DAY_BEFORE_THAT;ETC)? Remember, you may also give your steps up to the previous 9 days."
+  - text: "How many steps did you take in the past 5 days? Remember, you may also give your steps up to the previous 9 days. Input it as: STEPS_OF_YESTERDAY;STEPS_OF_THE_DAY_BEFORE_THAT;ETC"
   utter_end_because_no_previous_activity_1:
   - text: "Hmm, well then I can't do much for you. I guess that our conversation ends here. Have a nice day!"
   utter_end_because_no_previous_activity_2:
