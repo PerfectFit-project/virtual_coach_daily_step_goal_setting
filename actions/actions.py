@@ -535,6 +535,26 @@ class ActionCreateStepGoalOptions(Action):
             step_goal_2 = str(step_goal_2)
             step_goal_3 = str(step_goal_3)
 
+        try:
+            conn = mysql.connector.connect(
+                user=DATABASE_USER,
+                password=DATABASE_PASSWORD,
+                host=DATABASE_HOST,
+                port=DATABASE_PORT,
+                database='db'
+            )
+            cur = conn.cursor(prepared=True)
+
+            save_sessiondata_entry(cur, conn, prolific_id, session_num, "initial_proposal", step_goal_1, formatted_date)
+
+        except mysql.connector.Error as error:
+            logging.info("Error in saving name to db: " + str(error))
+
+        finally:
+            if conn.is_connected():
+                cur.close()
+                conn.close()
+
         return [SlotSet("step_goal_option_1_slot", step_goal_1),
                 SlotSet("step_goal_option_2_slot", step_goal_2),
                 SlotSet("step_goal_option_3_slot", step_goal_3)]
