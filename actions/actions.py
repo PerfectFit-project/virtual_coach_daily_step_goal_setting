@@ -8,15 +8,19 @@
 from datetime import datetime
 from definitions import (DATABASE_HOST, DATABASE_PASSWORD, 
                          DATABASE_PORT, DATABASE_USER)
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 from rasa_sdk import Action, FormValidationAction, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import FollowupAction, SlotSet, ConversationPaused, UserUttered, ActionExecuted
+from string import Template
 from typing import Any, Dict, List, Optional, Text
 
 import logging
 import mysql.connector
 import numpy as np
 import math
+import smtplib, ssl
 
 
 class ActionEndDialog(Action):
@@ -750,6 +754,69 @@ class ActionContinueAfterGoalPicking(Action):
             return[ActionExecuted("action_listen"), UserUttered(text="/goal_rejected", parse_data={"intent": {"name": "goal_rejected", "confidence": 1.0}}), SlotSet("first_proposal", False)]
         else:
             return[ActionExecuted("action_listen"), UserUttered(text="/goal_accepted", parse_data={"intent": {"name": "goal_accepted", "confidence": 1.0}})]
+
+
+class ActionSendEmail(Action):
+    def name(self):
+        return "action_send_email"
+
+    async def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        # get user ID
+        prolific_id = tracker.current_state()['sender_id']
+
+        step_goal = tracker.get_slot('preferred_step_goal_slot')
+        session_num = tracker.get_slot('session_num')  # this is a string
+
+        ssl_port = 465
+        with open('x.txt', 'r') as f:
+            x = f.read()
+            x = x.rstrip()
+        smtp = "smtp.gmail.com" # for web.de: smtp.web.de
+        with open('email.txt', 'r') as f:
+            email = f.read()
+            email = email.rstrip()
+        user_email = prolific_id + "@email.prolific.co"
+
+        # logging.info("user_email: " + user_email)
+
+        context = ssl.create_default_context()
+
+        # set up the SMTP server
+        with smtplib.SMTP_SSL(smtp, ssl_port, context = context) as server:
+            server.login(email, x)
+
+            msg = MIMEMultipart() # create a message
+
+            # Have a different message template for the last session
+            template_file_name = "reminder_template_notlast.txt"
+            if session_num == "5":
+                template_file_name = "reminder_template_last.txt"
+
+
+            with open(template_file_name, 'r', encoding='utf-8') as template_file:
+                message_template = Template(template_file.read())
+
+            # add in the actual info to the message template
+            message_text = message_template.substitute(PERSON_NAME ="Study Participant",
+                                                       STEP_GOAL = step_goal)
+
+            # set up the parameters of the message
+            msg['From'] = email
+            msg['To']=  user_email
+            msg['Subject'] = "Step Goal Reminder"
+
+            # add in the message body
+            msg.attach(MIMEText(message_text, 'plain'))
+
+            # send the message via the server set up earlier.
+            server.send_message(msg)
+
+            del msg
+
+        return []
 
 
 class ValidatePreviousActivityForm(FormValidationAction):

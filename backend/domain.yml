@@ -1127,6 +1127,7 @@ actions:
 - action_save_self_efficacy_feedback_to_db
 - action_check_first_rejection
 - action_continue_after_goal_picking
+- action_send_email
 - validate_previous_activity_form
 - validate_propose_step_goal_options_form
 - validate_previous_activity_not_session1_form

@@ -1,0 +1,18 @@
+Dear ${PERSON_NAME}, 
+
+
+This is a message to remind you of your set step goal for today:
+
+Take ${STEP_GOAL} steps today.
+
+
+See you in your next session tomorrow!
+
+
+Best regards,
+
+Your Virtual Coach Steph
+
+
+
+Please do not reply to this message.
