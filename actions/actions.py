@@ -735,7 +735,7 @@ class ActionContinueAfterGoalPicking(Action):
         selected_goal = tracker.get_slot("preferred_step_goal_slot")
 
         if selected_goal == "other" or selected_goal == "Other":
-            return[ActionExecuted("action_listen"), UserUttered(text="/goal_rejected", parse_data={"intent": {"name": "goal_rejected", "confidence": 1.0}}), SlotSet("first_proposal", False)]
+            return[ActionExecuted("action_listen"), UserUttered(text="/goal_rejected", parse_data={"intent": {"name": "goal_rejected", "confidence": 1.0}})]
         else:
             return[ActionExecuted("action_listen"), UserUttered(text="/goal_accepted", parse_data={"intent": {"name": "goal_accepted", "confidence": 1.0}})]
 

@@ -173,7 +173,7 @@ rules:
   - intent: goal_too_high
   - action: action_check_first_rejection
 
-- rule: goal too high
+- rule: goal too high first iteration
   steps:
   - intent: first_rejection
   - action: utter_decrease_goal
