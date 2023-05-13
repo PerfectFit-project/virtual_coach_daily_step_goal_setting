@@ -519,6 +519,8 @@ class ActionCreateStepGoalOptions(Action):
         
             prolific_id = tracker.current_state()['sender_id']
             session_num = tracker.get_slot("session_num")
+            now = datetime.now()
+            formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
 
             # Create initial step goal options
             previous_activity = tracker.get_slot("previous_activity_from_db").split(',')
