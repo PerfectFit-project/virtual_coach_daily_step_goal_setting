@@ -198,7 +198,7 @@ rules:
 - rule: end conversation
   steps:
   - intent: end_conversation
-  - action: action_send_email
+  # - action: action_send_email
   - action: utter_give_prolific_link
   - action: utter_final_close_session
   - action: action_end_dialog

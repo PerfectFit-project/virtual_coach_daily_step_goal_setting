@@ -507,38 +507,6 @@ class ActionCreateStepGoalOptions(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        prolific_id = tracker.current_state()['sender_id']
-        session_num = tracker.get_slot("session_num")
-
-        # Create initial step goal options
-        previous_activity = tracker.get_slot("previous_activity_from_db").split(',')
-        prev_activity = []
-        for steps in previous_activity:
-            prev_activity.append(int(steps))
-        prev_activity.sort()
-        option_1 = int(math.ceil(np.percentile(prev_activity, 60) / 100.0)) * 100
-        option_2 = option_1 + 100
-        option_3 = option_1 + 200
-        
-        # Personalize step goal options
-        step_goal_1, step_goal_2, step_goal_3 = perform_rl_action(option_1, option_2, option_3, prolific_id, session_num)
-
-        # Bound step goal options
-        lower_bound = 2000
-        upper_bound = 10000
-        if step_goal_1 < lower_bound:
-            step_goal_1 = str(lower_bound)
-            step_goal_2 = str(lower_bound + 100)
-            step_goal_3 = str(lower_bound + 200)
-        elif step_goal_3 > upper_bound:
-            step_goal_1 = str(upper_bound - 200)
-            step_goal_2 = str(upper_bound - 100)
-            step_goal_3 = str(upper_bound)
-        else:
-            step_goal_1 = str(step_goal_1)
-            step_goal_2 = str(step_goal_2)
-            step_goal_3 = str(step_goal_3)
-
         try:
             conn = mysql.connector.connect(
                 user=DATABASE_USER,
@@ -548,6 +516,38 @@ class ActionCreateStepGoalOptions(Action):
                 database='db'
             )
             cur = conn.cursor(prepared=True)
+        
+            prolific_id = tracker.current_state()['sender_id']
+            session_num = tracker.get_slot("session_num")
+
+            # Create initial step goal options
+            previous_activity = tracker.get_slot("previous_activity_from_db").split(',')
+            prev_activity = []
+            for steps in previous_activity:
+                prev_activity.append(int(steps))
+            prev_activity.sort()
+            option_1 = int(math.ceil(np.percentile(prev_activity, 60) / 100.0)) * 100
+            option_2 = option_1 + 100
+            option_3 = option_1 + 200
+        
+            # Personalize step goal options
+            step_goal_1, step_goal_2, step_goal_3 = perform_rl_action(option_1, option_2, option_3, prolific_id, session_num, conn, cur)
+
+            # Bound step goal options
+            lower_bound = 2000
+            upper_bound = 10000
+            if step_goal_1 < lower_bound:
+                step_goal_1 = str(lower_bound)
+                step_goal_2 = str(lower_bound + 100)
+                step_goal_3 = str(lower_bound + 200)
+            elif step_goal_3 > upper_bound:
+                step_goal_1 = str(upper_bound - 200)
+                step_goal_2 = str(upper_bound - 100)
+                step_goal_3 = str(upper_bound)
+            else:
+                step_goal_1 = str(step_goal_1)
+                step_goal_2 = str(step_goal_2)
+                step_goal_3 = str(step_goal_3)
 
             save_sessiondata_entry(cur, conn, prolific_id, session_num, "initial_proposal", step_goal_1, formatted_date)
 
@@ -564,7 +564,7 @@ class ActionCreateStepGoalOptions(Action):
                 SlotSet("step_goal_option_3_slot", step_goal_3)]
 
 
-def perform_rl_action(option_1, option_2, option_3, prolific_id, session_num):
+def perform_rl_action(option_1, option_2, option_3, prolific_id, session_num, conn, cur):
     now = datetime.now()
     formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
 
@@ -572,61 +572,43 @@ def perform_rl_action(option_1, option_2, option_3, prolific_id, session_num):
     step_goal_2 = 0
     step_goal_3 = 0
     
-    try:
-            conn = mysql.connector.connect(
-                user=DATABASE_USER,
-                password=DATABASE_PASSWORD,
-                host=DATABASE_HOST,
-                port=DATABASE_PORT,
-                database='db'
-            )
-            cur = conn.cursor(prepared=True)
+    # Find the rl action that is used the least
+    least_used_action = ""
+    n = 10000
+    actions = ["dec", "sdec", "nothing", "sinc", "inc"]
+    for action in actions:
+        query = ("SELECT * FROM sessiondata WHERE response_type = %s and response_value = %s")
+        cur.execute(query, ["rl_action", action])
+        res = cur.fetchall()
+        if len(res) < n:
+            least_used_action = action
+            n = len(res)
 
-            # Find the rl action that is used the least
-            least_used_action = ""
-            n = 10000
-            actions = ["dec", "sdec", "nothing", "sinc", "inc"]
-            for action in actions:
-                query = ("SELECT * FROM sessiondata WHERE response_type = %s and response_value = %s")
-                cur.execute(query, ["rl_action", action])
-                res = cur.fetchall()
-                if len(res) < n:
-                    least_used_action = action
-                    n = len(res)
+    query = "INSERT INTO sessiondata(prolific_id, session_num, response_type, response_value, time) VALUES(%s, %s, %s, %s, %s)"
+    cur.execute(query, [prolific_id, session_num, "rl_action", least_used_action, formatted_date])
+    conn.commit()
 
-            query = "INSERT INTO sessiondata(prolific_id, session_num, response_type, response_value, time) VALUES(%s, %s, %s, %s, %s)"
-            cur.execute(query, [prolific_id, session_num, "rl_action", least_used_action, formatted_date])
-            conn.commit()
-
-            # Use the least used rl action
-            if least_used_action == "dec":
-                step_goal_1 =  option_1 - 400
-                step_goal_2 =  option_2 - 400
-                step_goal_3 =  option_3 - 400
-            elif least_used_action == "sdec": 
-                step_goal_1 = option_1 - 200
-                step_goal_2 = option_2 - 200
-                step_goal_3 = option_3 - 200
-            elif least_used_action == "nothing": 
-                step_goal_1 = option_1
-                step_goal_2 = option_2
-                step_goal_3 = option_3
-            elif least_used_action == "sinc": 
-                step_goal_1 = option_1 + 200
-                step_goal_2 = option_2 + 200
-                step_goal_3 = option_3 + 200
-            else: 
-                step_goal_1 = option_1 + 400
-                step_goal_2 = option_2 + 400
-                step_goal_3 = option_3 + 400
-    
-    except mysql.connector.Error as error:
-            logging.info("Error in saving name to db: " + str(error))
-
-    finally:
-        if conn.is_connected():
-            cur.close()
-            conn.close()
+    # Use the least used rl action
+    if least_used_action == "dec":
+        step_goal_1 =  option_1 - 400
+        step_goal_2 =  option_2 - 400
+        step_goal_3 =  option_3 - 400
+    elif least_used_action == "sdec": 
+        step_goal_1 = option_1 - 200
+        step_goal_2 = option_2 - 200
+        step_goal_3 = option_3 - 200
+    elif least_used_action == "nothing": 
+        step_goal_1 = option_1
+        step_goal_2 = option_2
+        step_goal_3 = option_3
+    elif least_used_action == "sinc": 
+        step_goal_1 = option_1 + 200
+        step_goal_2 = option_2 + 200
+        step_goal_3 = option_3 + 200
+    else: 
+        step_goal_1 = option_1 + 400
+        step_goal_2 = option_2 + 400
+        step_goal_3 = option_3 + 400
 
     return step_goal_1, step_goal_2, step_goal_3
 
