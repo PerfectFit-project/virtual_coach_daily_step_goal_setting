@@ -10,6 +10,9 @@ $(document).ready(function () {
 	const session_num = urlParams.get('n');
 	
 	//start a session
+	$('.usrInput').attr("disabled", true);
+	$(".usrInput").prop('placeholder', "Wait for Steph's response.");
+	
 	if (session_num == "1"){
 		send('/start_session1{"session_num":"1"}');
 	} else if (session_num == "2"){
