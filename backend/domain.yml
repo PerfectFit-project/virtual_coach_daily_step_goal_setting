@@ -280,7 +280,7 @@ responses:
       title: "Yeah, I'm good!"
     - payload: /confirm_smalltalk{"smalltalk":"No"}
       title: "No, I'm not doing so good today."
-    text: "How are you feeling good today?"
+    text: "Are you feeling good today?"
   utter_intro_session1_1:
   - condition:
       - type: slot
