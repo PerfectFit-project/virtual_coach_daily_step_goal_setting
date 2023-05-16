@@ -16,9 +16,7 @@ rules:
   - slot_was_set:
     - session_loaded: true
   - action: utter_greet_first_time
-  - action: utter_prompt_usage
-  - action: utter_explain_usage_1
-  - action: utter_explain_usage_2
+  - action: utter_small_talk_question
 
 - rule: start session 1 and unsuccessful session load
   steps:
@@ -31,7 +29,7 @@ rules:
 
 - rule: intro session 1
   steps:
-  - intent: confirm_usage
+  - intent: confirm_smalltalk
   - action: utter_intro_session1_1
   - action: utter_intro_session1_2
   - action: utter_intro_session1_3
@@ -189,8 +187,8 @@ rules:
 - rule: decrease goal
   steps:
   - intent: goal_rejected_reason
-  - action: utter_comfort_user
   - action: action_save_rejection_reason_to_db
+  - action: utter_comfort_user
   - action: action_decrease_goal
   - action: propose_step_goal_options_form
   - active_loop: propose_step_goal_options_form

@@ -29,6 +29,7 @@ intents:
 - start_session_mid
 - start_session_last
 - current_self_efficacy_feedback
+- confirm_smalltalk
 
 entities:
 - session_num:
@@ -62,6 +63,8 @@ entities:
 - previous_activity_from_db:
     influence_conversation: false
 - self_efficacy_feedback:
+    influence_conversation: false
+- smalltalk:
     influence_conversation: false
 
 slots:
@@ -260,21 +263,31 @@ slots:
     mappings:
     - type: from_entity
       entity: self_efficacy_feedback
+  smalltalk:
+    type: text
+    initial_value: ''
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: smalltalk
 
 responses:
   utter_greet_first_time:
-  - text: "Hello, my name is Steph and I'll be helping you during the coming days to increase the number of steps you take each day!"
-  utter_prompt_usage:
-  - text: "Before we start, let me explain how you can communicate with me."
-  utter_explain_usage_1:
-  - text: "Most of the time, you can just click on one of the buttons that appear. If no buttons appear, just make use of the text field shown at the bottom of the screen."
-  utter_explain_usage_2:
+  - text: "Hello, my name is Steph and I'll be helping you during the coming days to set a personal step goal each day!"
+  utter_small_talk_question:
   - buttons:
-    - payload: /confirm_usage
-      title: "Let's go!"
-    text: "Try it out by clicking the button below."
+    - payload: /confirm_smalltalk{"smalltalk":"Yes"}
+      title: "Yeah, I'm good!"
+    - payload: /confirm_smalltalk{"smalltalk":"No"}
+      title: "No, I'm not doing so good today."
+    text: "How are you feeling good today?"
   utter_intro_session1_1:
-  - text: "Alright! Now, let me explain the purpose of these sessions."
+  - condition:
+      - type: slot
+        name: smalltalk
+        value: "Yes"
+    text: "Alright, I'm doing good too! Now, let me explain the purpose of these sessions."
+  text: "Oh, I hope you feel better soon. For now, let me explain the purpose of these sessions."
   utter_intro_session1_2:
   - text: "To be physically and mentally fit, it's important to increase your physical activity. And one easy way to do so is by increasing the number of steps you take each day.🚶"
   utter_intro_session1_3:
@@ -430,7 +443,7 @@ responses:
       title: "Content"
     - payload: /current_mood{"mood":"neutral", "mood_quadrant":"neutral"}
       title: "Neutral"
-    text: "Question 1: How are you feeling today? Choose the option that fits you best."
+    text: "Question 1: How would you describe your current mood? Choose the option that fits you best."
   utter_respond_mood:
     - condition:
         - type: slot
@@ -935,7 +948,7 @@ responses:
   - buttons:
     - payload: /get_started_session_mid
       title: "Alright!"
-    text: "I am curious to hear how you did yesterday🚶, so let's get right in!"
+    text: "I am curious to hear how you did yesterday.🚶So, let's get started right away!"
   utter_get_previous_activity:
   - buttons:
     - payload : /able_to_provide_previous_activity_not_first_session
@@ -944,11 +957,12 @@ responses:
       title: "No"
     text: "Do you know how many steps you took yesterday? (e.g. by looking it up on your phone or smartwatch)"
   utter_explain_previous_activity_not_session1_slot:
-  - text: "Perfect! You can tell me by just typing the number."
+  - text: "Perfect! You can tell me by just typing the number in the chat box at the bottom of your screen."
   utter_ask_previous_activity_not_session1_slot:
   - text: "So, how many steps did you take yesterday?"
   utter_thanks_previous_activity_not_session1:
   - text: "Nice! Thanks for sharing."
+  - text: "Cool, thank you!"
   utter_check_previous_goal:
   - buttons:
     - payload: /remember_goal{"goal_remembered":"true"}
@@ -993,11 +1007,11 @@ responses:
       title: "9"
     - payload: /current_goal_achievability{"goal_achievability":"10"}
       title: "10 (I think yesterday's goal was very achievable)"
-    text: "So, knowing what you know now, how achievable or unachievable do you think the goal of yesterday was on a scale from 0 to 10?"
+    text: "So, knowing what you know now, how achievable or unachievable do you think the step goal of yesterday was on a scale from 0 to 10?"
   utter_thanks_goal_achievability:
   - text: "Okay, thanks for sharing!"
   utter_explain_self_efficacy_1:
-  - text: "I would also like to know whether you think your confidence of achieving a goal yesterday was accurate looking back at it now."
+  - text: "I would also like to know whether you think your confidence of achieving a step goal yesterday was accurate looking back at it now."
   utter_explain_self_efficacy_2:
   - text: "Yesterday you told me that your confidence was {self_efficacy_from_db} out of 10."
   utter_get_goal_self_efficacy_feedback:
@@ -1024,7 +1038,7 @@ responses:
       title: "9"
     - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"10"}
       title: "10 (I think my confidence yesterday was very accurate)"
-    text: "But, knowing what you know now, how accurate or inaccurate do you think your confidence of achieving a goal yesterday was on a scale from 0 to 10?"
+    text: "But, knowing what you know now, how accurate or inaccurate do you think your confidence of achieving a step goal yesterday was on a scale from 0 to 10?"
   utter_thanks_self_efficacy_feedback:
   - text: "Cool, thank you."
   utter_start_state_questions:
