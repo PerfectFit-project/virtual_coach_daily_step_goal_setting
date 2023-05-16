@@ -276,18 +276,25 @@ responses:
   - text: "Hello, my name is Steph and I'll be helping you during the coming days to set a personal step goal each day!"
   utter_small_talk_question:
   - buttons:
-    - payload: /confirm_smalltalk{"smalltalk":"Yes"}
-      title: "Yeah, I'm good!"
-    - payload: /confirm_smalltalk{"smalltalk":"No"}
-      title: "No, I'm not doing so good today."
-    text: "Are you feeling good today?"
+    - payload: /confirm_smalltalk{"smalltalk":"Good"}
+      title: "I'm good!"
+    - payload: /confirm_smalltalk{"smalltalk":"Okay"}
+      title: "I'm okay."
+    - payload: /confirm_smalltalk{"smalltalk":"Bad"}
+      title: "I'm not feeling so good today."
+    text: "How are you today?"
   utter_intro_session1_1:
   - condition:
       - type: slot
         name: smalltalk
-        value: "Yes"
-    text: "Alright, I'm doing good too! Now, let me explain the purpose of these sessions."
-  - text: "Oh, I hope you feel better soon. For now, let me explain the purpose of these sessions."
+        value: "Good"
+    text: "Nice, me too! Now, let me explain the purpose of these sessions."
+  - condition:
+      - type: slot
+        name: smalltalk
+        value: "Okay"
+      text: "Alright, I'm doing fine as well. Now, let me explain the purpose of these sessions."
+  - text: "Ohw, I hope you feel better soon. For now, let me explain the purpose of these sessions."
   utter_intro_session1_2:
   - text: "To be physically and mentally fit, it's important to increase your physical activity. And one easy way to do so is by increasing the number of steps you take each day.🚶"
   utter_intro_session1_3:
