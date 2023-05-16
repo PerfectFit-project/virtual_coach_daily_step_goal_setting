@@ -190,6 +190,7 @@ rules:
   steps:
   - intent: goal_rejected_reason
   - action: utter_comfort_user
+  - action: action_save_rejection_reason_to_db
   - action: action_decrease_goal
   - action: propose_step_goal_options_form
   - active_loop: propose_step_goal_options_form

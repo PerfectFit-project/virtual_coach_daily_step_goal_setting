@@ -232,7 +232,7 @@ class ActionSaveStateToDB(Action):
                 save_sessiondata_entry(cur, conn, prolific_id, session_num, slot, state, formatted_date)
 
         except mysql.connector.Error as error:
-            logging.info("Error in saving name to db: " + str(error))
+            logging.info("Error in saving state to db: " + str(error))
 
         finally:
             if conn.is_connected():
@@ -275,7 +275,7 @@ class ActionSaveGoalToDB(Action):
                                         tracker.get_slot("number_of_rejected_proposals"), formatted_date)
 
         except mysql.connector.Error as error:
-            logging.info("Error in saving name to db: " + str(error))
+            logging.info("Error in saving goal to db: " + str(error))
 
         finally:
             if conn.is_connected():
@@ -319,7 +319,7 @@ class ActionSaveGoalAchievabilityToDB(Action):
             save_sessiondata_entry(cur, conn, prolific_id, session_num, "goal_achievability", achievability, formatted_date)
 
         except mysql.connector.Error as error:
-            logging.info("Error in saving name to db: " + str(error))
+            logging.info("Error in saving goal achievability to db: " + str(error))
 
         finally:
             if conn.is_connected():
@@ -363,7 +363,46 @@ class ActionSaveSelfEfficacyFeedbackToDB(Action):
             save_sessiondata_entry(cur, conn, prolific_id, session_num, "self_efficacy_feedback", self_efficacy, formatted_date)
 
         except mysql.connector.Error as error:
-            logging.info("Error in saving name to db: " + str(error))
+            logging.info("Error in saving self-efficacy feedback to db: " + str(error))
+
+        finally:
+            if conn.is_connected():
+                cur.close()
+                conn.close()
+
+        return []
+
+
+class ActionSaveRejectionReasonToDB(Action):
+
+    def name(self) -> Text:
+        return "action_save_rejection_reason_to_db"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        now = datetime.now()
+        formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
+
+        try:
+            conn = mysql.connector.connect(
+                user=DATABASE_USER,
+                password=DATABASE_PASSWORD,
+                host=DATABASE_HOST,
+                port=DATABASE_PORT,
+                database='db'
+            )
+            cur = conn.cursor(prepared=True)
+
+            prolific_id = tracker.current_state()['sender_id']
+            session_num = tracker.get_slot("session_num")
+            rejection_reason = tracker.get_slot("rejection_reason")
+            
+            save_sessiondata_entry(cur, conn, prolific_id, session_num, "rejection_reason", rejection_reason, formatted_date)
+
+        except mysql.connector.Error as error:
+            logging.info("Error in saving rejection reason to db: " + str(error))
 
         finally:
             if conn.is_connected():
@@ -422,7 +461,7 @@ class ActionSavePreviousActivitySession1ToDB(Action):
             save_sessiondata_entry(cur, conn, prolific_id, session_num, "prev_activity", prev_activity, formatted_date)
 
         except mysql.connector.Error as error:
-            logging.info("Error in saving name to db: " + str(error))
+            logging.info("Error in saving previous activity session 1 to db: " + str(error))
 
         finally:
             if conn.is_connected():
@@ -479,7 +518,7 @@ class ActionSavePreviousActivityToDB(Action):
             save_sessiondata_entry(cur, conn, prolific_id, session_num, "prev_activity", prev_activity, formatted_date)
 
         except mysql.connector.Error as error:
-            logging.info("Error in saving name to db: " + str(error))
+            logging.info("Error in saving previous activity not session 1 to db: " + str(error))
 
         finally:
             if conn.is_connected():

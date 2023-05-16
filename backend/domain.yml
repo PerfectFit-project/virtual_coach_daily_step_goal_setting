@@ -1125,6 +1125,7 @@ actions:
 - action_save_goal_achievability_to_db
 - action_save_previous_activity_session1_to_db
 - action_save_self_efficacy_feedback_to_db
+- action_save_rejection_reason_to_db
 - action_check_first_rejection
 - action_continue_after_goal_picking
 - action_send_email
