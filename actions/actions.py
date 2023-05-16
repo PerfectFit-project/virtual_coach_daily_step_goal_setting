@@ -475,7 +475,7 @@ class ActionSavePreviousActivityToDB(Action):
                 prev_activity += ","
                 prev_activity += previous_activity[i]
                 total_steps += int(previous_activity[i])
-            mean = str(int(math.ceil(total_steps / 100.0)) * 100)
+            mean = str(int(math.ceil((total_steps / 9) / 100.0)) * 100)
             save_sessiondata_entry(cur, conn, prolific_id, session_num, "prev_activity", prev_activity, formatted_date)
 
         except mysql.connector.Error as error:
