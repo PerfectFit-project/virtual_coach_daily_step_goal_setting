@@ -145,6 +145,7 @@ rules:
 - rule: goal accepted
   steps:
   - intent: goal_accepted
+  - action: action_save_number_of_rejections_to_db
   - action: utter_congratulate_on_goal
   - action: action_save_goal_to_db
   - action: utter_wrap_up_1

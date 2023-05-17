@@ -412,6 +412,45 @@ class ActionSaveRejectionReasonToDB(Action):
         return []
 
 
+class ActionSaveNumberOfRejectionsToDB(Action):
+
+    def name(self) -> Text:
+        return "action_save_number_of_rejections_to_db"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        now = datetime.now()
+        formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
+
+        try:
+            conn = mysql.connector.connect(
+                user=DATABASE_USER,
+                password=DATABASE_PASSWORD,
+                host=DATABASE_HOST,
+                port=DATABASE_PORT,
+                database='db'
+            )
+            cur = conn.cursor(prepared=True)
+
+            prolific_id = tracker.current_state()['sender_id']
+            session_num = tracker.get_slot("session_num")
+            number_of_rejected_proposals = tracker.get_slot("number_of_rejected_proposals")
+            
+            save_sessiondata_entry(cur, conn, prolific_id, session_num, "number_of_rejected_proposals", number_of_rejected_proposals, formatted_date)
+
+        except mysql.connector.Error as error:
+            logging.info("Error in saving number of rejections to db: " + str(error))
+
+        finally:
+            if conn.is_connected():
+                cur.close()
+                conn.close()
+
+        return []
+
+
 class ActionSavePreviousActivitySession1ToDB(Action):
 
     def name(self) -> Text:
