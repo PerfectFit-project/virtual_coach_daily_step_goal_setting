@@ -927,17 +927,17 @@ responses:
         - type: slot
           name: rejection_reason
           value: "weather"
-      text: "Yeah that's annoying. However, most of the times the weather isn't bad during the entrire day. So try to find a time at which the weather is good enough a go for a little walk then!"
+      text: "Yeah that's annoying. However, most of the times the weather isn't bad during the entrire day. So try to find a time at which the weather is good enough and go for a little walk then!"
     - condition:
         - type: slot
           name: rejection_reason
           value: "tired"
-      text: "I understand that you do not want to take many steps when you are tired. However, going for a walk is good for you and can help you get more energy to do other things. So try to take at least some steps today!"
+      text: "I understand that you don't want to take many steps when you're tired. However, going for a walk is good for you and can help you get more energy to do other things. So try to take at least some steps today!"
     - condition:
         - type: slot
           name: rejection_reason
           value: "time"
-      text: "Sometimes you are busy with other things but even then you should try to go for a little walk as it can help you clear your mind and feel more energetic to continue. So if you are busy, try to find a timeslot today were you can do a little walk, even 10 minutes is already something!👍"
+      text: "Sometimes you are busy with other things but even then you should try to go for a little walk as it can help you clear your mind and feel more energetic. So if you are busy, try to find a timeslot today were you can do a little walk, even 10 minutes is already something!👍"
     - condition:
         - type: slot
           name: rejection_reason
