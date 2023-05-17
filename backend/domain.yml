@@ -293,7 +293,7 @@ responses:
       - type: slot
         name: smalltalk
         value: "Okay"
-      text: "Alright, I'm doing fine as well. Now, let me explain the purpose of these sessions."
+    text: "Alright, I'm doing fine as well. Now, let me explain the purpose of these sessions."
   - text: "Ohw, I hope you feel better soon. For now, let me explain the purpose of these sessions."
   utter_intro_session1_2:
   - text: "To be physically and mentally fit, it's important to increase your physical activity. And one easy way to do so is by increasing the number of steps you take each day.🚶"
