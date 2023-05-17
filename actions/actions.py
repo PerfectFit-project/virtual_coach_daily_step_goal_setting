@@ -791,13 +791,13 @@ class ActionSendEmail(Action):
         prolific_id = tracker.current_state()['sender_id']
 
         step_goal = tracker.get_slot('preferred_step_goal_slot')
-        session_num = tracker.get_slot('session_num')  # this is a string
+        session_num = tracker.get_slot('session_num')
 
         ssl_port = 465
         with open('x.txt', 'r') as f:
             x = f.read()
             x = x.rstrip()
-        smtp = "smtp.gmail.com" # for web.de: smtp.web.de
+        smtp = "smtp.gmail.com"
         with open('email.txt', 'r') as f:
             email = f.read()
             email = email.rstrip()
