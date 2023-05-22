@@ -444,8 +444,6 @@ responses:
       title: "Relaxed"
     - payload: /current_mood{"mood":"calm", "mood_quadrant":"la_hv"}
       title: "Calm"
-    - payload: /current_mood{"mood":"tranquil", "mood_quadrant":"la_hv"}
-      title: "Tranquil"
     - payload: /current_mood{"mood":"content", "mood_quadrant":"la_hv"}
       title: "Content"
     - payload: /current_mood{"mood":"neutral", "mood_quadrant":"neutral"}
