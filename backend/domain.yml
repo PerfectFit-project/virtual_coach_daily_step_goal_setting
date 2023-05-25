@@ -1022,28 +1022,28 @@ responses:
   utter_get_goal_self_efficacy_feedback:
   - buttons:
     - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"0"}
-      title: "0 (I think my confidence yesterday was very inaccurate)"
+      title: "-5 (I think my confidence yesterday should have been way lower)"
     - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"1"}
-      title: "1"
+      title: "-4"
     - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"2"}
-      title: "2"
+      title: "-3"
     - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"3"}
-      title: "3"
+      title: "-2"
     - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"4"}
-      title: "4"
+      title: "-1"
     - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"5"}
-      title: "5"
+      title: "0"
     - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"6"}
-      title: "6"
+      title: "1"
     - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"7"}
-      title: "7"
+      title: "2"
     - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"8"}
-      title: "8"
+      title: "3"
     - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"9"}
-      title: "9"
+      title: "4"
     - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"10"}
-      title: "10 (I think my confidence yesterday was very accurate)"
-    text: "But, knowing what you know now, how accurate or inaccurate do you think your confidence of achieving a step goal yesterday was on a scale from 0 to 10?"
+      title: "5 (I think my confidence yesterday should have been way higher)"
+    text: "But, knowing what you know now, do you think your confidence of achieving a step goal yesterday was okay, or should it have been lower or higher? Please indicate this on a scale from -5 to 5."
   utter_thanks_self_efficacy_feedback:
   - text: "Cool, thank you."
   utter_start_state_questions:

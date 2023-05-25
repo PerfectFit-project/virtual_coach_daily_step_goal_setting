@@ -896,25 +896,22 @@ class ValidatePreviousActivityForm(FormValidationAction):
             return {"previous_activity_slot": None}
 
         previous_activity = value.split(";")
-        valid_previous_activity = True
         previous_activity_slot = ""
         # Check if there are at least 5 values
         if len(previous_activity) < 5:
-            valid_previous_activity = False
+            dispatcher.utter_message("You didn't provide at least 5 numbers, maybe you forgot one.")
+            return {"previous_activity_slot": None}
         # Check if the values are numbers
         else:
             for i in range (0, min(9, len(previous_activity))):
                 if not previous_activity[i].isnumeric():
-                    valid_previous_activity = False
+                    dispatcher.utter_message("Hmm, it looks like your answer isn't formatted correctly, it should be numbers seperated by a semicolon.")
+                    dispatcher.utter_message(response="utter_example_input_previous_activity")
+                    return {"previous_activity_slot": None}
                 elif i == 0:
                     previous_activity_slot += previous_activity[i]
                 else:
                     previous_activity_slot += "," + previous_activity[i]
-        
-        if not valid_previous_activity:
-            dispatcher.utter_message("You didn't provide at least 5 numbers, maybe you forgot one, or your answer isn't formatted correctly, it should be numbers seperated by a semicolon.")
-            dispatcher.utter_message(response="utter_example_input_previous_activity")
-            return {"previous_activity_slot": None}
 
         # Use only the first 9 days of previous activity
         return {"previous_activity_slot": previous_activity_slot}
@@ -974,7 +971,10 @@ class ValidatePreviousActivityNotSession1Form(FormValidationAction):
 
         # Check if the response is a number
         if value.isnumeric():
+            if int(value) > 20000:
+                dispatcher.utter_message("Wow, that is a lot of steps. Nice going! However, I only take numbers up until 20000, so please just use 20000 as your answer in case you did more than 20000 steps")
+                return {"previous_activity_not_session1_slot": None}
             return {"previous_activity_not_session1_slot": value}
         else:
-            dispatcher.utter_message("Your input is not formatted correctly. Please only respond with the number of steps you took yesterday")
+            dispatcher.utter_message("Your input is not formatted correctly. Please only respond with a number indicating the number of steps you took yesterday")
             return {"previous_activity_not_session1_slot": None}
