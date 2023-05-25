@@ -270,6 +270,12 @@ slots:
     mappings:
     - type: from_entity
       entity: smalltalk
+  initial_goal_from_db:
+    type: text
+    initial_value: ''
+    influence_conversation: false
+    mappings:
+    - type: custom
 
 responses:
   utter_greet_first_time:
@@ -987,11 +993,11 @@ responses:
           value: "false"
       text: "That's fine, no problem. I recall setting a goal of {goal_prev_session} steps with you yesterday.🎯"
   utter_explain_goal_achievement:
-  - text: "I would like to know whether you think the goal we set yesterday was achievable looking back at it."
+  - text: "I would like to know whether you think the first goal I proposed yesterday was achievable looking back at it."
   utter_get_goal_achievability:
   - buttons:
     - payload: /current_goal_achievability{"goal_achievability":"0"}
-      title: "0 (I think yesterday's goal very unachievable)"
+      title: "0 (I think that goal would have been very unachievable)"
     - payload: /current_goal_achievability{"goal_achievability":"1"}
       title: "1"
     - payload: /current_goal_achievability{"goal_achievability":"2"}
@@ -1011,8 +1017,8 @@ responses:
     - payload: /current_goal_achievability{"goal_achievability":"9"}
       title: "9"
     - payload: /current_goal_achievability{"goal_achievability":"10"}
-      title: "10 (I think yesterday's goal was very achievable)"
-    text: "So, knowing what you know now, how achievable or unachievable do you think the step goal of yesterday was on a scale from 0 to 10?"
+      title: "10 (I think that goal would have been very achievable)"
+    text: "So, knowing what you know now, how achievable or unachievable do you think a step goal of {initial_goal_from_db} steps would have been yesterday on a scale from 0 to 10?"
   utter_thanks_goal_achievability:
   - text: "Okay, thanks for sharing!"
   utter_explain_self_efficacy_1:

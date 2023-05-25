@@ -146,6 +146,7 @@ class ActionLoadSessionNotFirst(Action):
         prev_goal = ""
         previous_activity = ""
         prev_self_efficacy = ""
+        prev_initial_goal = ""
 
         try:
             conn = mysql.connector.connect(
@@ -180,11 +181,16 @@ class ActionLoadSessionNotFirst(Action):
                     cur.execute(query, [prolific_id, str(int(session_num) - 1), "self_efficacy"])
                     res = cur.fetchone()
                     prev_self_efficacy = res[0]
+                    query = ("SELECT response_value FROM sessiondata WHERE prolific_id = %s and session_num = %s and response_type = %s")
+                    cur.execute(query, [prolific_id, str(int(session_num) - 1), "initial_proposal"])
+                    res = cur.fetchone()
+                    prev_initial_goal = res[0]
 
         except mysql.connector.Error as error:
             session_loaded = False
             prev_goal = "0"
             previous_activity = "0"
+            prev_initial_goal = "0"
             logging.info("Error in loading session not first: " + str(error))
 
         finally:
@@ -195,7 +201,8 @@ class ActionLoadSessionNotFirst(Action):
         return [SlotSet("goal_prev_session", prev_goal),
                 SlotSet("session_loaded", session_loaded),
                 SlotSet("previous_activity_from_db", previous_activity),
-                SlotSet("self_efficacy_from_db", prev_self_efficacy)]
+                SlotSet("self_efficacy_from_db", prev_self_efficacy),
+                SlotSet("initial_goal_from_db", prev_initial_goal)]
 
 
 class ActionSaveStateToDB(Action):
