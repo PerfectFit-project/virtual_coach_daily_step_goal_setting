@@ -914,6 +914,9 @@ class ValidatePreviousActivityForm(FormValidationAction):
                     dispatcher.utter_message("Hmm, it looks like your answer isn't formatted correctly, it should be numbers seperated by a semicolon.")
                     dispatcher.utter_message(response="utter_example_input_previous_activity")
                     return {"previous_activity_slot": None}
+                elif len(previous_activity[i]) > 6:
+                    dispatcher.utter_message("I don't think you can take that many steps in one day. Please input the actual number of steps you did in the past 5 to 9 days.")
+                    return {"previous_activity_slot": None}
                 elif i == 0:
                     previous_activity_slot += previous_activity[i]
                 else:
