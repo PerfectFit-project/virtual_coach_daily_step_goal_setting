@@ -489,13 +489,12 @@ class ActionSavePreviousActivitySession1ToDB(Action):
             previous_activity = tracker.get_slot("previous_activity_slot").split(',')
             # Make sure the previous activity of the user consists of 9 entries
             # so fill with the mean of the given steps per day.
-            if len(previous_activity) < 9:
-                sum_of_elements = 0
-                for steps in previous_activity:
-                    sum_of_elements += int(steps)
-                mean = round(sum_of_elements/len(previous_activity))
-                for i in range(9 - len(previous_activity)):
-                    previous_activity.append(str(mean))
+            sum_of_elements = 0
+            for steps in previous_activity:
+                sum_of_elements += int(steps)
+            mean = round(sum_of_elements/len(previous_activity))
+            for i in range(9 - len(previous_activity)):
+                previous_activity.append(str(mean))
 
             mean = int(math.ceil(mean / 100.0)) * 100
             

@@ -679,7 +679,7 @@ responses:
   utter_get_rest:
   - buttons:
     - payload: /current_rest{"rest":"0", "rest_level":"low"}
-      title: "0 (I slept terrible last night)"
+      title: "0 (I slept terribly last night)"
     - payload: /current_rest{"rest":"1", "rest_level":"low"}
       title: "1"
     - payload: /current_rest{"rest":"2", "rest_level":"low"}
@@ -1038,7 +1038,7 @@ responses:
     - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"4"}
       title: "-1"
     - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"5"}
-      title: "0"
+      title: "0 (I think my confidence yesterday was okay)"
     - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"6"}
       title: "1"
     - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"7"}
@@ -1049,7 +1049,7 @@ responses:
       title: "4"
     - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"10"}
       title: "5 (I think my confidence yesterday should have been way higher)"
-    text: "But, knowing what you know now, do you think your confidence of achieving a step goal yesterday was okay, or should it have been lower or higher? Please indicate this on a scale from -5 to 5."
+    text: "But, knowing what you know now, how would you evaluate your confidence for achieving a step goal yesterday on a scale from -5 to 5?"
   utter_thanks_self_efficacy_feedback:
   - text: "Cool, thank you."
   utter_start_state_questions:
