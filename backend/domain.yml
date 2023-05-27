@@ -1027,27 +1027,27 @@ responses:
   - text: "Yesterday you told me that your confidence was {self_efficacy_from_db} out of 10."
   utter_get_goal_self_efficacy_feedback:
   - buttons:
-    - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"0"}
+    - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"-5"}
       title: "-5 (I think my confidence yesterday should have been way lower)"
-    - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"1"}
+    - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"-4"}
       title: "-4"
-    - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"2"}
+    - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"-3"}
       title: "-3"
-    - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"3"}
+    - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"-2"}
       title: "-2"
-    - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"4"}
+    - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"-1"}
       title: "-1"
-    - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"5"}
+    - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"0"}
       title: "0 (I think my confidence yesterday was okay)"
-    - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"6"}
+    - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"1"}
       title: "1"
-    - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"7"}
+    - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"2"}
       title: "2"
-    - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"8"}
+    - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"3"}
       title: "3"
-    - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"9"}
+    - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"4"}
       title: "4"
-    - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"10"}
+    - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"5"}
       title: "5 (I think my confidence yesterday should have been way higher)"
     text: "But, knowing what you know now, how would you evaluate your confidence for achieving a step goal yesterday on a scale from -5 to 5?"
   utter_thanks_self_efficacy_feedback:
