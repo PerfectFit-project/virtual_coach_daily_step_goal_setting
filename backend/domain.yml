@@ -356,7 +356,7 @@ responses:
   utter_ask_previous_activity_slot:
   - text: "How many steps did you take in the past 5 days? Remember, you may also give your steps up to the previous 9 days. Input it as: STEPS_OF_YESTERDAY;STEPS_OF_THE_DAY_BEFORE_THAT;ETC"
   utter_end_because_no_previous_activity_1:
-  - text: "Hmm, well then I can't do much for you. I guess that our conversation ends here. Have a nice day!"
+  - text: "Hmm, well then I can't do much to assist you in that case. I guess that our conversation ends here. Have a nice day!"
   utter_end_because_no_previous_activity_2:
   - condition:
       - type: slot
@@ -710,13 +710,53 @@ responses:
     - condition:
         - type: slot
           name: rest_level
+          value: "low"
+      text: "Oh no, that's unfortunate. Hopefully it will be better tonight!"
+    - condition:
+        - type: slot
+          name: rest_level
+          value: "low"
+      text: "Oh no, that's a bummer. Hopefully you'll sleep better tonight!"
+    - condition:
+        - type: slot
+          name: rest_level
+          value: "low"
+      text: "Aww, that's unfortunate. Hopefully, you'll get a better night's sleep tonight!"
+    - condition:
+        - type: slot
+          name: rest_level
           value: "mid"
       text: "Ah okay, decent!"
     - condition:
         - type: slot
           name: rest_level
+          value: "mid"
+      text: "Ah, got it! Not too bad!"
+    - condition:
+        - type: slot
+          name: rest_level
+          value: "mid"
+      text: "Alright, not too bad!"
+    - condition:
+        - type: slot
+          name: rest_level
           value: "high"
       text: "That's great, it's always nice to sleep well!"
+    - condition:
+        - type: slot
+          name: rest_level
+          value: "high"
+      text: "That's awesome! Getting a good night's sleep is always nice!"
+    - condition:
+        - type: slot
+          name: rest_level
+          value: "high"
+      text: "Nice! It's always a great feeling to wake up well rested!"
+    - condition:
+        - type: slot
+          name: rest_level
+          value: "high"
+      text: "Fantastic! It's always a good having slept well!"
   utter_get_available_time:
   - buttons:
     - payload: /current_available_time{"available_time":"0", "available_time_level":"low"}
@@ -751,13 +791,43 @@ responses:
     - condition:
         - type: slot
           name: available_time_level
+          value: "low"
+      text: "Hmm, it seems like you have a lot on your plate. However, I encourage you to make time for a short walk. It's not only beneficial for your health, but it can also do wonders for clearing your mind!"
+    - condition:
+        - type: slot
+          name: available_time_level
+          value: "low"
+      text: "Ah, quite busy I see. However, I encourage you to take a short walk if possible as it is healthy and can help clear your mind!"
+    - condition:
+        - type: slot
+          name: available_time_level
           value: "mid"
       text: "Okay that's good! You often don't need that much time to go for a little healthy walk."
     - condition:
         - type: slot
           name: available_time_level
+          value: "mid"
+      text: "Decent! Taking a short, healthy walk doesn't usually require a significant amount of time."
+    - condition:
+        - type: slot
+          name: available_time_level
+          value: "mid"
+      text: "Alright, that's okay! Taking a quick, healthy walk doesn't usually require much time, but the benefits can be quite significant."
+    - condition:
+        - type: slot
+          name: available_time_level
+          value: "high"
+      text: "Ah, sounds like you have plenty of free time today. Why not utilize some of it to take a walk? It's not only beneficial for your health, but it can also be a great way to make the most of your day!"
+    - condition:
+        - type: slot
+          name: available_time_level
           value: "high"
       text: "Ah, a lot of free time today. Use some of it to go for a walk as it's good for your health!"
+    - condition:
+        - type: slot
+          name: available_time_level
+          value: "high"
+      text: "Fantastic! I suggest utilizing some of it to go for a walk, as it can be really beneficial for your health!"
   utter_get_self_motivation:
   - buttons:
     - payload: /current_self_motivation{"self_motivation":"0", "self_motivation_level":"low"}
@@ -792,13 +862,38 @@ responses:
     - condition:
         - type: slot
           name: self_motivation_level
+          value: "low"
+      text: "It's completely normal to experience a lack of motivation at times. However, getting started and considering the advantages of going for a walk can often help overcome that initial hurdle!"
+    - condition:
+        - type: slot
+          name: self_motivation_level
+          value: "low"
+      text: "It's totally fine to feel a bit unmotivated at times. However, often all it takes is getting started and reminding yourself of the positive effects that going for a walk can have!"
+    - condition:
+        - type: slot
+          name: self_motivation_level
           value: "mid"
       text: "Alright, most times once you start walking, you'll get even more motivated to keep going. But it's good to already be somewhat motivated!"
     - condition:
         - type: slot
           name: self_motivation_level
+          value: "mid"
+      text: "Alright, usually once you take that first step and start walking, you'll likely find yourself even more motivated to continue. However, it's definitely helpful to have a bit of initial motivation already!"
+    - condition:
+        - type: slot
+          name: self_motivation_level
+          value: "mid"
+      text: "Okay, here's the deal: once you kick off your walk, you'll probably find yourself even more pumped up to keep going. But hey, it's always a good thing to have some motivation to begin with!"
+    - condition:
+        - type: slot
+          name: self_motivation_level
           value: "high"
       text: "Nice, let's not waste much time then and continue with the last question!"
+    - condition:
+        - type: slot
+          name: self_motivation_level
+          value: "high"
+      text: "Perfect, motivation is important to achieve goals and change behaviour, so it's good that you are motivated!"
   utter_get_self_efficacy:
   - buttons:
     - payload: /current_self_efficacy{"self_efficacy":"0", "self_efficacy_level":"low"}
