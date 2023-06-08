@@ -783,7 +783,7 @@ class ActionRespondGoalAchievement(Action):
         previous_activity = int(tracker.get_slot("previous_activity_not_session1_slot"))
 
         if previous_step_goal <= previous_activity:
-            dispatcher.utter_message("That means that you achieved yesterday's goal, congrats! Keep it up!")
+            dispatcher.utter_message("That means that you achieved yesterday's goal, congrats!🥳 Keep it up!")
         else:
             dispatcher.utter_message("This means that you unfortunately did not achieve the goal we set yesterday. But do not be discouraged, I'm sure you will make it today!")
 

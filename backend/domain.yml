@@ -894,6 +894,11 @@ responses:
           name: self_motivation_level
           value: "high"
       text: "Perfect, motivation is important to achieve goals and change behaviour, so it's good that you are motivated!"
+    - condition:
+        - type: slot
+          name: self_motivation_level
+          value: "high"
+      text: "Amazing! Having motivation is crucial when it comes to accomplishing goals and making positive changes in behavior. It's fantastic to see that you're already motivated!"
   utter_get_self_efficacy:
   - buttons:
     - payload: /current_self_efficacy{"self_efficacy":"0", "self_efficacy_level":"low"}
@@ -924,7 +929,17 @@ responses:
         - type: slot
           name: self_efficacy_level
           value: "low"
-      text: "Oh, don't be too harsh on yourself, you can do it!"
+      text: "Oh, don't be too hard on yourself, you can do it!"
+    - condition:
+        - type: slot
+          name: self_efficacy_level
+          value: "low"
+      text: "Hey, don't beat yourself up too much! I believe in you, and I know you have what it takes to succeed!"
+    - condition:
+        - type: slot
+          name: self_efficacy_level
+          value: "low"
+      text: "Aw, don't be too hard on yourself, you've got what it takes! Give it your best shot!"
     - condition:
         - type: slot
           name: self_efficacy_level
@@ -933,10 +948,33 @@ responses:
     - condition:
         - type: slot
           name: self_efficacy_level
+          value: "mid"
+      text: "Alright, no worries! Everything will turn out just fine, you'll see!"
+    - condition:
+        - type: slot
+          name: self_efficacy_level
+          value: "mid"
+      text: "No worries, you've got this. Give it your best shot!"
+    - condition:
+        - type: slot
+          name: self_efficacy_level
           value: "high"
-      text: "Okay, perfect! Good to hear."
+      text: "Okay, perfect! Good to hear!"
+    - condition:
+        - type: slot
+          name: self_efficacy_level
+          value: "high"
+      text: "Alright, that's fantastic!"
+    - condition:
+        - type: slot
+          name: self_efficacy_level
+          value: "high"
+      text: "Amazing, it's always good to believe in yourself!"
   utter_thanks_states:
   - text: "Those were all the questions, thank you for your answers!"
+  - text: "That wraps up all the questions. Thank you for answering them!"
+  - text: "Okay, that's it for the questions. Thanks for answering them!"
+  - text: "Alright, we're all done with the questions. Thanks for your answers!"
   utter_explain_goal_setting_1:
   - condition:
       - type: slot
@@ -948,16 +986,29 @@ responses:
         name: session_num
         value: "5"
     text: "For one last time we've come to the goal-setting part.🎯 You know the drill, choose one of the 3 options I give you."
+  - condition:
+      - type: slot
+        name: session_num
+        value: "2"
+    text: "We're at the exciting part again: the actual goal-setting.🎯 I've got three step goal options for you to choose from based on the number of steps you took in the last few days."
   - text: "We've once again come to the actual goal-setting part.🎯 I'll propose 3 step goal options of which you can choose one."    
   utter_explain_goal_setting_2:
   - text: "If you don't like any of them, you can choose the option 'other'."
+  - text: "If none of the options appeal to you, no worries! You always have the choice to select the 'other' option."
+  - text: "It's okay if none of the options appeal to you. You can always choose the 'other' option to change the goals."
   utter_explain_goal_setting_3:
   - condition:
       - type: slot
         name: session_num
         value: "1"
     text: "You can make your choice by typing the option you want."
+  - condition:
+      - type: slot
+        name: session_num
+        value: "5"
+    text: "Once again, go ahead and type in the option that catches your attention. And don't forget, I can change the proposals up to five times"
   - text: "Type the option you want and remember that I can change the proposals up to 5 times!"
+  - text: "Type in the option that appeals to you the most, and keep in mind that I can modify the proposals up to five times if needed."
   utter_ask_preferred_step_goal_slot:
   - condition:
       - type: slot
@@ -966,7 +1017,8 @@ responses:
     text: "Which of the following step goal options do you prefer? {step_goal_option_1_slot}, {step_goal_option_2_slot} or {step_goal_option_3_slot}? Or type 'other' if you want something differently."
   - text: "So, which of the following step goals has your preference? {step_goal_option_1_slot}, {step_goal_option_2_slot} or {step_goal_option_3_slot}?"
   utter_congratulate_on_goal:
-  - text: "Cool! Congratulations on your step goal for today of {preferred_step_goal_slot} steps!"
+  - text: "Cool! Congratulations on your step goal for today of {preferred_step_goal_slot} steps!🎉"
+  - text: "Perfect! Congrats on your step goal for today of {preferred_step_goal_slot} steps!🎉"
   utter_wrap_up_1:
   - condition:
       - type: slot
@@ -979,8 +1031,12 @@ responses:
         value: "5"
     text: "Well, I guess that was it for this intervention. I hope you enjoyed our collaboration and continue to increase the number of steps you take each day!💪"
   - text: "Alright, that was it for today!"
+  - text: "Alright, that wraps it up for today!"
+  - text: "Okay, we're done for today!"
   utter_wrap_up_2:
   - text: "Remember that taking steps is healthy for you and can easily be done by going for a walk during lunch break or taking the stairs instead of the elevator, for example. You can do this!🚶"
+  - text: "Keep in mind that incorporating more steps into your daily routine is a healthy choice and can be as simple as going for a walk during your lunch break or opting for the stairs instead of the elevator. You can do this!🚶"
+  - text: "Don't forget that adding more steps to your day is beneficial for your health and can be easily achieved by taking a stroll during your lunch break or choosing the stairs instead of the elevator. Give it your best!🚶"
   utter_wrap_up_3:
   - condition:
       - type: slot
@@ -1007,7 +1063,8 @@ responses:
   - text: "Looking for a challenge, I like it!"
   utter_increase_goal_2:
   - text: "Increasing the step goal is fine. Do know though, that you should not take too many steps today, as that might lead to an injury.🤕"
-  - text: "Wanting a higher step goal is okay. But, don't get too far ahead of yourself though, as that could lead to an injury."
+  - text: "Wanting a higher step goal is okay. But, don't get too far ahead of yourself though, as that could lead to an injury.🤕"
+  - text: "It's perfectly fine to increase your step goal, but do keep in mind that it's important not to push yourself too hard today, as that can cause an injury.🤕"
   utter_decrease_goal:
   - buttons:
     - payload: /goal_rejected_reason{"rejection_reason":"weather"}
@@ -1030,8 +1087,18 @@ responses:
     - condition:
         - type: slot
           name: rejection_reason
+          value: "weather"
+      text: "Yeah, it can be frustrating when the weather isn't ideal. But, try to find a window of time when the weather is decent enough and take that opportunity to go for a short walk!"
+    - condition:
+        - type: slot
+          name: rejection_reason
           value: "tired"
       text: "I understand that you don't want to take many steps when you're tired. However, going for a walk is good for you and can help you get more energy to do other things. So try to take at least some steps today!"
+    - condition:
+        - type: slot
+          name: rejection_reason
+          value: "tired"
+      text: "I get that feeling tired can make you less inclined to take many steps. However, going for a walk can actually boost your energy levels and help you feel more refreshed for other activities!"
     - condition:
         - type: slot
           name: rejection_reason
@@ -1040,8 +1107,18 @@ responses:
     - condition:
         - type: slot
           name: rejection_reason
+          value: "time"
+      text: "I understand that you might be occupied with other tasks, but even in those busy moments, it's worth finding a small window of time for a brief walk. Taking just a 10-minute stroll can work wonders in clearing your mind and boosting your energy levels!"
+    - condition:
+        - type: slot
+          name: rejection_reason
           value: "else"
       text: "Thanks for telling me. It's okay to do less for a day, but try do to at least some steps today as it will make you feel better and more energetic to do other things!"
+    - condition:
+        - type: slot
+          name: rejection_reason
+          value: "else"
+      text: "Thank you for letting me know. While it's alright to do less on certain days, I encourage you to aim for at least some steps today as it will boost your energy levels!"
   utter_greet_repeat:
     - text: "Hi, nice to see you again!"
     - text: "Hello, welcome back!"
@@ -1051,10 +1128,22 @@ responses:
     - text: "Welcome back! It's good to see you again."
     - text: "Welcome to session {session_num}! Glad to see you back."
   utter_get_started:
+  - condition:
+      - type: slot
+        name: session_num
+        value: "5"
+    buttons:
+      - payload: /get_started_session_mid
+        title: "Let's do it!"
+    text: "For one final time, let's do some collaborative goal-setting!"
   - buttons:
     - payload: /get_started_session_mid
       title: "Alright!"
     text: "I am curious to hear how you did yesterday.🚶So, let's get started right away!"
+  - buttons:
+    - payload: /get_started_session_mid
+      title: "Okay!"
+    text: "I really want to know how you did yesterday.🚶So, let's jump in right away!"
   utter_get_previous_activity:
   - buttons:
     - payload : /able_to_provide_previous_activity_not_first_session
@@ -1064,11 +1153,16 @@ responses:
     text: "Do you know how many steps you took yesterday? (e.g. by looking it up on your phone or smartwatch)"
   utter_explain_previous_activity_not_session1_slot:
   - text: "Perfect! You can tell me by just typing the number in the chat box at the bottom of your screen."
+  - text: "Awesome! Simply type the number in the chat box at the bottom of your screen."
+  - text: "Nice, you can share it with me by typing the number in the the chat bow at the bottom of your screen."
   utter_ask_previous_activity_not_session1_slot:
   - text: "So, how many steps did you take yesterday?"
   utter_thanks_previous_activity_not_session1:
+  - text: "Okay, thanks for sharing!"
   - text: "Nice! Thanks for sharing."
   - text: "Cool, thank you!"
+  - text: "Alright, thanks!"
+  - text: "Perfect, thank you for sharing!"
   utter_check_previous_goal:
   - buttons:
     - payload: /remember_goal{"goal_remembered":"true"}
@@ -1085,10 +1179,21 @@ responses:
     - condition:
         - type: slot
           name: goal_remembered
+          value: "true"
+      text: "Alright, got it! If my memory serves me right, your goal for yesterday was to achieve {goal_prev_session} steps.🎯"
+    - condition:
+        - type: slot
+          name: goal_remembered
           value: "false"
       text: "That's fine, no problem. I recall setting a goal of {goal_prev_session} steps with you yesterday.🎯"
+    - condition:
+        - type: slot
+          name: goal_remembered
+          value: "false"
+      text: "No worries, it's absolutely fine! I remember that you set a goal of {goal_prev_session} steps with me yesterday.🎯"
   utter_explain_goal_achievement:
-  - text: "I would like to know whether you think the first goal I proposed yesterday was achievable looking back at it."
+  - text: "Now, I would like to know whether you think the first goal I proposed yesterday was achievable looking back at it."
+  - text: "So, I would now like to know whether you think the goal I proposed first yesterday was achievable knowing what you know now."
   utter_get_goal_achievability:
   - buttons:
     - payload: /current_goal_achievability{"goal_achievability":"0"}
@@ -1116,10 +1221,16 @@ responses:
     text: "So, knowing what you know now, how achievable or unachievable do you think a step goal of {initial_goal_from_db} steps would have been yesterday on a scale from 0 to 10?"
   utter_thanks_goal_achievability:
   - text: "Okay, thanks for sharing!"
+  - text: "Nice! Thanks for sharing."
+  - text: "Cool, thank you!"
+  - text: "Alright, thanks!"
+  - text: "Perfect, thank you for sharing!"
   utter_explain_self_efficacy_1:
   - text: "I would also like to know whether you think your confidence of achieving a step goal yesterday was accurate looking back at it now."
+  - text: "I'm also curious to know whether you think your confidence of achieving a step goal yesterday was accurate knowing what you know now."
   utter_explain_self_efficacy_2:
   - text: "Yesterday you told me that your confidence was {self_efficacy_from_db} out of 10."
+  - text: "Yesterday you indicate that your confidence was {self_efficacy_from_db} out of 10."
   utter_get_goal_self_efficacy_feedback:
   - buttons:
     - payload: /current_self_efficacy_feedback{"self_efficacy_feedback":"-5"}
@@ -1146,7 +1257,11 @@ responses:
       title: "5 (I think my confidence yesterday should have been way higher)"
     text: "But, knowing what you know now, how would you evaluate your confidence for achieving a step goal yesterday on a scale from -5 to 5?"
   utter_thanks_self_efficacy_feedback:
-  - text: "Cool, thank you."
+  - text: "Okay, thanks for sharing!"
+  - text: "Nice! Thanks for sharing."
+  - text: "Cool, thank you!"
+  - text: "Alright, thanks!"
+  - text: "Perfect, thank you for sharing!"
   utter_start_state_questions:
   - condition:
       - type: slot
@@ -1154,6 +1269,7 @@ responses:
         value: "5"
     text: "For one last time, I need some more information. The questions didn't change but your answers probably did. Again, try to answer as honestly as possible!"
   - text: "Now I would again like to get some more information to learn how to make the step goal proposals even more personal in the future. I'll ask you the same 5 questions as yesterday.📝 Try to answer them as honestly as possible again."
+  - text: "Since I'm still learning how to make the step goal proposals even more personal in the future, I would like to get some more information. I'll ask you the same 5 questions as yesterday.📝 Try to answer them as honestly as possible again."
   utter_greet_final_session:
   - text: "Hey, welcome back once more! This is the fifth and final day of the intervention. I'm glad to see you're still here! 🤗"
   utter_give_prolific_link:
@@ -1184,24 +1300,6 @@ responses:
     text: "Here's your Prolific link to complete this part of the study: ..."
   utter_final_close_session:
   - text: "THIS IS THE END OF THIS SESSION. PLEASE CLOSE THIS WINDOW.\nANY FURTHER TYPING IN THIS CHAT RENDERS THIS SESSION INVALID. IF YOU HAVE QUESTIONS, CONTACT THE RESEARCHER PER MESSAGE ON PROLIFIC."
-    
-  ### General
-  utter_great:
-  - text: Great!
-  - text: Perfect!
-  - text: Awesome!
-  
-  utter_cool:
-  - text: Nice!
-  - text: Cool!
-  - text: Perfect!
-  
-  utter_thanks:
-  - text: "Thanks!"
-  - text: "Thanks for letting me know!"
-  - text: "Okay thanks!"
-  - text: "Thanks for sharing that with me!"
-  
   utter_default:
   - text: "There is a problem with this session."
   utter_default_close_session:
@@ -1211,7 +1309,7 @@ responses:
  
 
 session_config:
-  session_expiration_time: 33  # these are minutes (33 is max. time in Prolific for 6-minute study)
+  session_expiration_time: 35  # these are minutes (33 is max. time in Prolific for 6-minute study)
   carry_over_slots_to_new_session: false
 
 
