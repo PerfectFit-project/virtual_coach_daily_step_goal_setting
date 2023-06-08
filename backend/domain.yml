@@ -354,7 +354,7 @@ responses:
   utter_example_input_previous_activity:
   - text: "So, for example, if I took 2000 steps yesterday, 3000 steps the day before that, and 2500 steps the day before that, I would type: 2000;3000;2500"
   utter_ask_previous_activity_slot:
-  - text: "How many steps did you take in the past 5 days? Remember, you may also give your steps up to the previous 9 days. Input it as: STEPS_OF_YESTERDAY;STEPS_OF_THE_DAY_BEFORE_THAT;ETC"
+  - text: "How many steps did you take in the past 5 days?👣 Remember, you may also give your steps up to the previous 9 days. Input it as: STEPS_OF_YESTERDAY;STEPS_OF_THE_DAY_BEFORE_THAT;ETC"
   utter_end_because_no_previous_activity_1:
   - text: "Hmm, well then I can't do much to assist you in that case. I guess that our conversation ends here. Have a nice day!"
   utter_end_because_no_previous_activity_2:
@@ -1156,7 +1156,7 @@ responses:
   - text: "Awesome! Simply type the number in the chat box at the bottom of your screen."
   - text: "Nice, you can share it with me by typing the number in the the chat bow at the bottom of your screen."
   utter_ask_previous_activity_not_session1_slot:
-  - text: "So, how many steps did you take yesterday?"
+  - text: "So, how many steps did you take yesterday?👣"
   utter_thanks_previous_activity_not_session1:
   - text: "Okay, thanks for sharing!"
   - text: "Nice! Thanks for sharing."
@@ -1180,7 +1180,7 @@ responses:
         - type: slot
           name: goal_remembered
           value: "true"
-      text: "Alright, got it! If my memory serves me right, your goal for yesterday was to achieve {goal_prev_session} steps.🎯"
+      text: "Perfect! If my memory serves me right, your goal for yesterday was to achieve {goal_prev_session} steps.🎯"
     - condition:
         - type: slot
           name: goal_remembered

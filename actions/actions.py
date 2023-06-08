@@ -724,7 +724,7 @@ class ActionIncreaseGoal(Action):
             option_2 += min(200, 10000 - option_3)
             option_3 += min(200, 10000 - option_3)
             number_of_rejected_proposals += 1
-            dispatcher.utter_message("But since you said you wanted something higher, I'll increase the step goals a bit!")
+            dispatcher.utter_message("But since you said you wanted something higher,⬆️ I'll increase the step goals a bit!")
             return [SlotSet("step_goal_option_1_slot", str(option_1)),
                     SlotSet("step_goal_option_2_slot", str(option_2)),
                     SlotSet("step_goal_option_3_slot", str(option_3)),
@@ -759,7 +759,7 @@ class ActionDecreaseGoal(Action):
             option_2 -= min(200, option_1 - 2000)
             option_3 -= min(200, option_1 - 2000)
             number_of_rejected_proposals += 1
-            dispatcher.utter_message("Since you said you wanted something lower, I'll decrease the step goals a bit!")
+            dispatcher.utter_message("Since you said you wanted something lower,⬇️ I'll decrease the step goals a bit!")
             dispatcher.utter_message("Picking a lower goal is fine but do know that lower goals can hinder your progress towards the final goal of 10.000 steps per day.")
             return [SlotSet("step_goal_option_1_slot", str(option_1)),
                     SlotSet("step_goal_option_2_slot", str(option_2)),
