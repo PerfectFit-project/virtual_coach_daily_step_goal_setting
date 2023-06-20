@@ -706,7 +706,7 @@ responses:
         - type: slot
           name: rest_level
           value: "low"
-      text: "Aww, that sucks. Hopefully it will be better tonight!"
+      text: "Aww, that's annoying. Hopefully it will be better tonight!"
     - condition:
         - type: slot
           name: rest_level

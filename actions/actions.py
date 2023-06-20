@@ -837,6 +837,8 @@ class ActionSendEmail(Action):
 
         step_goal = tracker.get_slot('preferred_step_goal_slot')
         session_num = tracker.get_slot('session_num')
+        email = ""
+        x = ""
 
         ssl_port = 465
         with open('x.txt', 'r') as f:
