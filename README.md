@@ -61,10 +61,7 @@ To run this project on a Google Compute Engine, follow these steps:
    - Create a Google Compute Engine instance:
 	  	- Use Ubuntu 20.04.
 	  	- Enable http and https traffic.
-      	- Follow the instructions from [here](https://github.com/AmirStudy/Rasa_Deployment) in the sense that you “allow full access to all cloud APIs” on the Google Compute Engine instance. This is shown in this video: https://www.youtube.com/watch?v=qOHszxJsuGs&ab_channel=JiteshGaikwad. Also see this screenshot:
-   
-    	<img src = "Readme_images/allow_full_access.PNG" width = "500" title="Allowing full access to all cloud APIs.">
-   
+      	- Follow the instructions from [here](https://github.com/AmirStudy/Rasa_Deployment) in the sense that you “allow full access to all cloud APIs” on the Google Compute Engine instance. This is shown in this video: https://www.youtube.com/watch?v=qOHszxJsuGs&ab_channel=JiteshGaikwad.
    - Open port 5005 for tcp on the Compute Engine instance:
 	
    <img src = "Readme_images/firewall_rule.PNG" width = "500" title="Creating a firewall rule.">
@@ -86,7 +83,7 @@ To run this project on a Google Compute Engine, follow these steps:
 		- `sudo chmod +x /usr/local/bin/docker-compose`
    - Create your own branch/fork from this project.
    - Clone your project from Github on the Google Compute Engine instance.
-   - Navigate to your project folder on the Compute Engine instance and start your project with `docker-compose up`.
+   - Navigate to your project folder on the Compute Engine instance and start your project with `docker-compose up --build`.
    - Check if all your containers are running on your Google Compute Engine instance via `docker container ls`.
    - You can access the frontend from your browser via `http://<your_instance_IP>/?userid=<some_user_id>&n=1`. `n` determines which session is started (1-5). Earlier sessions need to be completed by a user to be able to access later ones.
    - Open the chat here:
@@ -114,17 +111,11 @@ This project uses an SQLTrackerStore (https://rasa.com/docs/rasa/tracker-stores/
    
       <img src = "Readme_images/dbeaver_3.PNG" width = "500" title="DBeaver 3.">
 
-   - The database is persistent because of the "volumes" we specified in docker-compose.yml for postgres. Read more about this here: https://medium.com/codex/how-to-persist-and-backup-data-of-a-postgresql-docker-container-9fe269ff4334.
-      - So you can run `docker-compose down --volumes` and `docker-compose up --build` and the database content is still there.
-	  - To delete the database content, just remove the "data"-folder.
-
 
 The project further uses an mysql database to store specific data from the conversations:
-   - The database is also persistent. The folder "data_mysql" is used for this, as set up in docker-compose.yml.
    - To inspect the database content content with DBeaver, first open port 3306 on your instance for tcp. Again, there is no need to restart your instance after opening this port.
    - When setting up the connection, use "db" for "Database", "root" for "Username", and the password specified in docker-compose.yml. Keep "Port" to 3306. The "Server Host" is the IP address of your instance.
       - You might have to set "allowPublicKeyRetrieval" to "true" in "Driver properties." 
-   - To delete the database content, just delete the folder "data_mysql" on your Google Compute Engine instance.
 
 ## License
 
