@@ -82,8 +82,8 @@ To run this project on a Google Compute Engine, follow these steps:
 		- `sudo curl -L "https://github.com/docker/compose/releases/download/1.26.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose`
 		- `sudo chmod +x /usr/local/bin/docker-compose`
    - Create your own branch/fork from this project.
-   - Clone your project from Github on the Google Compute Engine instance.
-   - Navigate to your project folder on the Compute Engine instance and start your project with `docker-compose up --build`.
+   - Clone that project from Github on the Google Compute Engine instance.
+   - Navigate to the root of the project folder on the Compute Engine instance and start your project with `docker-compose up --build`.
    - Check if all your containers are running on your Google Compute Engine instance via `docker container ls`.
    - You can access the frontend from your browser via `http://<your_instance_IP>/?userid=<some_user_id>&n=1`. `n` determines which session is started (1-5). Earlier sessions need to be completed by a user to be able to access later ones.
    - Open the chat here:
