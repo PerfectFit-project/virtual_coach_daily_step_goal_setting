@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Dierikx"
+  given-names: "Martin"
+title: "Using Reinforcement Learning to Personalize Daily Step Goals for a Collaborative Dialogue with a Virtual Coach: code for the virtual coach"
+version: 1.0
+doi: https://doi.org/10.5281/zenodo.8382413
+date-released: 2023
+url: "https://github.com/PerfectFit-project/virtual_coach_daily_step_goal_setting"
