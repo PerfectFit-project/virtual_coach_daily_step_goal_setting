@@ -1,10 +1,10 @@
 # Using Reinforcement Learning to Personalize Daily Step Goals for a Collaborative Dialogue with a Virtual Coach
 
-This github repository contains the code for the chatbot Steph that is created for the thesis project: Using Reinforcement Learning to Personalize Daily Step Goals for a Collaborative Dialogue with a Virtual Coach. Steph was used to gather data dring an observational study. Please refer to our [OSF pre-registration](https://doi.org/10.17605/OSF.IO/6JQPK) for more details on our observational study. For our code for the reinforcement learning model based on the collected data during the conversation sessions, please refer to our [published data and code](https://doi.org/10.4121/6f8e6750-7494-4226-b6f9-299a9edbb077).
+This GitHub repository contains the code for the chatbot Steph that is created for the thesis project: Using Reinforcement Learning to Personalize Daily Step Goals for a Collaborative Dialogue with a Virtual Coach. Steph was used to gather data during an observational study. Please refer to our [OSF pre-registration](https://doi.org/10.17605/OSF.IO/6JQPK) for more details on our observational study. For our code for the reinforcement learning model based on the collected data during the conversation sessions, please refer to our [published data and code](https://doi.org/10.4121/6f8e6750-7494-4226-b6f9-299a9edbb077). A demo video of a dialog with Steph can be found [here](https://youtu.be/FSpG-G0zc-o).
 
 ## Dialogue flow
 
-During the observational study, participants were aksed to interact with our chatbot Steph for at most five consequetive days. The figure below visualizes the flow of the dialogue with Steph during the different days of the observational study.
+During the observational study, participants were asked to interact with our chatbot Steph for at most five consecutive days. The figure below visualizes the flow of the dialogue with Steph during the different days of the observational study.
 
 <img src = "Readme_images/High-level dialogue flow.png" title="Dialogue flow.">
 
@@ -12,7 +12,7 @@ During the observational study, participants were aksed to interact with our cha
 
 ### Frontend
 
-The frontend is a html-page. Accessing the page via localhost requires to provide a user id and session number in the URL. For example, `localhost/?userid=42&n=1` opens the session 1 for the user with id 42.
+The frontend is a html-page. Accessing the page via localhost requires providing a user id and session number in the URL. For example, `localhost/?userid=42&n=1` opens session 1 for the user with id 42.
 
 Files:
 - static/css/style.css contains the stylesheet for the html-page.
@@ -22,11 +22,11 @@ Files:
 
 ### Backend
 
-The backend is a combination of files that split the logic of what the chatbot should say, what internal actions should be taken and which variables to keep during the session.
+The backend is a combination of files that split the logic of what the chatbot should say, what internal actions should be taken, and which variables to keep during the session.
 
 Files:
 - data/rules.yml contains the rules of the chatbot, stating what to do when something is triggered by the user or chatbot itself.
-- models contains the trained models for the chatbot to use with all the rules, actions and other information.
+- models contains the trained models for the chatbot to use with all the rules, actions, and other information.
 - domain.yml contains the actual phrases of the chatbot and the variables that need to be tracked during the conversation.
 
 ### Actions
